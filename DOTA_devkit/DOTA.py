@@ -15,6 +15,24 @@ def _isArrayLike(obj):
         return False
     return hasattr(obj, '__iter__') and hasattr(obj, '__len__')
 
+OBJECT_TO_COLOR = {
+    'ship' : 'pink',
+    'small-vehicle':'royalblue',
+    'large-vehicle':'darkblue',
+    'plane':'wheat',
+    'harbor':'snow',
+    'storage-tank': 'limegreen',
+    'tennis-court': 'sandybrown',
+    'bridge': 'dimgrey',
+    'swimming-pool': 'slateblue',
+    'helicopter': 'paleturquoise',
+    'basketball-court': 'darkviolet',
+    'baseball-diamond': 'crimson',
+    'roundabout': 'lightpink',
+    'soccer-ball-field': 'goldenrod',
+    'ground-track-field': 'lightsalmon',
+}
+
 class DOTA:
     def __init__(self, basepath):
         self.basepath = basepath
@@ -83,7 +101,7 @@ class DOTA:
         circles = []
         r = 5
         for obj in objects:
-            c = (np.random.random((1, 3)) * 0.6 + 0.4).tolist()[0]
+            c = OBJECT_TO_COLOR[obj['name']]
             poly = obj['poly']
             polygons.append(Polygon(poly))
             color.append(c)
