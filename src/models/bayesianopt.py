@@ -2,6 +2,7 @@
 
 # Set experiment name
 import datetime
+
 now = datetime.datetime.now()
 EXPERIMENT_NAME = f"{now.year}-{now.month}-{now.day}_{now.hour}-{now.minute}"
 
@@ -25,7 +26,7 @@ import logging
 
 log_path = pathlib.Path(f"../../reports/experiments/{EXPERIMENT_NAME}")
 log_path.mkdir(parents=True, exist_ok=True)
-logging.basicConfig(filename=(log_path/"info.log").absolute(), level=logging.DEBUG)
+logging.basicConfig(filename=(log_path / "info.log").absolute(), level=logging.DEBUG)
 
 # import modules from DeepAugmenter
 from augmenter import Augmenter
@@ -82,17 +83,19 @@ def run_bayesianopt(
         logging.info(f"In objective function with params: {params}")
         print(f"In objective function with params: {params}")
 
-        augmented_data = augmenter.run( data["X_train"], data["y_train"], params)
+        augmented_data = augmenter.run(data["X_train"], data["y_train"], params)
 
-        notebook_df=pd.DataFrame()
+        notebook_df = pd.DataFrame()
 
         last_5_val_acc = []
-        for k in ["a","b","c","d","e"]:
-            child_model = ChildCNN(input_shape, child_batch_size, child_epochs, num_classes)
+        for k in ["a", "b", "c", "d", "e"]:
+            child_model = ChildCNN(
+                input_shape, child_batch_size, child_epochs, num_classes
+            )
 
             record = child_model.model.fit(
-                x = np.concatenate((data["X_train"], augmented_data["X_train"]), axis=0),
-                y = np.concatenate((data["y_train"], augmented_data["y_train"]), axis=0),
+                x=np.concatenate((data["X_train"], augmented_data["X_train"]), axis=0),
+                y=np.concatenate((data["y_train"], augmented_data["y_train"]), axis=0),
                 batch_size=child_batch_size,
                 epochs=child_epochs,
                 validation_data=(data["X_val"], data["y_val"]),
@@ -110,7 +113,8 @@ def run_bayesianopt(
 
         # save notebook at each iteration, in case the optimization interrupted
         notebook_df.to_csv(
-            f"../../reports/experiments/{EXPERIMENT_NAME}/notebook_params_{params[0]}_{params[1]}.csv", index=False
+            f"../../reports/experiments/{EXPERIMENT_NAME}/notebook_params_{params[0]}_{params[1]}.csv",
+            index=False,
         )
         return_val = 1 - np.mean(last_5_val_acc)
         logging.info(f"Objective function value is {return_val}")
@@ -134,6 +138,7 @@ def run_bayesianopt(
     )
     print(result)
     logging.info(result)
+
 
 if __name__ == "__main__":
     run_bayesianopt()
