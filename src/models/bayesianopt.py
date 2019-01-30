@@ -75,7 +75,7 @@ def run_bayesianopt(
 
         Args:
             params (list): first element [0] is an integer value from 1 to 4, where each represents one of transformation
-                           types, ShearX, ShearY, TranslateX, TranslateT. Second element [1] is magnitude of the
+                           types: Crop, GaussianBlue, Rotate, Shear. Second element [1] is magnitude of the
                            transformation
         Returns:
             float: value of objective function for given parameters
