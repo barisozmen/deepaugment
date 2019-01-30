@@ -11,7 +11,8 @@ import matplotlib.pyplot as plt
 import altair as alt
 
 import sys
-sys.path.append('../')
+
+sys.path.append("../")
 
 from lib.decorators import Reporter
 
@@ -284,13 +285,13 @@ class PlotOp:
     @counter
     def plot_heatmap_with_altair(
         df,
-        xcol='event1',
-        ycol='event2',
-        valuecol='phi',
+        xcol="event1",
+        ycol="event2",
+        valuecol="phi",
         minval=-1,
         maxval=1,
         tooltip=None,
-        savefigto=None
+        savefigto=None,
     ):
         """
 
@@ -311,7 +312,6 @@ class PlotOp:
             tooltip = [xcol, ycol]
         assert all(item in df.columns for item in tooltip)
 
-
         import altair as alt
 
         color_scheme = "redblue"
@@ -328,7 +328,7 @@ class PlotOp:
                 y=ycol,
                 color=alt.Color(
                     "{}:Q".format(valuecol),
-                    scale=alt.Scale(scheme=color_scheme, domain=[maxval,minval]),
+                    scale=alt.Scale(scheme=color_scheme, domain=[maxval, minval]),
                 ),
                 tooltip=tooltip,
             )
@@ -370,7 +370,7 @@ class PlotOp:
         fig, ax = plt.subplots(figsize=(5, 30))
 
         index = np.arange(n_groups)
-        bar_width = .25
+        bar_width = 0.25
         opacity = 1
 
         rects1 = plt.barh(
@@ -413,7 +413,7 @@ class PlotOp:
 
             plt.plot(
                 [x0, x1 + 1],
-                [ylevel + .5, ylevel + .5],
+                [ylevel + 0.5, ylevel + 0.5],
                 color="black",
                 alpha=0.3,
                 lw=1.2,
@@ -421,7 +421,7 @@ class PlotOp:
             )
 
             for i in np.arange(5, 35, 5):
-                plt.text(i - 0.8, ylevel + .6, str(i) + "%", alpha=0.4)
+                plt.text(i - 0.8, ylevel + 0.6, str(i) + "%", alpha=0.4)
 
         plt.xlim((x0, x1 - 1))
 
@@ -448,7 +448,7 @@ class PlotOp:
         titlefontweight="normal",
         labelfontsize=14,
         savefigto="volcano_plot",
-        show = False
+        show=False,
     ):
         """Plots volcano figure and saves it to given address
 
@@ -474,12 +474,12 @@ class PlotOp:
 
         # CLAMP fisher-exact values
         if np.sum(df[ycol] > clampthreshold) > 0:
-            df['fisher_exact'] = np.where(
-                df['fisher_exact'] > clampthreshold,
-                clampthreshold,
-                df['fisher_exact']
+            df["fisher_exact"] = np.where(
+                df["fisher_exact"] > clampthreshold, clampthreshold, df["fisher_exact"]
             )
-            print ("Datapoints' fisher-exact values clamped at {}!".format(clampthreshold))
+            print(
+                "Datapoints' fisher-exact values clamped at {}!".format(clampthreshold)
+            )
 
         xAxis = alt.Axis(title=xtitle)
         yAxis = alt.Axis(title=ytitle)
@@ -538,10 +538,8 @@ class PlotOp:
             whole_chart.save(savefigto + ".html")
 
         if show == True:
-            alt.renderers.enable('notebook')
+            alt.renderers.enable("notebook")
             return whole_chart
-
-
 
     def pvalue_qq_plot(obs_pvalues, label_fontsize=20, ax=None, param_dict=None):
         """ Draws a p-value QQ-plot given observed p-values
@@ -551,21 +549,21 @@ class PlotOp:
             label_fontsize (int): fontsize of x and y axis labels
             ax (matplotlib.axes._subplots.AxesSubplot): (optional) AxesSubplot object for plot to be drawn on.
             """
-        
+
         if ax is None:
-            fig = plt.figure(figsize=(6,6))
+            fig = plt.figure(figsize=(6, 6))
             ax = fig.gca()
-        
+
         obs_pvalues = np.array(obs_pvalues)
-        if obs_pvalues.ndim==1:
-            xs = np.arange(1, len(obs_pvalues)+1 ) / len(obs_pvalues)
-            ax.plot(-np.log10(xs), -np.log10(sorted(obs_pvalues)), '.', color="black")
+        if obs_pvalues.ndim == 1:
+            xs = np.arange(1, len(obs_pvalues) + 1) / len(obs_pvalues)
+            ax.plot(-np.log10(xs), -np.log10(sorted(obs_pvalues)), ".", color="black")
         else:
             for pvalues in obs_pvalues:
-                print (len(pvalues))
-                xs = np.arange(1, len(pvalues)+1 ) / len(pvalues)
-                ax.plot(-np.log10(xs), -np.log10(sorted(pvalues)), '.')
-        
+                print(len(pvalues))
+                xs = np.arange(1, len(pvalues) + 1) / len(pvalues)
+                ax.plot(-np.log10(xs), -np.log10(sorted(pvalues)), ".")
+
         # see **kwargs parameter in matplotlib
         # documentation (https://matplotlib.org/api/pyplot_api.html)
         # for using param_dict more efficiently in the future
@@ -573,8 +571,7 @@ class PlotOp:
             param_dict["fillstyle"] = "--"
         if "color" not in param_dict:
             param_dict["color"] = "gray"
-        
+
         ax.plot(-np.log10(xs), -np.log10(xs), **param_dict)
         ax.set_xlabel("\n-log10 (Expected P-value)", fontsize=label_fontsize)
         ax.set_ylabel("-log10 (Observed P-value)\n", fontsize=label_fontsize)
-
