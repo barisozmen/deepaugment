@@ -125,7 +125,7 @@ def run_bayesianopt(
     #    1. selection of transformation type [1,4]
     #    2. magnitude of the transformation
     search_space = [
-        (1, 4),  # Crop, GaussianBlur, rotate, shear
+        (1, 9),  # Crop, GaussianBlur, rotate, shear
         (0.0, 1.0),  # magnitude
     ]
 
