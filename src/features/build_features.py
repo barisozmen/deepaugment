@@ -2,6 +2,7 @@ import sys
 import numpy as np
 import keras
 
+
 class DataOp:
     def load(dataset_name, training_set_size, validation_set_size):
         """Loads dataset from keras and returns a sample out of it
@@ -39,7 +40,7 @@ class DataOp:
         data["y_train"] = keras.utils.to_categorical(data["y_train"])
         data["y_val"] = keras.utils.to_categorical(data["y_val"])
         # normalize images
-        data["X_train"] = data["X_train"].astype('float32') / 255
-        data["X_val"] = data["X_val"].astype('float32') / 255
+        data["X_train"] = data["X_train"].astype("float32") / 255
+        data["X_val"] = data["X_val"].astype("float32") / 255
 
         return data
