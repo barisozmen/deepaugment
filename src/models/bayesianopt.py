@@ -33,12 +33,12 @@ logging.basicConfig(filename=(log_path / "info.log").absolute(), level=logging.D
 from augmenter import Augmenter
 from childcnn import ChildCNN
 sys.path.insert(0, "..")
+sys.path.insert(0, "../../")
 from notebook import Notebook
 notebook = Notebook(f"../../reports/experiments/{EXPERIMENT_NAME}/notebook.csv")
-
-sys.path.insert(0, "..")
 from features.build_features import DataOp
-
+from lib.decorators import Reporter
+logger = Reporter.logger
 
 import click
 @click.command()
@@ -48,11 +48,11 @@ import click
 @click.option("--validation-set-size", type=click.INT, default=1000)
 @click.option("--opt-iterations", type=click.INT, default=1000)
 @click.option("--opt-samples", type=click.INT, default=5)
-@click.option("--opt-last-n-epochs"
-              "", type=click.INT, default=5)
+@click.option("--opt-last-n-epochs", type=click.INT, default=5)
 @click.option("--opt-initial-points", type=click.INT, default=20)
 @click.option("--child-epochs", type=click.INT, default=15)
 @click.option("--child-batch-size", type=click.INT, default=32)
+@logger
 def run_bayesianopt(
     dataset_name,
     num_classes,
