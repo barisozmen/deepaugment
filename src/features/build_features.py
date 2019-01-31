@@ -1,3 +1,5 @@
+# (C) 2019 Baris Ozmen <hbaristr@gmail.com>
+
 import sys
 import numpy as np
 import keras
