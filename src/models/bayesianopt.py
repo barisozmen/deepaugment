@@ -6,6 +6,7 @@ import datetime
 now = datetime.datetime.now()
 EXPERIMENT_NAME = f"{now.year}-{now.month}-{now.day}_{now.hour}-{now.minute}"
 
+import os
 import sys
 import pandas as pd
 import numpy as np
@@ -29,11 +30,19 @@ log_path = pathlib.Path(f"../../reports/experiments/{EXPERIMENT_NAME}")
 log_path.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(filename=(log_path / "info.log").absolute(), level=logging.DEBUG)
 
+
+from os.path import dirname, realpath
+file_path = realpath(__file__)
+dir_of_file = dirname(file_path)
+parent_dir_of_file = dirname(dir_of_file)
+grandparent_dir_of_file = dirname(parent_dir_of_file)
+sys.path.insert(0, parent_dir_of_file)
+sys.path.insert(0, grandparent_dir_of_file)
+
+
 # import modules from DeepAugmenter
 from augmenter import Augmenter
 from childcnn import ChildCNN
-sys.path.insert(0, "..")
-sys.path.insert(0, "../../")
 from notebook import Notebook
 notebook = Notebook(f"../../reports/experiments/{EXPERIMENT_NAME}/notebook.csv")
 from features.build_features import DataOp
