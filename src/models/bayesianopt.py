@@ -34,7 +34,7 @@ from augmenter import Augmenter
 from childcnn import ChildCNN
 sys.path.insert(0, "..")
 from notebook import Notebook
-notebook = Notebook(f"../../records/experiments/{EXPERIMENT_NAME}/notebook.csv")
+notebook = Notebook(f"../../reports/experiments/{EXPERIMENT_NAME}/notebook.csv")
 
 sys.path.insert(0, "..")
 from features.build_features import DataOp

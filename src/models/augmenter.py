@@ -22,7 +22,7 @@ class Augmenter:
         if aug_type == 1:
             X_aug = iaa.Crop(px=(0, int(magnitude * 32))).augment_images(X)
         elif aug_type == 2:
-            X_aug = iaa.GaussianBlur(sigma=(0, magnitude * 1.0)).augment_images(X)
+            X_aug = iaa.GaussianBlur(sigma=(0, magnitude * 5.0)).augment_images(X)
         elif aug_type == 3:
             X_aug = iaa.Affine(
                 rotate=(-180 * magnitude, 180 * magnitude)
