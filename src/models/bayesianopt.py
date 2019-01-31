@@ -9,6 +9,7 @@ EXPERIMENT_NAME = f"{now.year}-{now.month}-{now.day}_{now.hour}-{now.minute}"
 import sys
 import pandas as pd
 import numpy as np
+import skopt
 from skopt import gp_minimize
 
 # Import machine learning libraries
@@ -31,114 +32,99 @@ logging.basicConfig(filename=(log_path / "info.log").absolute(), level=logging.D
 # import modules from DeepAugmenter
 from augmenter import Augmenter
 from childcnn import ChildCNN
+sys.path.insert(0, "..")
+from notebook import Notebook
+notebook = Notebook(f"../../records/experiments/{EXPERIMENT_NAME}/notebook.csv")
 
 sys.path.insert(0, "..")
 from features.build_features import DataOp
 
+
 import click
-
-
 @click.command()
 @click.option("--dataset-name", type=click.STRING, default="cifar10")
 @click.option("--num-classes", type=click.INT, default=10)
 @click.option("--training-set-size", type=click.INT, default=4000)
 @click.option("--validation-set-size", type=click.INT, default=1000)
 @click.option("--opt-iterations", type=click.INT, default=1000)
-@click.option("--opt-random-states", type=click.INT, default=20)
-@click.option("--child-epochs", type=click.INT, default=120)
-@click.option("--child-batch-size", type=click.INT, default=128)
+@click.option("--opt-samples", type=click.INT, default=5)
+@click.option("--opt-last-n-epochs"
+              "", type=click.INT, default=5)
+@click.option("--opt-initial-points", type=click.INT, default=20)
+@click.option("--child-epochs", type=click.INT, default=15)
+@click.option("--child-batch-size", type=click.INT, default=32)
 def run_bayesianopt(
     dataset_name,
     num_classes,
     training_set_size,
     validation_set_size,
     opt_iterations,
-    opt_random_states,
+    opt_samples,
+    opt_last_n_epochs,
+    opt_initial_points,
     child_epochs,
     child_batch_size,
 ):
+
     data, input_shape = DataOp.load(
         dataset_name, training_set_size, validation_set_size
     )
     data = DataOp.preprocess(data)
 
+    child_model = ChildCNN(
+        input_shape, child_batch_size,
+        child_epochs, num_classes,
+        "initial_model_weights.h5"
+    )
+    history = child_model.fit(data)
+    notebook.record(0, ["-","-"], 1, None, history)
+    child_model.model.save_weights(child_model.pre_augmentation_weights_path)
     augmenter = Augmenter()
 
-    def objective_function(params):
-        """Objective function for bayesian optimization
 
-        It runs following steps:
-            1. creates augmented-data by given parameters (params)
-            2. creates the child model, which is a very small CNN
-            3. trains the child model from scratch
-            4. returns 1 – max_val_accuracy
+    ####################################################################################################
+    # Implementation of skopt by ask-tell design pattern
+    # See https://geekyisawesome.blogspot.com/2018/07/hyperparameter-tuning-using-scikit.html
+    ####################################################################################################
 
-        Args:
-            params (list): first element [0] is an integer value from 1 to 4, where each represents one of transformation
-                           types: Crop, GaussianBlue, Rotate, Shear. Second element [1] is magnitude of the
-                           transformation
-        Returns:
-            float: value of objective function for given parameters
-        """
-        logging.info(f"In objective function with params: {params}")
-        print(f"In objective function with params: {params}")
-
-        augmented_data = augmenter.run(data["X_train"], data["y_train"], params)
-
-        notebook_df = pd.DataFrame()
-
-        last_5_val_acc = []
-        for k in ["a", "b", "c", "d", "e"]:
-            child_model = ChildCNN(
-                input_shape, child_batch_size, child_epochs, num_classes
-            )
-
-            record = child_model.model.fit(
-                x=np.concatenate((data["X_train"], augmented_data["X_train"]), axis=0),
-                y=np.concatenate((data["y_train"], augmented_data["y_train"]), axis=0),
-                batch_size=child_batch_size,
-                epochs=child_epochs,
-                validation_data=(data["X_val"], data["y_val"]),
-                shuffle=True,
-                verbose=2,
-            )
-            # reason I am putting history into dataframe is I want to keep record of it in the future
-            history_df = pd.DataFrame(record.history).round(3)
-            last_5_val_acc.append(history_df["val_acc"].tail(5).mean())
-            history_df["params_0"] = params[0]
-            history_df["params_1"] = params[1]
-            history_df["sample"] = k
-            notebook_df = pd.concat([notebook_df, history_df])
-            del child_model
-
-        # save notebook at each iteration, in case the optimization interrupted
-        notebook_df.to_csv(
-            f"../../reports/experiments/{EXPERIMENT_NAME}/notebook_params_{params[0]}_{params[1]}.csv",
-            index=False,
-        )
-        return_val = 1 - np.mean(last_5_val_acc)
-        logging.info(f"Objective function value is {return_val}")
-        print(f"Objective function value is {return_val}")
-        return return_val
-
-    # search space to optimize for, it has currently two dimensions:
-    #    1. selection of transformation type [1,4]
-    #    2. magnitude of the transformation
-    search_space = [
-        (1, 9),  # Crop, GaussianBlur, rotate, shear
-        (0.0, 1.0),  # magnitude
-    ]
-
-    # run Bayesian optimization using Gaussian Process
-    result = gp_minimize(
-        objective_function,
-        search_space,
-        n_calls=opt_iterations,
-        random_state=opt_random_states,
+    opt = skopt.Optimizer(
+        [
+            skopt.space.Categorical(np.arange(1,9,1), name='aug_type'),
+            skopt.space.Real(0.0, 1.0, name='magnitude')
+        ],
+        n_initial_points=opt_initial_points,
+        base_estimator='RF', # Random Forest estimator
+        acq_func='EI', # Expected Improvement
+        acq_optimizer='auto',
+        random_state=0
     )
-    print(result)
-    logging.info(result)
 
+    # skopt works with opt.ask() and opt.tell() functions
+    for trial_no in range(1, opt_iterations+1):
+        [aug_type, magnitude] = opt.ask()
+        [aug_type, magnitude] = [aug_type.tolist(), magnitude.tolist()]
+        trial_hyperparams = [aug_type, magnitude]
+
+        augmented_data = augmenter.run(data["X_train"], data["y_train"], aug_type, magnitude)
+
+        sample_costs=[]
+        for sample_no in range(1,opt_samples+1):
+            child_model.load_pre_augment_weights()
+            history = child_model.fit(data, augmented_data)
+            mean_late_val_acc = np.mean(history["val_acc"][-opt_last_n_epochs:])
+            sample_costs.append(mean_late_val_acc)
+            notebook.record(trial_no, trial_hyperparams, sample_no, mean_late_val_acc, history)
+
+        trial_cost = np.mean(sample_costs)
+        if trial_no%5==0:
+            notebook.save()
+
+        print(trial_no, trial_cost, trial_hyperparams)
+        logging.info(f"{str(trial_no)}, {str(trial_cost)}, {str(trial_hyperparams)}")
+        opt.tell(trial_hyperparams, trial_cost)
+
+    notebook.save()
+    print("End")
 
 if __name__ == "__main__":
     run_bayesianopt()
