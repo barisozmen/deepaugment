@@ -51,8 +51,9 @@ import click
 @click.option("--opt-last-n-epochs", type=click.INT, default=5)
 @click.option("--opt-initial-points", type=click.INT, default=20)
 @click.option("--child-epochs", type=click.INT, default=15)
+@click.option("--child-first-train-epochs", type=click.INT, default=0)
 @click.option("--child-batch-size", type=click.INT, default=32)
-@logger
+@logger(logfile_dir=f"../../reports/experiments/{EXPERIMENT_NAME}")
 def run_bayesianopt(
     dataset_name,
     num_classes,
@@ -63,6 +64,7 @@ def run_bayesianopt(
     opt_last_n_epochs,
     opt_initial_points,
     child_epochs,
+    child_first_train_epochs,
     child_batch_size,
 ):
 
@@ -72,12 +74,14 @@ def run_bayesianopt(
     data = DataOp.preprocess(data)
 
     child_model = ChildCNN(
-        input_shape, child_batch_size,
-        child_epochs, num_classes,
+        input_shape, child_batch_size, num_classes,
         "initial_model_weights.h5"
     )
-    history = child_model.fit(data)
-    notebook.record(0, ["-","-"], 1, None, history)
+    # first training
+    if child_first_train_epochs>0:
+        history = child_model.fit(data, epochs=child_first_train_epochs)
+        notebook.record(0, ["-", "-"], 1, None, history)
+    #
     child_model.model.save_weights(child_model.pre_augmentation_weights_path)
     augmenter = Augmenter()
 
@@ -110,7 +114,9 @@ def run_bayesianopt(
         sample_costs=[]
         for sample_no in range(1,opt_samples+1):
             child_model.load_pre_augment_weights()
-            history = child_model.fit(data, augmented_data)
+            # TRAIN
+            history = child_model.fit(data, augmented_data, epochs=child_epochs)
+            #
             mean_late_val_acc = np.mean(history["val_acc"][-opt_last_n_epochs:])
             sample_costs.append(mean_late_val_acc)
             notebook.record(trial_no, trial_hyperparams, sample_no, mean_late_val_acc, history)
@@ -127,4 +133,5 @@ def run_bayesianopt(
     print("End")
 
 if __name__ == "__main__":
+
     run_bayesianopt()

@@ -14,10 +14,9 @@ timer = Reporter.timer
 
 
 class ChildCNN:
-    def __init__(self, input_shape, batch_size, epochs, num_classes, pre_augmentation_weights_path):
+    def __init__(self, input_shape, batch_size, num_classes, pre_augmentation_weights_path):
         self.input_shape = input_shape
         self.batch_size = batch_size
-        self.epochs = epochs
         self.num_classes = num_classes
         self.pre_augmentation_weights_path = pre_augmentation_weights_path
         self.model = self.create_child_cnn()
@@ -53,7 +52,7 @@ class ChildCNN:
         return model
 
     @timer
-    def fit(self, data, augmented_data=None):
+    def fit(self, data, augmented_data=None, epochs=None):
 
         if augmented_data is None:
             X_train = data["X_train"]
@@ -62,11 +61,12 @@ class ChildCNN:
             X_train = np.concatenate([data["X_train"], augmented_data["X_train"]])
             y_train = np.concatenate([data["y_train"], augmented_data["y_train"]])
 
+
         record = self.model.fit(
             x=X_train,
             y=y_train,
             batch_size=self.batch_size,
-            epochs=self.epochs,
+            epochs=epochs,
             validation_data=(data["X_val"], data["y_val"]),
             shuffle=True,
             verbose=2,

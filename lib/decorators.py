@@ -94,7 +94,7 @@ class Reporter:
             logging.basicConfig(
                 filename="{}.log".format(func.__name__), level=logging.INFO
             )
-            
+
         @wraps(func)
         def wrapper(*args, **kwargs):
             logging.info("{} ran with args: {}, and kwargs: {}".format(func.__name__, args, kwargs))
