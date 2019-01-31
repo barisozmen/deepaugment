@@ -1,3 +1,5 @@
+# (C) 2019 Baris Ozmen <hbaristr@gmail.com>
+
 """Module consists decorators for helping other functions of the project
 
     Decorators are arranged into following categories:

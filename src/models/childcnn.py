@@ -7,6 +7,11 @@ from keras.layers import Conv2D, MaxPooling2D
 
 import numpy as np
 
+import sys
+sys.path.insert(0, "../../")
+from lib.decorators import Reporter
+timer = Reporter.timer
+
 
 class ChildCNN:
     def __init__(self, input_shape, batch_size, epochs, num_classes, pre_augmentation_weights_path):
@@ -47,6 +52,7 @@ class ChildCNN:
         )
         return model
 
+    @timer
     def fit(self, data, augmented_data=None):
 
         if augmented_data is None:
@@ -67,6 +73,6 @@ class ChildCNN:
         )
         return record.history
 
-
+    @timer
     def load_pre_augment_weights(self):
         self.model.load_weights(self.pre_augmentation_weights_path)
