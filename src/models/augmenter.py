@@ -40,6 +40,9 @@ class Augmenter:
             X_aug = iaa.Dropout((0.01, magnitude), per_channel=0.5).augment_images(X)  # randomly remove up to 10% of the pixels
         elif aug_type == 9:
             X_aug = iaa.CoarseDropout((0.03, 0.15), size_percent=(0.30, np.log10(magnitude * 3)), per_channel=0.2).augment_images(X)
+
+        # TODO add invert, contrast, translateX, translate Y, Posterize, Solarize, Equalize
+
         else:
             raise AttributeError
 
