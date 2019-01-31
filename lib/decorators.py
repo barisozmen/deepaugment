@@ -82,21 +82,22 @@ class Reporter:
 
         reload(logging)  # ensures it works with Jupyter IPython
         # see https://stackoverflow.com/questions/18786912/
-        if logfile_dir is None:
-            logging.basicConfig(
-                filename="{}.log".format(func.__name__), level=logging.INFO
-            )
-        else:
+
+        if logfile_dir is not None:
             import os
 
             logging.basicConfig(
                 filename=os.path.join(logfile_dir, "{}.log".format(func.__name__)),
                 level=logging.INFO,
             )
-
+        else:
+            logging.basicConfig(
+                filename="{}.log".format(func.__name__), level=logging.INFO
+            )
+            
         @wraps(func)
         def wrapper(*args, **kwargs):
-            logging.info("Ran with args: {}, and kwargs: {}".format(args, kwargs))
+            logging.info("{} ran with args: {}, and kwargs: {}".format(func.__name__, args, kwargs))
             return func(*args, **kwargs)
 
         return wrapper
