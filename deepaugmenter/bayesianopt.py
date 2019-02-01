@@ -141,7 +141,7 @@ def run_bayesianopt(
             sample_costs.append(mean_late_val_acc)
             notebook.record(trial_no, trial_hyperparams, sample_no, mean_late_val_acc, history)
 
-        trial_cost = np.mean(sample_costs)
+        trial_cost = 1 - np.mean(sample_costs)
         notebook.save()
 
         print(trial_no, trial_cost, trial_hyperparams)
