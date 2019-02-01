@@ -8,7 +8,6 @@ from keras.layers import Conv2D, MaxPooling2D
 import numpy as np
 
 import sys
-sys.path.insert(0, "../../")
 from lib.decorators import Reporter
 timer = Reporter.timer
 
