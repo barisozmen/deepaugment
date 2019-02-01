@@ -18,6 +18,7 @@ class Notebook():
         new_df["portion"] = trial_hyperparams[4]
         new_df["sample_no"] = sample_no
         new_df["mean_late_val_acc"] = cost
+        new_df.round(3) # round all float values to 3 decimals after point
         self.df = pd.concat([self.df, new_df])
 
     def save(self):
