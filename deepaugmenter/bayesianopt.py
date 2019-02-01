@@ -45,6 +45,12 @@ from build_features import DataOp
 from lib.decorators import Reporter
 logger = Reporter.logger
 
+AUG_TYPES = [
+    "crop", "gaussian-blur", "rotate", "shear", "translate-x", "translate-y", "sharpen",
+    "emboss", "additive-gaussian-noise", "dropout", "coarse-dropout", "gamma-contrast",
+    "brighten", "invert", "fog", "clouds"
+]
+
 import click
 @click.command()
 @click.option("--dataset-name", type=click.STRING, default="cifar10")
@@ -98,8 +104,11 @@ def run_bayesianopt(
 
     opt = skopt.Optimizer(
         [
-            skopt.space.Categorical(np.arange(1,9,1), name='aug_type'),
-            skopt.space.Real(0.0, 1.0, name='magnitude')
+            skopt.space.Categorical(AUG_TYPES, name='aug1_type'),
+            skopt.space.Real(0.0, 1.0, name='aug1_magnitude'),
+            skopt.space.Categorical(AUG_TYPES, name='aug2_type'),
+            skopt.space.Real(0.0, 1.0, name='aug2_magnitude'),
+            skopt.space.Real(0.0, 1.0, name='portion')
         ],
         n_initial_points=opt_initial_points,
         base_estimator='RF', # Random Forest estimator
@@ -110,11 +119,14 @@ def run_bayesianopt(
 
     # skopt works with opt.ask() and opt.tell() functions
     for trial_no in range(1, opt_iterations+1):
-        [aug_type, magnitude] = opt.ask()
-        [aug_type, magnitude] = [aug_type.tolist(), magnitude.tolist()]
-        trial_hyperparams = [aug_type, magnitude]
+        trial_hyperparams = opt.ask()
+        #trial_hyperparams = [x.tolist() for x in trial_hyperparams]
+        print(trial_hyperparams)
 
-        augmented_data = augmenter.run(data["X_train"], data["y_train"], aug_type, magnitude)
+        augmented_data = augmenter.run(
+            data["X_train"], data["y_train"],
+            *trial_hyperparams
+        )
 
         sample_costs=[]
         for sample_no in range(1,opt_samples+1):
