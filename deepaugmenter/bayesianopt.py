@@ -34,7 +34,8 @@ keras.backend.set_session(session)
 import pathlib
 import logging
 
-log_path = pathlib.Path(os.path.join(parent_dir_of_file, f"reports/experiments/{EXPERIMENT_NAME}"))
+EXPERIMENT_FOLDER_PATH = os.path.join(parent_dir_of_file, f"reports/experiments/{EXPERIMENT_NAME}")
+log_path = pathlib.Path(EXPERIMENT_FOLDER_PATH)
 log_path.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(filename=(log_path / "info.log").absolute(), level=logging.DEBUG)
 
@@ -42,7 +43,7 @@ logging.basicConfig(filename=(log_path / "info.log").absolute(), level=logging.D
 from augmenter import Augmenter
 from childcnn import ChildCNN
 from notebook import Notebook
-notebook = Notebook(f"../reports/experiments/{EXPERIMENT_NAME}/notebook.csv")
+notebook = Notebook(f"{EXPERIMENT_FOLDER_PATH}/notebook.csv")
 from build_features import DataOp
 from lib.decorators import Reporter
 logger = Reporter.logger
@@ -66,7 +67,7 @@ import click
 @click.option("--child-epochs", type=click.INT, default=15)
 @click.option("--child-first-train-epochs", type=click.INT, default=0)
 @click.option("--child-batch-size", type=click.INT, default=32)
-@logger(logfile_dir=os.path.join(parent_dir_of_file, f"reports/experiments/{EXPERIMENT_NAME}"))
+@logger(logfile_dir=EXPERIMENT_FOLDER_PATH)
 def run_bayesianopt(
     dataset_name,
     num_classes,
