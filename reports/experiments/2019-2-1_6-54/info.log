@@ -1,0 +1,7 @@
+DEBUG:matplotlib:CACHEDIR=/home/ubuntu/.cache/matplotlib
+DEBUG:matplotlib.font_manager:Using fontManager instance from /home/ubuntu/.cache/matplotlib/fontList.json
+DEBUG:matplotlib.backends:backend agg version v2.2
+DEBUG:shapely.geos:Found GEOS DLL: <CDLL '/home/ubuntu/anaconda3/lib/python3.6/site-packages/shapely/.libs/libgeos_c-bd8d3f16.so.1.10.2', handle 55bec6d53830 at 0x7f6a37c888d0>, using it.
+DEBUG:shapely.geos:Trying `CDLL(libc.so.6)`
+DEBUG:shapely.geos:Library path: 'libc.so.6'
+DEBUG:shapely.geos:DLL: <CDLL 'libc.so.6', handle 7f6aa1a556b8 at 0x7f6a37c889b0>
