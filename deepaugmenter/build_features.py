@@ -39,10 +39,8 @@ class DataOp:
 
     def preprocess(data):
         # normalize images
-        data["X_train"]= data["X_train"].astype('float32')
-        data["X_train"] = (data["X_train"] - data["X_train"].mean(axis=0)) / (data["X_train"].std(axis=0))
-        data["X_val"] = data["X_val"].astype('float32')
-        data["X_val"] = (data["X_val"] - data["X_val"].mean(axis=0)) / (data["X_val"].std(axis=0))
+        data["X_train"] = data["X_train"].astype("float32") / 255
+        data["X_val"] = data["X_val"].astype("float32") / 255
 
         # convert labels to categorical
         data["y_train"] = keras.utils.to_categorical(data["y_train"])
