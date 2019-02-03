@@ -47,7 +47,7 @@ class ChildCNN:
         _N = int((_nb_layers - 4) / 6) # this formula taken from https://github.com/titu1994/Wide-Residual-Networks#usage
         model = wrn.create_wide_residual_network(
             self.input_shape, nb_classes=self.num_classes, N=_N, k=_k,
-            conv_dropout=0.0, dense_dropout=0.0
+            conv_dropout=0.0, dense_dropout=0.3
         )
 
         adam_opt = optimizers.Adam(
