@@ -1,9 +1,11 @@
 # (C) 2019 Baris Ozmen <hbaristr@gmail.com>
 
-from keras import models, layers, optimizers
+from keras import models, layers, optimizers, Model
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Conv2D, MaxPooling2D
+from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
+
+from keras.applications.mobilenetv2 import MobileNetV2
 
 import wide_residual_networks as wrn
 
@@ -31,12 +33,45 @@ class ChildCNN:
         self.model = self.create_child_cnn()
 
     def create_child_cnn(self):
-        if self.model_name == "basicCNN":
+        if self.model_name.lower() == "basiccnn":
             return self.build_basicCNN()
-        elif self.model_name.startswith("wrn"):
+        elif self.model_name.lower().startswith("wrn"):
             return self.build_wrn()
+        elif self.model_name.lower() == "mobilenet":
+            return self.build_mobilenetv2()
         else:
             raise ValueError
+
+    def build_mobilenetv2(self):
+        mobilenet_v2 = MobileNetV2(
+            input_shape=self.input_shape, weights=None, include_top=False,
+            dropout=1e-3
+        )
+
+        # add a global spatial average pooling layer
+        x = mobilenet_v2.output
+        x = GlobalAveragePooling2D()(x)
+        # let's add a fully-connected layer
+        x = Dense(1024, activation='relu')(x)
+        # and a logistic layer -- let's say we have 200 classes
+        predictions = Dense(self.num_classes, activation='softmax')(x)
+
+        # this is the model we will train
+        model = Model(inputs=mobilenet_v2.input, outputs=predictions)
+
+        for layer in model.layers:
+            layer.trainable = True
+
+        adam_opt = optimizers.Adam(
+            lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None,
+            decay=0.0, amsgrad=False, clipnorm=1.0
+        )
+        model.compile(loss="categorical_crossentropy", optimizer=adam_opt, metrics=["accuracy"])
+        log_and_print(f"{self.model_name} model built as child model.\n Model summary:", self.logging)
+        print(model.summary())
+        return model
+
+        return model
 
     def build_wrn(self):
         # For WRN-16-8 put N = 2, k = 8
