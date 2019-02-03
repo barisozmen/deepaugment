@@ -49,7 +49,7 @@ class ChildCNN:
 
         adam_opt = optimizers.Adam(
             lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None,
-            decay=0.0, amsgrad=False, clipnorm=1.
+            decay=0.0, amsgrad=False, clipnorm=1.0
         )
         model.compile(loss="categorical_crossentropy", optimizer=adam_opt, metrics=["accuracy"])
         log_and_print(f"{self.model_name} model built as child model.\n Model summary:", self.logging)
