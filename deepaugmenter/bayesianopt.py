@@ -17,7 +17,6 @@ EXPERIMENT_NAME = f"{now.year}-{now.month}-{now.day}_{now.hour}-{now.minute}"
 import pandas as pd
 import numpy as np
 import skopt
-from skopt import gp_minimize
 
 # Import machine learning libraries
 import tensorflow as tf
@@ -52,12 +51,62 @@ AUG_TYPES = [
     "brighten", "invert", "fog", "clouds"
 ]
 
+# warn user if TensorFlow does not see the GPU
+from tensorflow.python.client import device_lib
+if "GPU" not in str(device_lib.list_local_devices()):
+    print("GPU not available!")
+    logging.warning("GPU not available!")
+# Note: GPU not among local devices means GPU not used for sure,
+#       HOWEVER GPU among local devices does not guarantee it is used
+
+def calculate_reward(history):
+    history_df = pd.DataFrame(history)
+    history_df["acc_overfit"] = history_df["acc"] - history_df["val_acc"]
+    reward = (history_df[history_df["acc_overfit"]<=0.05]["val_acc"]
+                .sort_values(ascending=False)
+                .nlargest(3)
+                .mean()
+             )
+
+    return reward
+
+def objective(
+    trial_no,
+    data, child_model, augmenter,
+    child_epochs, opt_samples, opt_last_n_epochs,
+    trial_hyperparams
+):
+    augmented_data = augmenter.run(
+        data["X_train"], data["y_train"],
+        *trial_hyperparams
+    )
+
+    sample_rewards = []
+    for sample_no in range(1, opt_samples + 1):
+        child_model.load_pre_augment_weights()
+        # TRAIN
+        history = child_model.fit(data, augmented_data, epochs=child_epochs)
+        #
+        reward = calculate_reward(history)
+        sample_rewards.append(reward)
+        notebook.record(trial_no, trial_hyperparams, sample_no, reward, history)
+
+    trial_cost = 1 - np.mean(sample_rewards)
+    notebook.save()
+
+    print(trial_no, trial_cost, trial_hyperparams)
+    logging.info(f"{str(trial_no)}, {str(trial_cost)}, {str(trial_hyperparams)}")
+
+    return trial_cost
+
+
 import click
 @click.command()
 @click.option("--dataset-name", type=click.STRING, default="cifar10")
+@click.option("--model-name", type=click.STRING, default="wrn_40_4")
 @click.option("--num-classes", type=click.INT, default=10)
-@click.option("--training-set-size", type=click.INT, default=4000)
-@click.option("--validation-set-size", type=click.INT, default=1000)
+@click.option("--train-set-size", type=click.INT, default=4000)
+@click.option("--val-set-size", type=click.INT, default=1000)
 @click.option("--opt-iterations", type=click.INT, default=1000)
 @click.option("--opt-samples", type=click.INT, default=5)
 @click.option("--opt-last-n-epochs", type=click.INT, default=5)
@@ -68,9 +117,10 @@ import click
 @logger(logfile_dir=EXPERIMENT_FOLDER_PATH)
 def run_bayesianopt(
     dataset_name,
+    model_name,
     num_classes,
-    training_set_size,
-    validation_set_size,
+    train_set_size,
+    val_set_size,
     opt_iterations,
     opt_samples,
     opt_last_n_epochs,
@@ -79,15 +129,12 @@ def run_bayesianopt(
     child_first_train_epochs,
     child_batch_size,
 ):
-
-    data, input_shape = DataOp.load(
-        dataset_name, training_set_size, validation_set_size
-    )
+    data, input_shape = DataOp.load(dataset_name, train_set_size, val_set_size)
     data = DataOp.preprocess(data)
 
     child_model = ChildCNN(
-        input_shape, child_batch_size, num_classes,
-        "initial_model_weights.h5"
+        model_name, input_shape, child_batch_size, num_classes,
+        "initial_model_weights.h5", logging
     )
     # first training
     if child_first_train_epochs>0:
@@ -97,12 +144,10 @@ def run_bayesianopt(
     child_model.model.save_weights(child_model.pre_augmentation_weights_path)
     augmenter = Augmenter()
 
-
     ####################################################################################################
     # Implementation of skopt by ask-tell design pattern
     # See https://geekyisawesome.blogspot.com/2018/07/hyperparameter-tuning-using-scikit.html
     ####################################################################################################
-
     opt = skopt.Optimizer(
         [
             skopt.space.Categorical(AUG_TYPES, name='aug1_type'),
@@ -117,41 +162,17 @@ def run_bayesianopt(
         acq_optimizer='auto',
         random_state=0
     )
-
     # skopt works with opt.ask() and opt.tell() functions
     for trial_no in range(1, opt_iterations+1):
-
-        # confirm TensorFlow sees the GPU
-        from tensorflow.python.client import device_lib
-        print("local devices",str(device_lib.list_local_devices()))
-
         trial_hyperparams = opt.ask()
-        #trial_hyperparams = [x.tolist() for x in trial_hyperparams]
-        print(trial_hyperparams)
-
-        augmented_data = augmenter.run(
-            data["X_train"], data["y_train"],
-            *trial_hyperparams
+        f_val = objective(
+            trial_no=trial_no,
+            data=data, child_model=child_model, augmenter=augmenter,
+            child_epochs=child_epochs, opt_samples=opt_samples, opt_last_n_epochs=opt_last_n_epochs,
+            trial_hyperparams=trial_hyperparams
         )
+        opt.tell(trial_hyperparams, f_val)
 
-        sample_costs=[]
-        for sample_no in range(1,opt_samples+1):
-            child_model.load_pre_augment_weights()
-            # TRAIN
-            history = child_model.fit(data, augmented_data, epochs=child_epochs)
-            #
-            mean_late_val_acc = np.mean(history["val_acc"][-opt_last_n_epochs:])
-            sample_costs.append(mean_late_val_acc)
-            notebook.record(trial_no, trial_hyperparams, sample_no, mean_late_val_acc, history)
-
-        trial_cost = 1 - np.mean(sample_costs)
-        notebook.save()
-
-        print(trial_no, trial_cost, trial_hyperparams)
-        logging.info(f"{str(trial_no)}, {str(trial_cost)}, {str(trial_hyperparams)}")
-        opt.tell(trial_hyperparams, trial_cost)
-
-    notebook.save()
     print("End")
 
 if __name__ == "__main__":

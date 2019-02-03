@@ -38,11 +38,11 @@ class DataOp:
         return data, input_shape
 
     def preprocess(data):
-        # convert labels to categorical
-        data["y_train"] = keras.utils.to_categorical(data["y_train"])
-        data["y_val"] = keras.utils.to_categorical(data["y_val"])
         # normalize images
         data["X_train"] = data["X_train"].astype("float32") / 255
         data["X_val"] = data["X_val"].astype("float32") / 255
 
+        # convert labels to categorical
+        data["y_train"] = keras.utils.to_categorical(data["y_train"])
+        data["y_val"] = keras.utils.to_categorical(data["y_val"])
         return data
