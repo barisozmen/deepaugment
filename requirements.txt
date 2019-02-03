@@ -22,4 +22,7 @@ imageio
 Shapely
 imgaug
 
-
+# opencv
+opencv-contrib-python
+# skopt
+scikit-optimize
