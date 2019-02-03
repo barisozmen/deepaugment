@@ -1,6 +1,5 @@
 # (C) 2019 Baris Ozmen <hbaristr@gmail.com>
 
-
 import os
 import sys
 from os.path import dirname, realpath
@@ -14,7 +13,6 @@ import datetime
 
 now = datetime.datetime.now()
 EXPERIMENT_NAME = f"{now.year}-{now.month}-{now.day}_{now.hour}-{now.minute}"
-
 
 import pandas as pd
 import numpy as np
@@ -57,6 +55,7 @@ AUG_TYPES = [
 import click
 @click.command()
 @click.option("--dataset-name", type=click.STRING, default="cifar10")
+@click.option("--model-name", type=click.STRING, default="wrn_16_8")
 @click.option("--num-classes", type=click.INT, default=10)
 @click.option("--training-set-size", type=click.INT, default=4000)
 @click.option("--validation-set-size", type=click.INT, default=1000)
@@ -70,6 +69,7 @@ import click
 @logger(logfile_dir=EXPERIMENT_FOLDER_PATH)
 def run_bayesianopt(
     dataset_name,
+    model_name,
     num_classes,
     training_set_size,
     validation_set_size,
@@ -81,15 +81,23 @@ def run_bayesianopt(
     child_first_train_epochs,
     child_batch_size,
 ):
+    # warn user if TensorFlow does not see the GPU
+    from tensorflow.python.client import device_lib
+    if "GPU" not in str(device_lib.list_local_devices()):
+        print("GPU not available!")
+        logging.warning("GPU not available!")
+    # Note: GPU not among local devices means GPU not used for sure,
+    #       HOWEVER GPU among local devices does not guarantee it is used
 
     data, input_shape = DataOp.load(
         dataset_name, training_set_size, validation_set_size
     )
+
     data = DataOp.preprocess(data)
 
     child_model = ChildCNN(
-        input_shape, child_batch_size, num_classes,
-        "initial_model_weights.h5"
+        model_name, input_shape, child_batch_size, num_classes,
+        "initial_model_weights.h5", logging
     )
     # first training
     if child_first_train_epochs>0:
@@ -122,6 +130,7 @@ def run_bayesianopt(
 
     # skopt works with opt.ask() and opt.tell() functions
     for trial_no in range(1, opt_iterations+1):
+
         trial_hyperparams = opt.ask()
         #trial_hyperparams = [x.tolist() for x in trial_hyperparams]
         print(trial_hyperparams)
