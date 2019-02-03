@@ -1,13 +1,19 @@
 # (C) 2019 Baris Ozmen <hbaristr@gmail.com>
 
+import os
+import sys
+from os.path import dirname, realpath
+file_path = realpath(__file__)
+dir_of_file = dirname(file_path)
+parent_dir_of_file = dirname(dir_of_file)
+sys.path.insert(0, parent_dir_of_file)
+
 # Set experiment name
 import datetime
 
 now = datetime.datetime.now()
 EXPERIMENT_NAME = f"{now.year}-{now.month}-{now.day}_{now.hour}-{now.minute}"
 
-import os
-import sys
 import pandas as pd
 import numpy as np
 import skopt
@@ -26,24 +32,25 @@ keras.backend.set_session(session)
 import pathlib
 import logging
 
-log_path = pathlib.Path(f"../reports/experiments/{EXPERIMENT_NAME}")
+EXPERIMENT_FOLDER_PATH = os.path.join(parent_dir_of_file, f"reports/experiments/{EXPERIMENT_NAME}")
+log_path = pathlib.Path(EXPERIMENT_FOLDER_PATH)
 log_path.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(filename=(log_path / "info.log").absolute(), level=logging.DEBUG)
-
-from os.path import dirname, realpath
-file_path = realpath(__file__)
-dir_of_file = dirname(file_path)
-parent_dir_of_file = dirname(dir_of_file)
-sys.path.insert(0, parent_dir_of_file)
 
 # import modules from DeepAugmenter
 from augmenter import Augmenter
 from childcnn import ChildCNN
 from notebook import Notebook
-notebook = Notebook(f"../reports/experiments/{EXPERIMENT_NAME}/notebook.csv")
+notebook = Notebook(f"{EXPERIMENT_FOLDER_PATH}/notebook.csv")
 from build_features import DataOp
 from lib.decorators import Reporter
 logger = Reporter.logger
+
+AUG_TYPES = [
+    "crop", "gaussian-blur", "rotate", "shear", "translate-x", "translate-y", "sharpen",
+    "emboss", "additive-gaussian-noise", "dropout", "coarse-dropout", "gamma-contrast",
+    "brighten", "invert", "fog", "clouds"
+]
 
 import click
 @click.command()
@@ -58,7 +65,7 @@ import click
 @click.option("--child-epochs", type=click.INT, default=15)
 @click.option("--child-first-train-epochs", type=click.INT, default=0)
 @click.option("--child-batch-size", type=click.INT, default=32)
-@logger(logfile_dir=f"../reports/experiments/{EXPERIMENT_NAME}")
+@logger(logfile_dir=EXPERIMENT_FOLDER_PATH)
 def run_bayesianopt(
     dataset_name,
     num_classes,
@@ -85,7 +92,7 @@ def run_bayesianopt(
     # first training
     if child_first_train_epochs>0:
         history = child_model.fit(data, epochs=child_first_train_epochs)
-        notebook.record(0, ["-", "-"], 1, None, history)
+        notebook.record(0, ["first", 0.0,"first",0.0,0.0], 1, None, history)
     #
     child_model.model.save_weights(child_model.pre_augmentation_weights_path)
     augmenter = Augmenter()
@@ -98,8 +105,11 @@ def run_bayesianopt(
 
     opt = skopt.Optimizer(
         [
-            skopt.space.Categorical(np.arange(1,9,1), name='aug_type'),
-            skopt.space.Real(0.0, 1.0, name='magnitude')
+            skopt.space.Categorical(AUG_TYPES, name='aug1_type'),
+            skopt.space.Real(0.0, 1.0, name='aug1_magnitude'),
+            skopt.space.Categorical(AUG_TYPES, name='aug2_type'),
+            skopt.space.Real(0.0, 1.0, name='aug2_magnitude'),
+            skopt.space.Real(0.0, 1.0, name='portion')
         ],
         n_initial_points=opt_initial_points,
         base_estimator='RF', # Random Forest estimator
@@ -110,11 +120,19 @@ def run_bayesianopt(
 
     # skopt works with opt.ask() and opt.tell() functions
     for trial_no in range(1, opt_iterations+1):
-        [aug_type, magnitude] = opt.ask()
-        [aug_type, magnitude] = [aug_type.tolist(), magnitude.tolist()]
-        trial_hyperparams = [aug_type, magnitude]
 
-        augmented_data = augmenter.run(data["X_train"], data["y_train"], aug_type, magnitude)
+        # confirm TensorFlow sees the GPU
+        from tensorflow.python.client import device_lib
+        print("local devices",str(device_lib.list_local_devices()))
+
+        trial_hyperparams = opt.ask()
+        #trial_hyperparams = [x.tolist() for x in trial_hyperparams]
+        print(trial_hyperparams)
+
+        augmented_data = augmenter.run(
+            data["X_train"], data["y_train"],
+            *trial_hyperparams
+        )
 
         sample_costs=[]
         for sample_no in range(1,opt_samples+1):
@@ -126,9 +144,8 @@ def run_bayesianopt(
             sample_costs.append(mean_late_val_acc)
             notebook.record(trial_no, trial_hyperparams, sample_no, mean_late_val_acc, history)
 
-        trial_cost = np.mean(sample_costs)
-        if trial_no%5==0:
-            notebook.save()
+        trial_cost = 1 - np.mean(sample_costs)
+        notebook.save()
 
         print(trial_no, trial_cost, trial_hyperparams)
         logging.info(f"{str(trial_no)}, {str(trial_cost)}, {str(trial_hyperparams)}")

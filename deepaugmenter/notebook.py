@@ -11,10 +11,14 @@ class Notebook():
     def record(self, trial_no, trial_hyperparams, sample_no, cost, history):
         new_df = pd.DataFrame(history)
         new_df["trial_no"] = trial_no
-        new_df["aug_type"] = trial_hyperparams[0]
-        new_df["magnitude"] = trial_hyperparams[1]
+        new_df["aug1_type"] = trial_hyperparams[0]
+        new_df["aug1_magnitude"] = trial_hyperparams[1]
+        new_df["aug2_type"] = trial_hyperparams[2]
+        new_df["aug2_magnitude"] = trial_hyperparams[3]
+        new_df["portion"] = trial_hyperparams[4]
         new_df["sample_no"] = sample_no
         new_df["mean_late_val_acc"] = cost
+        new_df.round(3) # round all float values to 3 decimals after point
         self.df = pd.concat([self.df, new_df])
 
     def save(self):
