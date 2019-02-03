@@ -163,6 +163,7 @@ def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, dropout=0.
     x = Flatten()(x)
 
     x = Dense(nb_classes, W_regularizer=l2(weight_decay), activation='softmax')(x)
+    x = Dropout(0.2)(x)
 
     model = Model(ip, x)
 
