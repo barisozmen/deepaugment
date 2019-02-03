@@ -108,7 +108,7 @@ def conv3_block(input, k=1, dropout=0.0):
     m = Add()([init, x])
     return m
 
-def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, dropout=0.0, verbose=1):
+def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, conv_dropout=0.0, dense_dropout=0.0, verbose=1):
     """
     Creates a Wide Residual Network with specified parameters
     :param input: Input Keras object
@@ -133,7 +133,7 @@ def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, dropout=0.
     nb_conv += 2
 
     for i in range(N - 1):
-        x = conv1_block(x, k, dropout)
+        x = conv1_block(x, k, conv_dropout)
         nb_conv += 2
 
     x = BatchNormalization(axis=channel_axis, momentum=0.1, epsilon=1e-5, gamma_initializer='uniform')(x)
@@ -143,7 +143,7 @@ def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, dropout=0.
     nb_conv += 2
 
     for i in range(N - 1):
-        x = conv2_block(x, k, dropout)
+        x = conv2_block(x, k, conv_dropout)
         nb_conv += 2
 
     x = BatchNormalization(axis=channel_axis, momentum=0.1, epsilon=1e-5, gamma_initializer='uniform')(x)
@@ -153,7 +153,7 @@ def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, dropout=0.
     nb_conv += 2
 
     for i in range(N - 1):
-        x = conv3_block(x, k, dropout)
+        x = conv3_block(x, k, conv_dropout)
         nb_conv += 2
 
     x = BatchNormalization(axis=channel_axis, momentum=0.1, epsilon=1e-5, gamma_initializer='uniform')(x)
@@ -163,7 +163,7 @@ def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, dropout=0.
     x = Flatten()(x)
 
     x = Dense(nb_classes, W_regularizer=l2(weight_decay), activation='softmax')(x)
-    x = Dropout(0.2)(x)
+    x = Dropout(dense_dropout)(x)
 
     model = Model(ip, x)
 
