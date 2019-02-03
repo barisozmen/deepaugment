@@ -55,7 +55,7 @@ AUG_TYPES = [
 import click
 @click.command()
 @click.option("--dataset-name", type=click.STRING, default="cifar10")
-@click.option("--model-name", type=click.STRING, default="wrn_16_8")
+@click.option("--model-name", type=click.STRING, default="wrn_40_4")
 @click.option("--num-classes", type=click.INT, default=10)
 @click.option("--training-set-size", type=click.INT, default=4000)
 @click.option("--validation-set-size", type=click.INT, default=1000)
