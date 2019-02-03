@@ -1,6 +1,5 @@
 # (C) 2019 Baris Ozmen <hbaristr@gmail.com>
 
-
 import os
 import sys
 from os.path import dirname, realpath
@@ -14,7 +13,6 @@ import datetime
 
 now = datetime.datetime.now()
 EXPERIMENT_NAME = f"{now.year}-{now.month}-{now.day}_{now.hour}-{now.minute}"
-
 
 import pandas as pd
 import numpy as np
@@ -122,6 +120,11 @@ def run_bayesianopt(
 
     # skopt works with opt.ask() and opt.tell() functions
     for trial_no in range(1, opt_iterations+1):
+
+        # confirm TensorFlow sees the GPU
+        from tensorflow.python.client import device_lib
+        print("local devices",str(device_lib.list_local_devices()))
+
         trial_hyperparams = opt.ask()
         #trial_hyperparams = [x.tolist() for x in trial_hyperparams]
         print(trial_hyperparams)
