@@ -44,19 +44,18 @@ class ChildCNN:
 
     def build_mobilenetv2(self):
         mobilenet_v2 = MobileNetV2(
-            input_shape=self.input_shape, weights=None, include_top=False,
-            dropout=1e-3
+            input_shape=self.input_shape, weights=None, include_top=False
         )
 
         # add a global spatial average pooling layer
         x = mobilenet_v2.output
         x = GlobalAveragePooling2D()(x)
-        # let's add a fully-connected layer
-        x = Dense(1024, activation='relu')(x)
-        # and a logistic layer -- let's say we have 200 classes
+        # add a fully-connected layer
+        x = Dense(512, activation='relu')(x)
+        x = Dropout(0.1)(x)
+        # and a logistic layer
         predictions = Dense(self.num_classes, activation='softmax')(x)
 
-        # this is the model we will train
         model = Model(inputs=mobilenet_v2.input, outputs=predictions)
 
         for layer in model.layers:
