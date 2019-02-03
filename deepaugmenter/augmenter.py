@@ -76,5 +76,7 @@ class Augmenter:
         X_portion_aug = transform(aug2_type, aug2_magnitude, X_portion_aug) # second transform
 
         # normalize data portion
+
         augmented_data = {"X_train": X_portion_aug / 255, "y_train": y_portion} # back to normalization
+
         return augmented_data # augmenteed data is mostly smaller than whole data
