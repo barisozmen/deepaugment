@@ -14,6 +14,7 @@ import datetime
 now = datetime.datetime.now()
 EXPERIMENT_NAME = f"{now.year}-{now.month}-{now.day}_{now.hour}-{now.minute}"
 
+import pandas as pd
 import numpy as np
 import skopt
 
@@ -58,6 +59,16 @@ if "GPU" not in str(device_lib.list_local_devices()):
 # Note: GPU not among local devices means GPU not used for sure,
 #       HOWEVER GPU among local devices does not guarantee it is used
 
+def calculate_reward(history):
+    history_df = pd.DataFrame(history)
+    history_df["acc_overfit"] = history_df["acc"] - history_df["val_acc"]
+    reward = (history_df[history_df["acc_overfit"]<=0.05]["val_acc"]
+                .sort_values(ascending=False)
+                .nlargest(3)
+                .mean()
+             )
+
+    return reward
 
 def objective(
     trial_no,
@@ -70,17 +81,17 @@ def objective(
         *trial_hyperparams
     )
 
-    sample_costs = []
+    sample_rewards = []
     for sample_no in range(1, opt_samples + 1):
         child_model.load_pre_augment_weights()
         # TRAIN
         history = child_model.fit(data, augmented_data, epochs=child_epochs)
         #
-        mean_late_val_acc = np.mean(history["val_acc"][-opt_last_n_epochs:])
-        sample_costs.append(mean_late_val_acc)
-        notebook.record(trial_no, trial_hyperparams, sample_no, mean_late_val_acc, history)
+        reward = calculate_reward(history)
+        sample_rewards.append(reward)
+        notebook.record(trial_no, trial_hyperparams, sample_no, reward, history)
 
-    trial_cost = 1 - np.mean(sample_costs)
+    trial_cost = 1 - np.mean(sample_rewards)
     notebook.save()
 
     print(trial_no, trial_cost, trial_hyperparams)
