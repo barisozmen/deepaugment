@@ -15,7 +15,9 @@ class Notebook():
         new_df["aug1_magnitude"] = trial_hyperparams[1]
         new_df["aug2_type"] = trial_hyperparams[2]
         new_df["aug2_magnitude"] = trial_hyperparams[3]
-        new_df["portion"] = trial_hyperparams[4]
+        new_df["aug3_type"] = trial_hyperparams[4]
+        new_df["aug3_magnitude"] = trial_hyperparams[5]
+        new_df["portion"] = trial_hyperparams[6]
         new_df["sample_no"] = sample_no
         new_df["mean_late_val_acc"] = mean_late_val_acc
         new_df.round(3) # round all float values to 3 decimals after point
