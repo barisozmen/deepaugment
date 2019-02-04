@@ -34,7 +34,7 @@ def transform(aug_type, magnitude, X):
     elif aug_type == "additive-gaussian-noise":
         X_aug = iaa.AdditiveGaussianNoise(loc=0, scale=(0.0, magnitude * 255), per_channel=0.5).augment_images(X)
     elif aug_type == "dropout":
-        X_aug = iaa.Dropout((0.01, min(0,011, magnitude)), per_channel=0.5).augment_images(X) # Dropout first argument should be smaller than second one
+        X_aug = iaa.Dropout((0.01, min(0.011, magnitude)), per_channel=0.5).augment_images(X) # Dropout first argument should be smaller than second one
     elif aug_type == "coarse-dropout":
         X_aug = iaa.CoarseDropout(
             (0.03, 0.15), size_percent=(0.30, np.log10(magnitude * 3)), per_channel=0.2
