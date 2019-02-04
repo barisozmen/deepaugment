@@ -1,0 +1,4 @@
+INFO:root:run_bayesianopt ran with args: (), and kwargs: {'dataset_name': 'cifar10', 'model_name': 'wrn_16_8', 'num_classes': 10, 'validation_set_size': 1000, 'training_set_size': 1000, 'opt_iterations': 10000, 'opt_samples': 1, 'opt_initial_points': 10, 'child_epochs': 40, 'child_first_train_epochs': 0, 'child_batch_size': 32, 'opt_last_n_epochs': 5}
+INFO:root:wrn_16_8 model built as child model.
+ Model summary:
+INFO:root:1, 0.6536, ['dropout', 0.8442657485810175, 'invert', 0.8472517387841256, 0.6235636967859725]
