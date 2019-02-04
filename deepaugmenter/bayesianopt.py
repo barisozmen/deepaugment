@@ -139,7 +139,7 @@ def run_bayesianopt(
     # first training
     if child_first_train_epochs>0:
         history = child_model.fit(data, epochs=child_first_train_epochs)
-        notebook.record(0, ["first", 0.0,"first",0.0,0.0], 1, None, history)
+        notebook.record(0, ["first", 0.0,"first",0.0,"first",0.0,0.0], 1, None, history)
     #
     child_model.model.save_weights(child_model.pre_augmentation_weights_path)
     augmenter = Augmenter()
