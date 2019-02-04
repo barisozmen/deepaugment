@@ -6,7 +6,8 @@ import keras
 
 
 class DataOp:
-    def load(dataset_name, training_set_size, validation_set_size):
+    @staticmethod
+    def load(dataset_name, training_set_size):
         """Loads dataset from keras and returns a sample out of it
 
         Args:
@@ -25,24 +26,37 @@ class DataOp:
             sys.exit(f"Unknown dataset {dataset_name}")
         # reduce training dataset
         ix = np.random.choice(len(X_train), training_set_size, False)
-        X_train = X_train[ix]
-        y_train = y_train[ix]
-        # reduce validation dataset
-        ix = np.random.choice(len(X_val), validation_set_size, False)
-        X_val = X_val[ix]
-        y_val = y_val[ix]
+        X_train_reduced = X_train[ix]
+        y_train_reduced = y_train[ix]
 
-        data = {"X_train": X_train, "y_train": y_train, "X_val": X_val, "y_val": y_val}
+        other_ix = set(np.arange(len(X_train))).difference(set(ix))
+        other_ix = list(other_ix)
+        X_train_non_chosen = X_train[other_ix]
+        y_train_non_chosen = y_train[other_ix]
+
+        X_val_seed = np.concatenate([X_val, X_train_non_chosen])
+        y_val_seed = np.concatenate([y_val, y_train_non_chosen])
+
+        data = {"X_train": X_train_reduced, "y_train": y_train_reduced,
+                "X_val_seed": X_val_seed, "y_val_seed": y_val_seed}
         input_shape = X_train.shape[1:]
 
         return data, input_shape
 
+    @staticmethod
     def preprocess(data):
         # normalize images
         data["X_train"] = data["X_train"].astype("float32") / 255
-        data["X_val"] = data["X_val"].astype("float32") / 255
+        data["X_val_seed"] = data["X_val_seed"].astype("float32") / 255
 
         # convert labels to categorical
         data["y_train"] = keras.utils.to_categorical(data["y_train"])
-        data["y_val"] = keras.utils.to_categorical(data["y_val"])
+        data["y_val_seed"] = keras.utils.to_categorical(data["y_val_seed"])
         return data
+
+    @staticmethod
+    def sample_validation_set(data):
+        ix = np.random.choice(range(len(data["X_val_seed"])), 1000, False)
+        X_val = data["X_val_seed"][ix].copy()
+        y_val = data["y_val_seed"][ix].copy()
+        return X_val, y_val
