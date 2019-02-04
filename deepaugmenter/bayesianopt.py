@@ -12,7 +12,7 @@ sys.path.insert(0, parent_dir_of_file)
 import datetime
 
 now = datetime.datetime.now()
-EXPERIMENT_NAME = f"{now.year}-{now.month}-{now.day}_{now.hour}-{now.minute}"
+EXPERIMENT_NAME = f"{now.year}-{now.month:02}-{now.day:02}_{now.hour:02}-{now.minute:02}"
 
 import pandas as pd
 import numpy as np
@@ -154,6 +154,8 @@ def run_bayesianopt(
             skopt.space.Real(0.0, 1.0, name='aug1_magnitude'),
             skopt.space.Categorical(AUG_TYPES, name='aug2_type'),
             skopt.space.Real(0.0, 1.0, name='aug2_magnitude'),
+            skopt.space.Categorical(AUG_TYPES, name='aug3_type'),
+            skopt.space.Real(0.0, 1.0, name='aug3_magnitude'),
             skopt.space.Real(0.0, 1.0, name='portion')
         ],
         n_initial_points=opt_initial_points,
