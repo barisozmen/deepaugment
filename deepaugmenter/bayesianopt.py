@@ -106,7 +106,6 @@ import click
 @click.option("--model-name", type=click.STRING, default="wrn_40_4")
 @click.option("--num-classes", type=click.INT, default=10)
 @click.option("--train-set-size", type=click.INT, default=4000)
-@click.option("--val-set-size", type=click.INT, default=1000)
 @click.option("--opt-iterations", type=click.INT, default=1000)
 @click.option("--opt-samples", type=click.INT, default=5)
 @click.option("--opt-last-n-epochs", type=click.INT, default=5)
@@ -120,7 +119,6 @@ def run_bayesianopt(
     model_name,
     num_classes,
     train_set_size,
-    val_set_size,
     opt_iterations,
     opt_samples,
     opt_last_n_epochs,
@@ -129,7 +127,7 @@ def run_bayesianopt(
     child_first_train_epochs,
     child_batch_size,
 ):
-    data, input_shape = DataOp.load(dataset_name, train_set_size, val_set_size)
+    data, input_shape = DataOp.load(dataset_name, train_set_size)
     data = DataOp.preprocess(data)
 
     child_model = ChildCNN(
