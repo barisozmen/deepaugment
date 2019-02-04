@@ -71,10 +71,14 @@ class Augmenter:
         # convert data to 255 from normalized
         _X = (X * 255).copy() # to 255
 
-        # get a portion of data
-        ix = np.random.choice(len(_X), int(len(_X)*portion), False)
-        X_portion = _X[ix].copy()
-        y_portion = y[ix].copy()
+        if portion==1.0:
+            X_portion = _X
+            y_portion = y
+        else:
+            # get a portion of data
+            ix = np.random.choice(len(_X), int(len(_X)*portion), False)
+            X_portion = _X[ix].copy()
+            y_portion = y[ix].copy()
 
         # transform that portion
         X_portion_aug = transform(aug1_type, aug1_magnitude, X_portion) # first transform
