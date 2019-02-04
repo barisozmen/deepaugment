@@ -20,7 +20,7 @@ class Notebook():
         new_df["portion"] = trial_hyperparams[6]
         new_df["sample_no"] = sample_no
         new_df["mean_late_val_acc"] = mean_late_val_acc
-        new_df.round(3) # round all float values to 3 decimals after point
+        new_df = new_df.round(3) # round all float values to 3 decimals after point
         self.df = pd.concat([self.df, new_df])
 
     def save(self):
