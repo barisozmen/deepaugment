@@ -12,7 +12,7 @@ sys.path.insert(0, parent_dir_of_file)
 import datetime
 
 now = datetime.datetime.now()
-EXPERIMENT_NAME = f"{now.year}-{now.month}-{now.day}_{now.hour}-{now.minute}"
+EXPERIMENT_NAME = f"{now.year}-{now.month:02}-{now.day:02}_{now.hour:02}-{now.minute:02}"
 
 import pandas as pd
 import numpy as np
