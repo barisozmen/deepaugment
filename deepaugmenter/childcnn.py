@@ -8,6 +8,7 @@ from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
 from keras.applications.mobilenetv2 import MobileNetV2
 
 from wide_res_net import WideResidualNetwork
+from build_features import DataOp
 
 import numpy as np
 
@@ -31,6 +32,49 @@ class ChildCNN:
         self.pre_augmentation_weights_path = pre_augmentation_weights_path
         self.logging = logging
         self.model = self.create_child_cnn()
+
+    @timer
+    def fit(self, data, augmented_data=None, epochs=None):
+
+        if augmented_data is None:
+            X_train = data["X_train"]
+            y_train = data["y_train"]
+        else:
+            X_train = np.concatenate([data["X_train"], augmented_data["X_train"]])
+            y_train = np.concatenate([data["y_train"], augmented_data["y_train"]])
+
+        X_val, y_val = DataOp.sample_validation_set(data)
+
+        record = self.model.fit(
+            x=X_train,
+            y=y_train,
+            batch_size=self.batch_size,
+            epochs=epochs,
+            validation_data=(X_val, y_val),
+            shuffle=True,
+            verbose=2,
+        )
+        return record.history
+
+    @timer
+    def load_pre_augment_weights(self):
+        self.model.load_weights(self.pre_augmentation_weights_path)
+
+    def evaluate_with_refreshed_validation_set(self, data):
+        X_val_backup = data["X_val_backup"]
+        y_val_backup = data["y_val_backup"]
+        # FIXME if dataset is smaller than 5000, an error will occur
+        ivb = np.random.choice(len(X_val_backup), 5000, False)
+        X_val_backup = X_val_backup[ivb]
+        y_val_backup = y_val_backup[ivb]
+
+        scores = self.model.evaluate(X_val_backup, y_val_backup, verbose=2)
+
+        test_loss = scores[0]
+        test_acc = scores[1]
+        log_and_printt(f'Test loss:{test_loss}')
+        log_and_print(f'Test accuracy:{test_acc}')
+        return test_loss, test_acc
 
     def create_child_cnn(self):
         if self.model_name.lower() == "basiccnn":
@@ -127,27 +171,4 @@ class ChildCNN:
 
 
 
-    @timer
-    def fit(self, data, augmented_data=None, epochs=None):
 
-        if augmented_data is None:
-            X_train = data["X_train"]
-            y_train = data["y_train"]
-        else:
-            X_train = np.concatenate([data["X_train"], augmented_data["X_train"]])
-            y_train = np.concatenate([data["y_train"], augmented_data["y_train"]])
-
-        record = self.model.fit(
-            x=X_train,
-            y=y_train,
-            batch_size=self.batch_size,
-            epochs=epochs,
-            validation_data=(data["X_val"], data["y_val"]),
-            shuffle=True,
-            verbose=2,
-        )
-        return record.history
-
-    @timer
-    def load_pre_augment_weights(self):
-        self.model.load_weights(self.pre_augmentation_weights_path)
