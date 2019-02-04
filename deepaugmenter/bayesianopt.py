@@ -165,6 +165,7 @@ def run_bayesianopt(
     # skopt works with opt.ask() and opt.tell() functions
     for trial_no in range(1, opt_iterations+1):
         trial_hyperparams = opt.ask()
+        print(trial_hyperparams)
         f_val = objective(
             trial_no=trial_no,
             data=data, child_model=child_model, augmenter=augmenter,
