@@ -1,0 +1,4 @@
+INFO:root:run_bayesianopt ran with args: (), and kwargs: {'dataset_name': 'cifar10', 'model_name': 'basiccnn', 'num_classes': 10, 'val_set_size': 1000, 'train_set_size': 2000, 'opt_iterations': 10000, 'opt_samples': 1, 'opt_initial_points': 10, 'child_epochs': 50, 'child_first_train_epochs': 0, 'child_batch_size': 32, 'opt_last_n_epochs': 5}
+INFO:root:1, 0.6046666666666667, ['dropout', 0.8442657485810175, 'invert', 0.8472517387841256, 'dropout', 0.38438170729269994, 0.29753460654447234]
+INFO:root:2, 0.45799999999999996, ['crop', 0.27265629458011326, 'emboss', 0.8121687287754934, 'emboss', 0.39278479610082984, 0.8360787635373778]
+INFO:root:3, 0.4706666666666667, ['translate-y', 0.6481718720511973, 'translate-y', 0.9571551589530466, 'rotate', 0.8700872583584366, 0.4736080452737106]
