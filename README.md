@@ -1,4 +1,4 @@
-## DeepAugment
+# DeepAugment
 
 Discover best augmentation strategies for your dataset.
 
@@ -83,3 +83,6 @@ DeepAugment working method can be disected into three areas:
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+
+## Contact
+Baris Ozmen, hbaristr@gmail.com
