@@ -48,7 +48,8 @@ logger = Reporter.logger
 AUG_TYPES = [
     "crop", "gaussian-blur", "rotate", "shear", "translate-x", "translate-y", "sharpen",
     "emboss", "additive-gaussian-noise", "dropout", "coarse-dropout", "gamma-contrast",
-    "brighten", "invert", "fog", "clouds"
+    "brighten", "invert", "fog", "clouds", "super-pixels", "perspective-transform",
+    "elastic-transform", "add-to-hue-and-saturation"
 ]
 
 # warn user if TensorFlow does not see the GPU
@@ -106,7 +107,6 @@ import click
 @click.option("--model-name", type=click.STRING, default="wrn_40_4")
 @click.option("--num-classes", type=click.INT, default=10)
 @click.option("--train-set-size", type=click.INT, default=4000)
-@click.option("--val-set-size", type=click.INT, default=1000)
 @click.option("--opt-iterations", type=click.INT, default=1000)
 @click.option("--opt-samples", type=click.INT, default=5)
 @click.option("--opt-last-n-epochs", type=click.INT, default=5)
@@ -120,7 +120,6 @@ def run_bayesianopt(
     model_name,
     num_classes,
     train_set_size,
-    val_set_size,
     opt_iterations,
     opt_samples,
     opt_last_n_epochs,
@@ -129,7 +128,7 @@ def run_bayesianopt(
     child_first_train_epochs,
     child_batch_size,
 ):
-    data, input_shape = DataOp.load(dataset_name, train_set_size, val_set_size)
+    data, input_shape = DataOp.load(dataset_name, train_set_size)
     data = DataOp.preprocess(data)
 
     child_model = ChildCNN(
@@ -139,7 +138,7 @@ def run_bayesianopt(
     # first training
     if child_first_train_epochs>0:
         history = child_model.fit(data, epochs=child_first_train_epochs)
-        notebook.record(0, ["first", 0.0,"first",0.0,0.0], 1, None, history)
+        notebook.record(0, ["first", 0.0,"first",0.0,"first",0.0,0.0], 1, None, history)
     #
     child_model.model.save_weights(child_model.pre_augmentation_weights_path)
     augmenter = Augmenter()
@@ -154,6 +153,8 @@ def run_bayesianopt(
             skopt.space.Real(0.0, 1.0, name='aug1_magnitude'),
             skopt.space.Categorical(AUG_TYPES, name='aug2_type'),
             skopt.space.Real(0.0, 1.0, name='aug2_magnitude'),
+            skopt.space.Categorical(AUG_TYPES, name='aug3_type'),
+            skopt.space.Real(0.0, 1.0, name='aug3_magnitude'),
             skopt.space.Real(0.0, 1.0, name='portion')
         ],
         n_initial_points=opt_initial_points,
