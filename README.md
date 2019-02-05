@@ -1,7 +1,10 @@
-aerial-autoaug
-==============================
+## DeepAugment
 
-Automatically augment aerial images for optimizing object detection
+Discover best augmentation strategies for your dataset.
+
+### Installation & Usage
+
+### Method
 
 Project Organization
 ------------
