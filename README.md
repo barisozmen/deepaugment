@@ -6,12 +6,31 @@ Discover best augmentation strategies for your dataset.
 - Boosts accuracy of deep learning models upto +X% compared to non-augmented models, and +Y% compared to manually augmented models.
 - Saves weeks of time by automating data augmentation process, which normally takes lots of trial & error.
 
-### Installation & Usage
-'''
+## Installation & Usage
+```
 $ pip install deepaugment
-'''
+```
 
-### Method
+```
+import deepaugment
+
+best_policies = DeepAugment(my_data, my_labels)
+
+my_augmented_data = daug.apply(my_data, best_policies)
+```
+
+## Results with CIFAR-10, ImageNet, & blabla
+
+## How it works?
+DeepAugment working method can be disected into three areas:
+1. Search space of augmentation
+2. Optimizer
+3. Child model
+
+### 1. Search space of augmentation
+### 2. Optimizer
+### 3. Child model
+
 
 ### Repo Organization
 
