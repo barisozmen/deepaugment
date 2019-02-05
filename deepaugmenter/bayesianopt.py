@@ -153,8 +153,6 @@ def run_bayesianopt(
             skopt.space.Real(0.0, 1.0, name='aug1_magnitude'),
             skopt.space.Categorical(AUG_TYPES, name='aug2_type'),
             skopt.space.Real(0.0, 1.0, name='aug2_magnitude'),
-            skopt.space.Categorical(AUG_TYPES, name='aug3_type'),
-            skopt.space.Real(0.0, 1.0, name='aug3_magnitude'),
             skopt.space.Real(0.0, 1.0, name='portion')
         ],
         n_initial_points=opt_initial_points,
