@@ -7,11 +7,11 @@ Discover best augmentation strategies for your dataset.
 - Saves weeks of time by automating data augmentation process, which normally takes lots of trial & error.
 
 ## Installation & Usage
-```
+```console
 $ pip install deepaugment
 ```
 
-```
+```Python
 import deepaugment
 
 best_policies = DeepAugment(my_data, my_labels)
