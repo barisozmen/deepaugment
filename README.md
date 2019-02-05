@@ -6,8 +6,7 @@ Discover best augmentation strategies for your dataset.
 
 ### Method
 
-Project Organization
-------------
+### Repo Organization
 
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
