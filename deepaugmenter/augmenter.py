@@ -70,7 +70,6 @@ class Augmenter:
     def run(X, y,
             aug1_type, aug1_magnitude,
             aug2_type, aug2_magnitude,
-            aug3_type, aug3_magnitude,
             portion
             ):
         """
@@ -92,7 +91,6 @@ class Augmenter:
         # transform that portion
         X_portion_aug = transform(aug1_type, aug1_magnitude, X_portion) # first transform
         X_portion_aug = transform(aug2_type, aug2_magnitude, X_portion_aug) # second transform
-        X_portion_aug = transform(aug3_type, aug3_magnitude, X_portion_aug)  # third transform
 
         augmented_data = {"X_train": X_portion_aug / 255, "y_train": y_portion} # back to normalization
 
