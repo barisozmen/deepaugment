@@ -3,7 +3,7 @@
 Discover best augmentation strategies for your dataset.
 
 **Benefits**
-- Boosts accuracy of deep learning models upto +X% compared to non-augmented models, and +Y% compared to manually augmented models.
+- Boosts accuracy of deep learning models upto +X% compared to models with non-augmented data, and +Y% compared to models with manually augmented data.
 - Saves weeks of time by automating data augmentation process, which normally takes lots of trial & error.
 
 ## Installation & Usage
