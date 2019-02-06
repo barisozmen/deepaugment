@@ -48,7 +48,7 @@ logger = Reporter.logger
 AUG_TYPES = [
     "crop", "gaussian-blur", "rotate", "shear", "translate-x", "translate-y", "sharpen",
     "emboss", "additive-gaussian-noise", "dropout", "coarse-dropout", "gamma-contrast",
-    "brighten", "invert", "fog", "clouds", "super-pixels", "perspective-transform",
+    "brighten", "invert", "fog", "clouds", "perspective-transform",
     "elastic-transform", "add-to-hue-and-saturation"
 ]
 
