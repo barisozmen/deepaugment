@@ -163,7 +163,9 @@ def run_bayesianopt(
     # skopt works with opt.ask() and opt.tell() functions
     for trial_no in range(1, opt_iterations+1):
         trial_hyperparams = opt.ask()
+        print("trial:",trial_no)
         print(trial_hyperparams)
+
         f_val = objective(
             trial_no=trial_no,
             data=data, child_model=child_model, augmenter=augmenter,
@@ -171,6 +173,20 @@ def run_bayesianopt(
             trial_hyperparams=trial_hyperparams
         )
         opt.tell(trial_hyperparams, f_val)
+
+    # run without augmentation
+    objective(
+        trial_no=trial_no+1,
+        data=data, child_model=child_model, augmenter=augmenter,
+        child_epochs=child_epochs, opt_samples=opt_samples, opt_last_n_epochs=opt_last_n_epochs,
+        trial_hyperparams=["crop",0.0,"crop",0.0,0.0]
+    )
+
+    # get top-10 policies
+    top10_df = notebook.get_top10()
+
+
+
 
     print("End")
 

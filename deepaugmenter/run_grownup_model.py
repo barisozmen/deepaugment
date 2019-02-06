@@ -33,9 +33,9 @@ import click
 @click.command()
 @click.option("--dataset-name", type=click.STRING, default="cifar10")
 @click.option("--num_classes", type=click.INT, default=10)
-@click.option("--n_epochs", type=click.INT, default=15)
-@click.option("--batch_size", type=click.INT, default=64)
-@click.option("--policies_path", type=click.STRING, default="dont_augment")
+@click.option("--n-epochs", type=click.INT, default=15)
+@click.option("--batch-size", type=click.INT, default=64)
+@click.option("--policies-path", type=click.STRING, default="dont_augment")
 @logger(logfile_dir=EXPERIMENT_FOLDER_PATH)
 def run_model(dataset_name, num_classes, n_epochs, batch_size, policies_path):
 
@@ -56,8 +56,8 @@ def run_model(dataset_name, num_classes, n_epochs, batch_size, policies_path):
     csv_logger = CSVLogger(f"{EXPERIMENT_FOLDER_PATH}/wrn_28_10_training_on_{dataset_name}_{policy_str}.csv")
 
     if policies_path == "dont_augment":
-        hist = wrn_28_10.fit_normal(data, epochs=n_epochs, csv_logger=csv_logger)
-        print(f"Reached validation accuracy is {hist.history['val_acc'][-1]}")
+        history = wrn_28_10.fit_normal(data, epochs=n_epochs, csv_logger=csv_logger)
+        print(f"Reached validation accuracy is {history['val_acc'][-1]}")
     else:
         print("not implemented yet")
 
