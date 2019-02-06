@@ -34,6 +34,21 @@ class ChildCNN:
         self.model = self.create_child_cnn()
 
     @timer
+    def fit_normal(self, data, epochs=None, csv_logger=None):
+        record = self.model.fit(
+            x=data["X_train"],
+            y=data["y_train"],
+            batch_size=self.batch_size,
+            epochs=epochs,
+            validation_data=(data["X_val"], data["y_val"]),
+            shuffle=True,
+            verbose=2,
+            callbacks=[csv_logger]
+        )
+        return record.history
+
+
+    @timer
     def fit(self, data, augmented_data=None, epochs=None):
 
         if augmented_data is None:

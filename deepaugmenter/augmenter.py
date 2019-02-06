@@ -9,7 +9,6 @@ def normalize(X):
 
 def denormalize(X):
     X_dn = (X*255).copy()
-    X_dn = X_dn.astype(int)
     return X_dn
 
 def transform(aug_type, magnitude, X):
@@ -62,9 +61,15 @@ def transform(aug_type, magnitude, X):
     elif aug_type == "histogram-equalize":
         X_aug = iaa.AllChannelsHistogramEqualization().augment_images(X) # magnitude not used
     elif aug_type == "super-pixels":
-        X_aug = iaa.Superpixels(p_replace=(0, magnitude), n_segments=(100, 100)).augment_images(X)
+        X_norm = normalize(X)
+        X_norm2 = (X_norm*2)-1
+        X_aug_norm2 = iaa.Superpixels(p_replace=(0, magnitude), n_segments=(100, 100)).augment_images(X_norm2)
+        X_aug_norm = (X_aug_norm2+1)/2
+        X_aug = denormalize(X_aug_norm)
     elif aug_type == "perspective-transform":
-        X_aug = iaa.PerspectiveTransform(scale=(0.01, max(0.02, magnitude*0.125 ))).augment_images(X) # first scale param must be larger
+        X_norm = normalize(X)
+        X_aug_norm = iaa.PerspectiveTransform(scale=(0.01, max(0.02, magnitude*0.125 ))).augment_images(X_norm) # first scale param must be larger
+        X_aug = denormalize(X_aug_norm)
     elif aug_type == "elastic-transform":
         X_aug = iaa.ElasticTransformation(alpha=(0.0, max(0.5, magnitude*60)), sigma=0.25).augment_images(X)
     elif aug_type == "add-to-hue-and-saturation":
@@ -87,8 +92,7 @@ class Augmenter:
         assert portion>=0.0 and portion<=1.0, "portion argument value is out of accepted interval"
 
         # convert data to 255 from normalized
-        _X = (X * 255).copy() # to 255
-        _X = _X.astype(int)
+        _X = denormalize(X)
 
         if portion==1.0:
             X_portion = _X
