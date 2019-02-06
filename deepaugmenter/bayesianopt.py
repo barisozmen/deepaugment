@@ -48,7 +48,8 @@ logger = Reporter.logger
 AUG_TYPES = [
     "crop", "gaussian-blur", "rotate", "shear", "translate-x", "translate-y", "sharpen",
     "emboss", "additive-gaussian-noise", "dropout", "coarse-dropout", "gamma-contrast",
-    "brighten", "invert", "fog", "clouds"
+    "brighten", "invert", "fog", "clouds", "super-pixels", "perspective-transform",
+    "elastic-transform", "add-to-hue-and-saturation"
 ]
 
 # warn user if TensorFlow does not see the GPU
@@ -63,7 +64,6 @@ def calculate_reward(history):
     history_df = pd.DataFrame(history)
     history_df["acc_overfit"] = history_df["acc"] - history_df["val_acc"]
     reward = (history_df[history_df["acc_overfit"]<=0.05]["val_acc"]
-                .sort_values(ascending=False)
                 .nlargest(3)
                 .mean()
              )
@@ -152,8 +152,6 @@ def run_bayesianopt(
             skopt.space.Real(0.0, 1.0, name='aug1_magnitude'),
             skopt.space.Categorical(AUG_TYPES, name='aug2_type'),
             skopt.space.Real(0.0, 1.0, name='aug2_magnitude'),
-            skopt.space.Categorical(AUG_TYPES, name='aug3_type'),
-            skopt.space.Real(0.0, 1.0, name='aug3_magnitude'),
             skopt.space.Real(0.0, 1.0, name='portion')
         ],
         n_initial_points=opt_initial_points,
