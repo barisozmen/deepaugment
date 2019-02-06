@@ -1,1 +1,0 @@
-INFO:root:run_bayesianopt ran with args: (), and kwargs: {'dataset_name': 'cifar10', 'model_name': 'basiccnn', 'num_classes': 10, 'train_set_size': 4000, 'opt_iterations': 2000, 'opt_samples': 3, 'opt_initial_points': 20, 'child_epochs': 80, 'child_first_train_epochs': 0, 'child_batch_size': 64, 'opt_last_n_epochs': 5}
