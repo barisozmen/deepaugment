@@ -1,0 +1,816 @@
+DEBUG:matplotlib:CACHEDIR=/home/ubuntu/.cache/matplotlib
+INFO:matplotlib.font_manager:font search path ['/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf', '/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm', '/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts']
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf
+DEBUG:matplotlib.font_manager:trying fontname /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/didot/GFSDidotItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADF-BoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/solomos/GFSSolomos.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADF-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-ThinItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/cabin/Cabin-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/didot/GFSDidotBoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXNonUnicode-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lyx/stmary10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/neohellenic/GFSNeohellenicBold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/asana-math/Asana-Math.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/lobstertwo/LobsterTwo-BoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/lobstertwo/LobsterTwo-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/gentium/Gentium-R.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ebgaramond/EBGaramond08-SC.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXVariants-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/linux-libertine/LinBiolinum_K.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXGeneral-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/AccanthisADFStdNo3-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/Roboto-Regular.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/gentium-basic/GenBasI.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/lobster/lobster.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ttf-bitstream-vera/VeraBI.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXSizeTwoSym-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/comfortaa/Comfortaa-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/UniversalisADFCdStd-BdOblique.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/olga/GFSOlga.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Oblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/freefont/FreeMonoBold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/linux-libertine/LinLibertine_RZI.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ebgaramond/EBGaramond-Initials.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ttf-bitstream-vera/VeraSeBd.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/gentiumplus/GentiumPlus-R.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/gentiumplus/GentiumPlus-I.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/lobstertwo/LobsterTwo-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/freefont/FreeSansOblique.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ebgaramond/EBGaramond-InitialsF1.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/UniversalisADFStd-Oblique.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADFNo2-BoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/comfortaa/Comfortaa-Regular.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/freefont/FreeSerifBoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix-word/STIX-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/UniversalisADFStd-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/neohellenic/GFSNeohellenicBoldIt.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/linux-libertine/LinLibertine_RI.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXVariants-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/crosextra/Caladea-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/junicode/Junicode-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/Roboto-Light.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationMono-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/crosextra/Carlito-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/freefont/FreeSansBoldOblique.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/Roboto-ThinItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix-word/STIX-BoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/RobotoCondensed-LightItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/freefont/FreeSans.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXGeneral-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-SemiboldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-HairlineItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ebgaramond/EBGaramond12-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/UniversalisADFCdStd-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXIntegralsUp-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/ebgaramond/EBGaramond12-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-BlackItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/ebgaramond/EBGaramond-InitialsF1.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/UniversalisADFCdStd-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADFNo2Cd-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/ebgaramond/EBGaramond08-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADFCd-BoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/AccanthisADFStd-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/neohellenic/GFSNeohellenic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/RobotoCondensed-Light.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ttf-bitstream-vera/VeraMoBI.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/freefont/FreeSerif.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/crosextra/Caladea-Regular.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXSizeThreeSym-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-HeavyItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/AccanthisADFStdNo3-BoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXSizeThreeSym-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-Hairline.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-MediumItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-Regular.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/freefont/FreeMonoOblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/freefont/FreeMono.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lyx/msbm10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXIntegralsSm-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADF-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-Semibold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/ebgaramond/EBGaramond-InitialsF2.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/artemisia/GFSArtemisiaBold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSansMono-BoldOblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/Roboto-Black.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/crosextra/Carlito-Regular.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ttf-bitstream-vera/VeraBd.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/gentium-basic/GenBkBasBI.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/freefont/FreeSansOblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/freefont/FreeSansBold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ebgaramond/EBGaramond08-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/cabin/Cabin-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADFNo2-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/crosextra/Carlito-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSerif-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/RobotoCondensed-Regular.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSans-BoldOblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/Roboto-LightItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/freefont/FreeMonoBoldOblique.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-Medium.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/cabin/Cabin-MediumItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADFCd-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/junicode/Junicode-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADFNo2-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/Roboto-Medium.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXGeneral-BoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/ebgaramond/EBGaramond08-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/linux-libertine/LinLibertine_M.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/freefont/FreeSerif.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/AccanthisADFStd-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/linux-libertine/LinBiolinum_RI.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/freefont/FreeSerifBold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSans-ExtraLight.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/didot/GFSDidotBold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXIntegralsSm-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-Black.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/cabin/Cabin-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADFNo2Cd-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/comfortaa/Comfortaa-Light.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/didot/GFSDidot.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/cabin/Cabin-Medium.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXIntegralsD-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-BoldOblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADFCd-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/UniversalisADFStd-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXIntegralsUpD-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/gentium/Gentium-I.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/Roboto-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/complutum/GFSPolyglot.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXSizeFourSym-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSansMono-Oblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXSizeFiveSym-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/lobstertwo/LobsterTwo-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/gentium-basic/GenBkBasR.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADFNo2Cd-BoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/cabin/Cabin-SemiBoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/artemisia/GFSArtemisia.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/linux-libertine/LinLibertine_R.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/AccanthisADFStd-BoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ebgaramond/EBGaramond08-Regular.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ttf-bitstream-vera/VeraMoBd.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/junicode/Junicode.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-Thin.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lyx/cmr10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/AccanthisADFStdNo2-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lyx/rsfs10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/Roboto-BlackItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/RobotoCondensed-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/freefont/FreeSerifItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/font-awesome/fontawesome-webfont.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/crosextra/Caladea-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/Roboto-Thin.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXNonUnicode-BoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/ebgaramond/EBGaramond12-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/freefont/FreeSansBold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/freefont/FreeMonoBoldOblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/artemisia/GFSArtemisiaBoldIt.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/linux-libertine/LinLibertine_I.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/cabin/Cabin-BoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXIntegralsUpSm-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/crosextra/Carlito-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/linux-libertine/LinBiolinum_RB.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/gentium/GentiumAlt-I.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/linux-libertine/LinLibertine_RBI.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-Light.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/freefont/FreeMonoOblique.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix-word/STIX-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXGeneral-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/Roboto-MediumItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationSansNarrow-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADFNo2Cd-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lyx/eufm10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADFNo2-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/freefont/FreeMonoBold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXSizeFourSym-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/crosextra/Caladea-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/freefont/FreeSans.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/AccanthisADFStd-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXNonUnicode-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/linux-libertine/LinLibertine_RZ.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADF-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lyx/cmex10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix-word/STIX-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationSansNarrow-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/freefont/FreeSerifItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-LightItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXSizeTwoSym-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ebgaramond/EBGaramond12-Regular.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lyx/msam10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/gentium-basic/GenBasB.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/ebgaramond/EBGaramond-Initials.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/freefont/FreeSerifBoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-Heavy.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/freefont/FreeSansBoldOblique.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/gentium-basic/GenBasR.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ttf-bitstream-vera/VeraSe.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/gentium-basic/GenBkBasB.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXIntegralsD-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/RobotoCondensed-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ttf-bitstream-vera/VeraIt.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/junicode/Junicode-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/Roboto-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationSansNarrow-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lyx/cmmi10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/freefont/FreeSerifBold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/cabin/Cabin-SemiBold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/GilliusADFCd-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXIntegralsUpD-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/artemisia/GFSArtemisiaIt.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXNonUnicode-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix-word/STIXMath-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/freefont/FreeMono.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/RobotoCondensed-Italic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/AccanthisADFStdNo2-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/linux-libertine/LinBiolinum_R.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/UniversalisADFCdStd-Oblique.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationSansNarrow-Regular.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ttf-bitstream-vera/VeraMoIt.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXIntegralsUpSm-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ttf-bitstream-vera/VeraMono.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/AccanthisADFStdNo2-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/gentium/GentiumAlt-R.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/gentium-basic/GenBasBI.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXSizeOneSym-Bold.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/neohellenic/GFSNeohellenicIt.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/AccanthisADFStdNo2-BoldItalic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/UniversalisADFStd-BoldOblique.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXSizeOneSym-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lyx/wasy10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/linux-libertine/LinLibertine_RB.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/roboto/hinted/Roboto-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/liberation/LiberationMono-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/gentium-basic/GenBkBasI.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ebgaramond/EBGaramond-InitialsF2.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lyx/esint10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/AccanthisADFStdNo3-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/linux-libertine/LinLibertine_DR.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/stix/STIXIntegralsUp-Regular.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/adf/AccanthisADFStdNo3-Italic.otf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lyx/cmsy10.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/truetype/lato/Lato-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:trying fontname /usr/share/fonts/opentype/font-awesome/FontAwesome.otf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/didot/GFSDidotItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADF-BoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/solomos/GFSSolomos.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADF-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-ThinItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/cabin/Cabin-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/didot/GFSDidotBoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXNonUnicode-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lyx/stmary10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/neohellenic/GFSNeohellenicBold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/asana-math/Asana-Math.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/lobstertwo/LobsterTwo-BoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/lobstertwo/LobsterTwo-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/gentium/Gentium-R.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ebgaramond/EBGaramond08-SC.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXVariants-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/linux-libertine/LinBiolinum_K.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXGeneral-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/AccanthisADFStdNo3-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/Roboto-Regular.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/gentium-basic/GenBasI.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/lobster/lobster.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ttf-bitstream-vera/VeraBI.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXSizeTwoSym-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/comfortaa/Comfortaa-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/UniversalisADFCdStd-BdOblique.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/olga/GFSOlga.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Oblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/freefont/FreeMonoBold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/linux-libertine/LinLibertine_RZI.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ebgaramond/EBGaramond-Initials.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ttf-bitstream-vera/VeraSeBd.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/gentiumplus/GentiumPlus-R.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/gentiumplus/GentiumPlus-I.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/lobstertwo/LobsterTwo-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/freefont/FreeSansOblique.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ebgaramond/EBGaramond-InitialsF1.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/UniversalisADFStd-Oblique.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADFNo2-BoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/comfortaa/Comfortaa-Regular.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/freefont/FreeSerifBoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix-word/STIX-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/UniversalisADFStd-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/neohellenic/GFSNeohellenicBoldIt.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/linux-libertine/LinLibertine_RI.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXVariants-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/crosextra/Caladea-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/junicode/Junicode-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/Roboto-Light.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationMono-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/crosextra/Carlito-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/freefont/FreeSansBoldOblique.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/Roboto-ThinItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix-word/STIX-BoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/RobotoCondensed-LightItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/freefont/FreeSans.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXGeneral-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-SemiboldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-HairlineItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ebgaramond/EBGaramond12-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/UniversalisADFCdStd-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXIntegralsUp-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/ebgaramond/EBGaramond12-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-BlackItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/ebgaramond/EBGaramond-InitialsF1.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/UniversalisADFCdStd-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADFNo2Cd-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/ebgaramond/EBGaramond08-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADFCd-BoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/AccanthisADFStd-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/neohellenic/GFSNeohellenic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/RobotoCondensed-Light.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ttf-bitstream-vera/VeraMoBI.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/freefont/FreeSerif.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/crosextra/Caladea-Regular.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXSizeThreeSym-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-HeavyItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/AccanthisADFStdNo3-BoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXSizeThreeSym-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-Hairline.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-MediumItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-Regular.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/freefont/FreeMonoOblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/freefont/FreeMono.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lyx/msbm10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXIntegralsSm-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADF-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-Semibold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/ebgaramond/EBGaramond-InitialsF2.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/artemisia/GFSArtemisiaBold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSansMono-BoldOblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/Roboto-Black.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/crosextra/Carlito-Regular.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ttf-bitstream-vera/VeraBd.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/gentium-basic/GenBkBasBI.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/freefont/FreeSansOblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/freefont/FreeSansBold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ebgaramond/EBGaramond08-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/cabin/Cabin-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADFNo2-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/crosextra/Carlito-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSerif-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/RobotoCondensed-Regular.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSans-BoldOblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/Roboto-LightItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/freefont/FreeMonoBoldOblique.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-Medium.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/cabin/Cabin-MediumItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADFCd-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/junicode/Junicode-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADFNo2-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/Roboto-Medium.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXGeneral-BoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/ebgaramond/EBGaramond08-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/linux-libertine/LinLibertine_M.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/freefont/FreeSerif.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/AccanthisADFStd-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/linux-libertine/LinBiolinum_RI.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/freefont/FreeSerifBold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSans-ExtraLight.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/didot/GFSDidotBold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXIntegralsSm-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-Black.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/cabin/Cabin-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADFNo2Cd-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/comfortaa/Comfortaa-Light.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/didot/GFSDidot.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/cabin/Cabin-Medium.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXIntegralsD-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-BoldOblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADFCd-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/UniversalisADFStd-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXIntegralsUpD-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/gentium/Gentium-I.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/Roboto-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/complutum/GFSPolyglot.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXSizeFourSym-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSansMono-Oblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXSizeFiveSym-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/lobstertwo/LobsterTwo-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/gentium-basic/GenBkBasR.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADFNo2Cd-BoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/cabin/Cabin-SemiBoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/artemisia/GFSArtemisia.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/linux-libertine/LinLibertine_R.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/AccanthisADFStd-BoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ebgaramond/EBGaramond08-Regular.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ttf-bitstream-vera/VeraMoBd.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/junicode/Junicode.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-Thin.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lyx/cmr10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/AccanthisADFStdNo2-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lyx/rsfs10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/Roboto-BlackItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/RobotoCondensed-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/freefont/FreeSerifItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/font-awesome/fontawesome-webfont.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/crosextra/Caladea-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/Roboto-Thin.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXNonUnicode-BoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/ebgaramond/EBGaramond12-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/freefont/FreeSansBold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/freefont/FreeMonoBoldOblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/artemisia/GFSArtemisiaBoldIt.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/linux-libertine/LinLibertine_I.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/cabin/Cabin-BoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXIntegralsUpSm-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/crosextra/Carlito-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/linux-libertine/LinBiolinum_RB.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/gentium/GentiumAlt-I.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/linux-libertine/LinLibertine_RBI.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-Light.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/freefont/FreeMonoOblique.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix-word/STIX-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXGeneral-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/Roboto-MediumItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationSansNarrow-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADFNo2Cd-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lyx/eufm10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADFNo2-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/freefont/FreeMonoBold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXSizeFourSym-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/crosextra/Caladea-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/freefont/FreeSans.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/AccanthisADFStd-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXNonUnicode-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/linux-libertine/LinLibertine_RZ.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADF-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lyx/cmex10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix-word/STIX-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationSansNarrow-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/freefont/FreeSerifItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-LightItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXSizeTwoSym-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ebgaramond/EBGaramond12-Regular.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lyx/msam10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/gentium-basic/GenBasB.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/ebgaramond/EBGaramond-Initials.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/freefont/FreeSerifBoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-Heavy.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/freefont/FreeSansBoldOblique.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/gentium-basic/GenBasR.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ttf-bitstream-vera/VeraSe.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/gentium-basic/GenBkBasB.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXIntegralsD-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/RobotoCondensed-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ttf-bitstream-vera/VeraIt.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/junicode/Junicode-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/Roboto-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationSansNarrow-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lyx/cmmi10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/freefont/FreeSerifBold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/cabin/Cabin-SemiBold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/GilliusADFCd-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXIntegralsUpD-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/artemisia/GFSArtemisiaIt.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXNonUnicode-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix-word/STIXMath-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/freefont/FreeMono.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/RobotoCondensed-Italic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/AccanthisADFStdNo2-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/linux-libertine/LinBiolinum_R.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/UniversalisADFCdStd-Oblique.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationSansNarrow-Regular.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ttf-bitstream-vera/VeraMoIt.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXIntegralsUpSm-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ttf-bitstream-vera/VeraMono.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/AccanthisADFStdNo2-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/gentium/GentiumAlt-R.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/gentium-basic/GenBasBI.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXSizeOneSym-Bold.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/neohellenic/GFSNeohellenicIt.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/AccanthisADFStdNo2-BoldItalic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/UniversalisADFStd-BoldOblique.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXSizeOneSym-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lyx/wasy10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/linux-libertine/LinLibertine_RB.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/roboto/hinted/Roboto-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/liberation/LiberationMono-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/gentium-basic/GenBkBasI.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ebgaramond/EBGaramond-InitialsF2.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lyx/esint10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/AccanthisADFStdNo3-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/linux-libertine/LinLibertine_DR.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/stix/STIXIntegralsUp-Regular.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/adf/AccanthisADFStdNo3-Italic.otf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lyx/cmsy10.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/truetype/lato/Lato-BoldItalic.ttf
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/opentype/font-awesome/FontAwesome.otf
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pncr8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/phvb8an.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/ptmbi8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/Times-BoldItalic.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/psyr.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/putbi8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pagd8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/ZapfDingbats.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/cmsy10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/Courier-BoldOblique.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pcrb8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/phvbo8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/Symbol.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/putri8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pbkdi8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/Helvetica-Bold.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/phvlo8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/cmex10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/phvro8an.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/Times-Roman.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/putr8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/Times-Bold.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pplr8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/phvbo8an.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/phvb8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pcrbo8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/Courier.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/Helvetica-Oblique.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/phvro8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pncb8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/cmtt10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/Courier-Bold.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/Helvetica-BoldOblique.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pbkl8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/cmmi10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/ptmri8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/phvr8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/putb8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pncbi8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/ptmb8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pcrr8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pplbi8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/ptmr8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/Courier-Oblique.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pzdr.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pzcmi8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pncri8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pagk8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/phvl8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/Times-Italic.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pplri8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/pdfcorefonts/Helvetica.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pcrro8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pbkli8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/cmr10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/phvr8an.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pbkd8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pagdo8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pplb8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/afm/pagko8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qcsb.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/c059016l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/texlive-fonts-recommended/bchr8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmcsco10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qbkr.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qbkbi.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmssqbo8.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n019063l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/s050000l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n021024l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmtlo10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmvtto10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qhvr.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n019064l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qhvcbi.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/b018015l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qtmb.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/texlive-fonts-recommended/pcrb8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qcrri.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qagb.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmtl10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n019003l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmtti10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qcsri.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmssbx10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/texlive-fonts-recommended/pcrro8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qcsr.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qagri.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmbxo10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/texlive-fonts-recommended/pcrbo8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n022004l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmro10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmtcso10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qhvbi.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qplr.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmsso10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/c059033l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/p052023l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/texlive-fonts-recommended/putb8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/b018035l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/texlive-fonts-recommended/putbi8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qzcmi.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/b018032l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/p052004l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qagbi.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmssbo10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qplri.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmssqbx8.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n019004l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/texlive-fonts-recommended/putr8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qplb.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmtto10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qhvcri.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qplbi.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/texlive-fonts-recommended/bchbi8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmr10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qtmri.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmtko10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmssdc10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmbo10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qcrb.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qcsbi.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qhvri.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmri10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n022024l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmssqo8.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qcrbi.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmvtt10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmbxi10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/texlive-fonts-recommended/putri8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n019044l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmssq8.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmvtko10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmtt10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qhvb.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/a010015l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/a010035l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qbkb.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmcsc10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qtmbi.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/texlive-fonts-recommended/bchb8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n021004l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmbx10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n022003l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/a010033l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n021023l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/texlive-fonts-recommended/bchri8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmssdo10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmtlc10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmtk10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/p052024l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/z003034l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/texlive-fonts-recommended/pcrr8a.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/c059013l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmduno10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qcrr.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/b018012l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmu10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qhvcr.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmb10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/a010013l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qagr.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmdunh10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qbkri.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n019043l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmtlco10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/c059036l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qhvcb.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n019024l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmvtl10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n021003l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmss10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/d050000l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/p052003l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmtcsc10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n022023l.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/qtmr.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmvtk10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/X11/Type1/lmvtlo10.afm
+DEBUG:matplotlib.font_manager:createFontDict: /usr/share/fonts/type1/gsfonts/n019023l.afm
+INFO:matplotlib.font_manager:generated new fontManager
+DEBUG:matplotlib.backends:backend agg version v2.2
+DEBUG:shapely.geos:Found GEOS DLL: <CDLL '/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/shapely/.libs/libgeos_c-bd8d3f16.so.1.10.2', handle 564f69570de0 at 0x7f3f83b1b780>, using it.
+DEBUG:shapely.geos:Trying `CDLL(libc.so.6)`
+DEBUG:shapely.geos:Library path: 'libc.so.6'
+DEBUG:shapely.geos:DLL: <CDLL 'libc.so.6', handle 7f409f86c748 at 0x7f3f83b5acc0>
