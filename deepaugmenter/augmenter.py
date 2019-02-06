@@ -4,6 +4,14 @@ import numpy as np
 from imgaug import augmenters as iaa
 
 
+def normalize(X):
+    return (X/255.).copy()
+
+def denormalize(X):
+    X_dn = (X*255).copy()
+    X_dn = X_dn.astype(int)
+    return X_dn
+
 def transform(aug_type, magnitude, X):
     if aug_type == "crop":
         X_aug = iaa.Crop(px=(0, int(magnitude * 32))).augment_images(X)
@@ -40,7 +48,9 @@ def transform(aug_type, magnitude, X):
             (0.03, 0.15), size_percent=(0.30, np.log10(magnitude * 3)), per_channel=0.2
         ).augment_images(X)
     elif aug_type == "gamma-contrast":
-        X_aug = iaa.GammaContrast(magnitude * 2).augment_images(X)
+        X_norm = normalize(X)
+        X_aug_norm = iaa.GammaContrast(magnitude * 1.75).augment_images(X_norm) # needs 0-1 values
+        X_aug = denormalize(X_aug_norm)
     elif aug_type == "brighten":
         X_aug = iaa.Add((int(-40 * magnitude), int(40 * magnitude)), per_channel=0.5).augment_images(X) # brighten
     elif aug_type == "invert":
@@ -78,6 +88,7 @@ class Augmenter:
 
         # convert data to 255 from normalized
         _X = (X * 255).copy() # to 255
+        _X = _X.astype(int)
 
         if portion==1.0:
             X_portion = _X
@@ -92,7 +103,7 @@ class Augmenter:
         X_portion_aug = transform(aug1_type, aug1_magnitude, X_portion) # first transform
         X_portion_aug = transform(aug2_type, aug2_magnitude, X_portion_aug) # second transform
 
-        augmented_data = {"X_train": X_portion_aug / 255, "y_train": y_portion} # back to normalization
+        augmented_data = {"X_train": X_portion_aug / 255.0, "y_train": y_portion} # back to normalization
 
         return augmented_data # augmenteed data is mostly smaller than whole data
 
