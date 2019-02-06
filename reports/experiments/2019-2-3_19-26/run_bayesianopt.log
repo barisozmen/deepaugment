@@ -1,0 +1,13 @@
+INFO:root:run_bayesianopt ran with args: (), and kwargs: {'dataset_name': 'cifar10', 'model_name': 'mobilenet', 'num_classes': 10, 'validation_set_size': 1000, 'training_set_size': 1000, 'opt_iterations': 10000, 'opt_samples': 1, 'opt_initial_points': 10, 'child_epochs': 20, 'child_first_train_epochs': 10, 'child_batch_size': 32, 'opt_last_n_epochs': 5}
+INFO:root:mobilenet model built as child model.
+ Model summary:
+INFO:root:1, 0.7438, ['dropout', 0.8442657485810175, 'invert', 0.8472517387841256, 0.6235636967859725]
+INFO:root:2, 0.7138, ['sharpen', 0.29753460654447234, 'crop', 0.27265629458011326, 0.47766511732135]
+INFO:root:3, 0.7252000000000001, ['brighten', 0.47997717237505744, 'sharpen', 0.8360787635373778, 0.33739616041726844]
+INFO:root:4, 0.7158, ['coarse-dropout', 0.368241539840548, 'clouds', 0.14035078041264518, 0.8700872583584366]
+INFO:root:5, 0.7134, ['emboss', 0.8009107519796445, 'additive-gaussian-noise', 0.6788795301189604, 0.7206326547259169]
+INFO:root:6, 0.888, ['dropout', 0.5373732294490108, 'brighten', 0.10590760718779216, 0.47360041934665753]
+INFO:root:7, 0.92, ['rotate', 0.7369181771289582, 'shear', 0.13521817340545209, 0.32414100779321414]
+INFO:root:8, 0.92, ['rotate', 0.2223213882515877, 'sharpen', 0.9025984755294049, 0.4499499899112277]
+INFO:root:9, 0.92, ['dropout', 0.9023485831739845, 'gaussian-blur', 0.969809067746749, 0.6531400357979378]
+INFO:root:10, 0.92, ['rotate', 0.35815216696952507, 'brighten', 0.6078306687154679, 0.32504722900835253]
