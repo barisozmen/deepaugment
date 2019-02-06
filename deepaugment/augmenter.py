@@ -60,7 +60,7 @@ def transform(aug_type, magnitude, X):
         X_aug = iaa.Clouds().augment_images(X) # magnitude not used
     elif aug_type == "histogram-equalize":
         X_aug = iaa.AllChannelsHistogramEqualization().augment_images(X) # magnitude not used
-    elif aug_type == "super-pixels":
+    elif aug_type == "super-pixels": # deprecated
         X_norm = normalize(X)
         X_norm2 = (X_norm*2)-1
         X_aug_norm2 = iaa.Superpixels(p_replace=(0, magnitude), n_segments=(100, 100)).augment_images(X_norm2)
@@ -70,8 +70,12 @@ def transform(aug_type, magnitude, X):
         X_norm = normalize(X)
         X_aug_norm = iaa.PerspectiveTransform(scale=(0.01, max(0.02, magnitude*0.125 ))).augment_images(X_norm) # first scale param must be larger
         X_aug = denormalize(X_aug_norm)
-    elif aug_type == "elastic-transform":
-        X_aug = iaa.ElasticTransformation(alpha=(0.0, max(0.5, magnitude*60)), sigma=0.25).augment_images(X)
+    elif aug_type == "elastic-transform": # deprecated
+        X_norm = normalize(X)
+        X_norm2 = (X_norm * 2) - 1
+        X_aug_norm2 = iaa.ElasticTransformation(alpha=(0.0, max(0.5, magnitude*60)), sigma=5.0).augment_images(X_norm2)
+        X_aug_norm = (X_aug_norm2 + 1) / 2
+        X_aug = denormalize(X_aug_norm)
     elif aug_type == "add-to-hue-and-saturation":
         X_aug = iaa.AddToHueAndSaturation((int(-45*magnitude), int(45*magnitude))).augment_images(X)
     else:
@@ -105,7 +109,9 @@ class Augmenter:
 
         # transform that portion
         X_portion_aug = transform(aug1_type, aug1_magnitude, X_portion) # first transform
+        assert X_portion_aug.min()>0 and X_portion_aug.max()<255, "first transform is unvalid"
         X_portion_aug = transform(aug2_type, aug2_magnitude, X_portion_aug) # second transform
+        assert X_portion_aug.min() > 0 and X_portion_aug.max() < 255, "second transform is unvalid"
 
         augmented_data = {"X_train": X_portion_aug / 255.0, "y_train": y_portion} # back to normalization
 
