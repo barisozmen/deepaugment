@@ -109,9 +109,12 @@ class Augmenter:
 
         # transform that portion
         X_portion_aug = transform(aug1_type, aug1_magnitude, X_portion) # first transform
-        assert X_portion_aug.min()>=0 and X_portion_aug.max()<=255, "first transform is unvalid"
+        assert X_portion_aug.min()>=-0.1 and X_portion_aug.max()<=255.1, "first transform is unvalid"
+        np.clip(X_portion_aug, 0, 255, out=X_portion_aug)
+
         X_portion_aug = transform(aug2_type, aug2_magnitude, X_portion_aug) # second transform
-        assert X_portion_aug.min() >= 0 and X_portion_aug.max() <= 255, "second transform is unvalid"
+        assert X_portion_aug.min() >=-0.1 and X_portion_aug.max() <= 255.1, "second transform is unvalid"
+        np.clip(X_portion_aug, 0, 255, out=X_portion_aug)
 
         augmented_data = {"X_train": X_portion_aug / 255.0, "y_train": y_portion} # back to normalization
 
