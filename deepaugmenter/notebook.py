@@ -3,6 +3,11 @@
 import pandas as pd
 import numpy as np
 
+
+def get_folder_path(path):
+    last = path.split("/")[-1]
+    return path.replace("/"+last , "")
+
 class Notebook():
 
     def __init__(self, store_path):
@@ -29,3 +34,42 @@ class Notebook():
     def add_records_from(self, notebook_path):
         notebook_df = pd.read_csv(notebook_path, comment="#")
         self.df = pd.concat([self.df, notebook_df])
+
+    def get_top10(self):
+        trial_avg_val_acc_df = (self.df.drop_duplicates(["trial_no", "sample_no"])
+            .groupby("trial_no")
+            .mean()["mean_late_val_acc"]
+            .reset_index()
+        )[["trial_no","mean_late_val_acc"]]
+
+        x_df = pd.merge(
+            self.df.drop(columns=["mean_late_val_acc"]),
+            trial_avg_val_acc_df,
+            on="trial_no", how="left"
+        )
+
+        x_df = x_df.sort_values("mean_late_val_acc", ascending=False)
+
+        baseline_val_acc = x_df[x_df["portion"]==0.0]["mean_late_val_acc"].values[0]
+
+        x_df["expected_accuracy_increase"] = x_df["mean_late_val_acc"] - baseline_val_acc
+
+        top10_df = (x_df.drop_duplicates(["trial_no"])
+            .sort_values("mean_late_val_acc", ascending=False)
+            [:10]
+        )
+
+        SELECT = ['trial_no', 'aug1_type', 'aug1_magnitude', 'aug2_type',
+                  'aug2_magnitude', 'portion', 'mean_late_val_acc',
+                  "expected_accuracy_increase"]
+
+        top10_df = top10_df[SELECT]
+
+        print("top10 policies:")
+        print(top10_df)
+
+        top10_df.to_csv( get_folder_path( get_folder_path(self.store_path)+"/top10_policies.csv", index=False)
+        return top10_df
+
+
+
