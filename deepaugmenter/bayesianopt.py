@@ -64,7 +64,6 @@ def calculate_reward(history):
     history_df = pd.DataFrame(history)
     history_df["acc_overfit"] = history_df["acc"] - history_df["val_acc"]
     reward = (history_df[history_df["acc_overfit"]<=0.05]["val_acc"]
-                .sort_values(ascending=False)
                 .nlargest(3)
                 .mean()
              )
