@@ -68,7 +68,7 @@ class Notebook():
         print("top10 policies:")
         print(top10_df)
 
-        top10_df.to_csv( get_folder_path( get_folder_path(self.store_path)+"/top10_policies.csv", index=False)
+        top10_df.to_csv( get_folder_path( get_folder_path(self.store_path)+"/top10_policies.csv", index=False))
         return top10_df
 
 
