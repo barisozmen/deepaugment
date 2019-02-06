@@ -6,6 +6,24 @@ import keras
 
 
 class DataOp:
+
+    @staticmethod
+    def load_normal(dataset_name):
+        if hasattr(keras.datasets, dataset_name):
+            (X_train, y_train), (X_val, y_val) = getattr(
+                keras.datasets, dataset_name
+            ).load_data()
+        else:
+            sys.exit(f"Unknown dataset {dataset_name}")
+
+        input_shape = X_train.shape[1:]
+
+        data = {"X_train": X_train, "y_train": y_train,
+                "X_val": X_val, "y_val": y_val}
+
+        return data, input_shape
+
+
     @staticmethod
     def load(dataset_name, training_set_size):
         """Loads dataset from keras and returns a sample out of it
@@ -42,6 +60,17 @@ class DataOp:
         input_shape = X_train.shape[1:]
 
         return data, input_shape
+
+    @staticmethod
+    def preprocess_normal(data):
+        # normalize images
+        data["X_train"] = data["X_train"].astype("float32") / 255
+        data["X_val"] = data["X_val"].astype("float32") / 255
+
+        # convert labels to categorical
+        data["y_train"] = keras.utils.to_categorical(data["y_train"])
+        data["y_val"] = keras.utils.to_categorical(data["y_val"])
+        return data
 
     @staticmethod
     def preprocess(data):
