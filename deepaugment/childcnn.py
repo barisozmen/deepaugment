@@ -47,6 +47,17 @@ class ChildCNN:
         )
         return record.history
 
+    def fit_with_generator(self, datagen, X_val, y_val, train_data_size, epochs=None, csv_logger=None):
+        record = self.model.fit_generator(
+            datagen, validation_data=(X_val, y_val),
+            steps_per_epoch=train_data_size//self.batch_size,
+            epochs=epochs,
+            shuffle=True,
+            verbose=2,
+            callbacks=[csv_logger]
+        )
+        return record.history
+
 
     @timer
     def fit(self, data, augmented_data=None, epochs=None):
