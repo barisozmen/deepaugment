@@ -15,7 +15,7 @@ def transform(aug_type, magnitude, X):
     if aug_type == "crop":
         X_aug = iaa.Crop(px=(0, int(magnitude * 32))).augment_images(X)
     elif aug_type == "gaussian-blur":
-        X_aug = iaa.GaussianBlur(sigma=(0, magnitude * 5.0)).augment_images(X)
+        X_aug = iaa.GaussianBlur(sigma=(0, magnitude * 25.0)).augment_images(X)
     elif aug_type == "rotate":
         X_aug = iaa.Affine(rotate = (-180 * magnitude, 180 * magnitude)).augment_images(X)
     elif aug_type == "shear":
@@ -37,7 +37,7 @@ def transform(aug_type, magnitude, X):
     elif aug_type == "sharpen":
         X_aug = iaa.Sharpen(alpha=(0, 1.0), lightness=(0.50, 5 * magnitude)).augment_images(X)
     elif aug_type == "emboss":
-        X_aug = iaa.Emboss(alpha=(0, 1.0), strength=(0, 3.0 * magnitude)).augment_images(X)
+        X_aug = iaa.Emboss(alpha=(0, 1.0), strength=(0, 20.0 * magnitude)).augment_images(X)
     elif aug_type == "additive-gaussian-noise":
         X_aug = iaa.AdditiveGaussianNoise(loc=0, scale=(0.0, magnitude * 255), per_channel=0.5).augment_images(X)
     elif aug_type == "dropout":
@@ -68,17 +68,19 @@ def transform(aug_type, magnitude, X):
         X_aug = denormalize(X_aug_norm)
     elif aug_type == "perspective-transform":
         X_norm = normalize(X)
-        X_aug_norm = iaa.PerspectiveTransform(scale=(0.01, max(0.02, magnitude*0.125 ))).augment_images(X_norm) # first scale param must be larger
+        X_aug_norm = iaa.PerspectiveTransform(scale=(0.01, max(0.02, magnitude ))).augment_images(X_norm) # first scale param must be larger
         np.clip(X_aug_norm, 0.0, 1.0, out=X_aug_norm)
         X_aug = denormalize(X_aug_norm)
     elif aug_type == "elastic-transform": # deprecated
         X_norm = normalize(X)
         X_norm2 = (X_norm * 2) - 1
-        X_aug_norm2 = iaa.ElasticTransformation(alpha=(0.0, max(0.5, magnitude*60)), sigma=5.0).augment_images(X_norm2)
+        X_aug_norm2 = iaa.ElasticTransformation(alpha=(0.0, max(0.5, magnitude*300)), sigma=5.0).augment_images(X_norm2)
         X_aug_norm = (X_aug_norm2 + 1) / 2
         X_aug = denormalize(X_aug_norm)
     elif aug_type == "add-to-hue-and-saturation":
         X_aug = iaa.AddToHueAndSaturation((int(-45*magnitude), int(45*magnitude))).augment_images(X)
+    elif aug_type == "coarse-salt":
+        X_aug = iaa.CoarseSaltAndPepper(p=0.2, size_percent=magnitude).augment_images(X)
     else:
         raise ValueError
     return X_aug
