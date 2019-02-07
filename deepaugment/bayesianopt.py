@@ -183,8 +183,8 @@ def run_bayesianopt(
         trial_hyperparams=["crop",0.0,"crop",0.0,0.0]
     )
 
-    # get top-10 policies
-    top10_df = notebook.get_top10()
+    # get top-20 policies
+    top20_df = notebook.get_top20()
     notebook.save()
 
 

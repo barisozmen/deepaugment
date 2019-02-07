@@ -80,7 +80,7 @@ def deepaugment_image_generator(X, y, policy, batch_size=64, augment_chance=0.5)
                         img_aug = zero_pad_and_crop(img_aug, amount=4)
                         img_aug = cutout_numpy(img_aug, size=6)
                         tiny_X_aug.append(img_aug)
-                    tiny_X_aug = np.array(img_aug)
+                    tiny_X_aug = np.array(tiny_X_aug)
 
                     aug_data = augmenter.run(tiny_X_aug, tiny_y, *hyperparams)
 
