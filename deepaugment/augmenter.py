@@ -34,6 +34,10 @@ def transform(aug_type, magnitude, X):
                 "y": (-magnitude, magnitude)
             }
         ).augment_images(X)
+    elif aug_type == "horizontal-flip":
+        X_aug = iaa.Fliplr(magnitude).augment_images(X)
+    elif aug_type == "vertical-flip":
+        X_aug = iaa.Flipud(magnitude).augment_images(X)
     elif aug_type == "sharpen":
         X_aug = iaa.Sharpen(alpha=(0, 1.0), lightness=(0.50, 5 * magnitude)).augment_images(X)
     elif aug_type == "emboss":
@@ -79,7 +83,7 @@ def transform(aug_type, magnitude, X):
         X_aug = denormalize(X_aug_norm)
     elif aug_type == "add-to-hue-and-saturation":
         X_aug = iaa.AddToHueAndSaturation((int(-45*magnitude), int(45*magnitude))).augment_images(X)
-    elif aug_type == "coarse-salt":
+    elif aug_type == "coarse-salt-pepper":
         X_aug = iaa.CoarseSaltAndPepper(p=0.2, size_percent=magnitude).augment_images(X)
     else:
         raise ValueError
