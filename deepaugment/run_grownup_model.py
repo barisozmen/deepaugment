@@ -29,15 +29,17 @@ logger = Reporter.logger
 
 from keras.callbacks import CSVLogger
 
+from image_generator import deepaugment_image_generator
+
 import click
 @click.command()
 @click.option("--dataset-name", type=click.STRING, default="cifar10")
-@click.option("--num_classes", type=click.INT, default=10)
-@click.option("--n-epochs", type=click.INT, default=15)
+@click.option("--num-classes", type=click.INT, default=10)
+@click.option("--epochs", type=click.INT, default=15)
 @click.option("--batch-size", type=click.INT, default=64)
 @click.option("--policies-path", type=click.STRING, default="dont_augment")
 @logger(logfile_dir=EXPERIMENT_FOLDER_PATH)
-def run_model(dataset_name, num_classes, n_epochs, batch_size, policies_path):
+def run_model(dataset_name, num_classes, epochs, batch_size, policies_path):
 
     data, input_shape = DataOp.load_normal(dataset_name)
     data = DataOp.preprocess_normal(data)
@@ -56,12 +58,22 @@ def run_model(dataset_name, num_classes, n_epochs, batch_size, policies_path):
     csv_logger = CSVLogger(f"{EXPERIMENT_FOLDER_PATH}/wrn_28_10_training_on_{dataset_name}_{policy_str}.csv")
 
     if policies_path == "dont_augment":
-        history = wrn_28_10.fit_normal(data, epochs=n_epochs, csv_logger=csv_logger)
+        history = wrn_28_10.fit_normal(data, epochs=epochs, csv_logger=csv_logger)
         print(f"Reached validation accuracy is {history['val_acc'][-1]}")
     else:
-        print("not implemented yet")
 
-
+        datagen = deepaugment_image_generator(
+            data["X_train"], data["y_train"],
+            policies_path, batch_size=batch_size,
+            augment_chance=0.5
+        )
+        print("fitting the model")
+        history = wrn_28_10.fit_with_generator(
+            datagen, data["X_val"], data["y_val"],
+            train_data_size = len(data["X_train"]),
+            epochs=epochs, csv_logger=csv_logger
+        )
+        print(f"Reached validation accuracy is {history['val_acc'][-1]}")
 
 
 if __name__ == "__main__":
