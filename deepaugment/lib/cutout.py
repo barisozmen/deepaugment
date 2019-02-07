@@ -1,6 +1,11 @@
 # copy-pasted from https://github.com/tensorflow/models/blob/master/research/autoaugment/augmentation_transforms.py
 
 
+import random
+import numpy as np
+
+
+
 def create_cutout_mask(img_height, img_width, num_channels, size):
   """Creates a zero mask used for cutout of shape `img_height` x `img_width`.
   Args:
