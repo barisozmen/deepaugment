@@ -5,6 +5,33 @@ import numpy as np
 import pandas as pd
 
 from augmenter import Augmenter
+from lib.cutout import cutout_numpy(img, size=16)
+
+
+def random_flip(x):
+  """Flip the input x horizontally with 50% probability."""
+  if np.random.rand(1)[0] > 0.5:
+    return np.fliplr(x)
+  return x
+
+def zero_pad_and_crop(img, amount=4):
+  """Zero pad by `amount` zero pixels on each side then take a random crop.
+  Args:
+    img: numpy image that will be zero padded and cropped.
+    amount: amount of zeros to pad `img` with horizontally and verically.
+  Returns:
+    The cropped zero padded img. The returned numpy array will be of the same
+    shape as `img`.
+  """
+  padded_img = np.zeros((img.shape[0] + amount * 2, img.shape[1] + amount * 2,
+                         img.shape[2]))
+  padded_img[amount:img.shape[0] + amount, amount:
+             img.shape[1] + amount, :] = img
+  top = np.random.randint(low=0, high=2 * amount)
+  left = np.random.randint(low=0, high=2 * amount)
+  new_img = padded_img[top:top + img.shape[0], left:left + img.shape[1], :]
+  return new_img
+
 
 
 def deepaugment_image_generator(X, y, policy, batch_size=64, augment_chance=0.5):
@@ -25,7 +52,6 @@ def deepaugment_image_generator(X, y, policy, batch_size=64, augment_chance=0.5)
         policy_df = policy_df[["aug1_type","aug1_magnitude","aug2_type","aug2_magnitude","portion"]]
         policy = policy_df.to_dict(orient="records")
 
-
     augmenter = Augmenter()
 
     while True:
@@ -42,11 +68,22 @@ def deepaugment_image_generator(X, y, policy, batch_size=64, augment_chance=0.5)
             for j in range(1, len(_X) // tiny_batch_size):
                 tiny_X = _X[j * tiny_batch_size:(j + 1) * tiny_batch_size]
                 tiny_y = _y[j * tiny_batch_size:(j + 1) * tiny_batch_size]
-                if np.random.rand() < augment_chance:
+                if np.random.rand() <= augment_chance:
                     aug_chain = np.random.choice(policy)
                     aug_chain['portion'] = 1.0 # last element is portion, which we want to be 1
                     hyperparams = list(aug_chain.values())
-                    aug_data = augmenter.run(tiny_X, tiny_y, *hyperparams)
+
+                    # apply cutout
+                    tiny_X_aug = []
+                    for img in tiny_X:
+                        img_aug = random_flip(img)
+                        img_aug = zero_pad_and_crop(img_aug, amount=4)
+                        img_aug = cutout_numpy(img_aug, size=6)
+                        tiny_X_aug.append(img_aug)
+                    tiny_X_aug = np.array(img_aug)
+
+                    aug_data = augmenter.run(tiny_X_aug, tiny_y, *hyperparams)
+
                     aug_X = np.concatenate([aug_X, aug_data["X_train"]])
                     aug_y = np.concatenate([aug_y, aug_data["y_train"]])
                 else:

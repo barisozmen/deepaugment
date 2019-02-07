@@ -48,8 +48,11 @@ logger = Reporter.logger
 AUG_TYPES = [
     "crop", "gaussian-blur", "rotate", "shear", "translate-x", "translate-y", "sharpen",
     "emboss", "additive-gaussian-noise", "dropout", "coarse-dropout", "gamma-contrast",
-    "brighten", "invert", "fog", "clouds", "add-to-hue-and-saturation"
+    "brighten", "invert", "fog", "clouds", "add-to-hue-and-saturation", "coarse-salt-pepper",
+    "horizontal-flip", "vertical-flip"
 ]
+
+
 
 # warn user if TensorFlow does not see the GPU
 from tensorflow.python.client import device_lib
@@ -66,7 +69,6 @@ def calculate_reward(history):
                 .nlargest(3)
                 .mean()
              )
-
     return reward
 
 def objective(
