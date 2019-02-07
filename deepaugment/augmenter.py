@@ -69,6 +69,7 @@ def transform(aug_type, magnitude, X):
     elif aug_type == "perspective-transform":
         X_norm = normalize(X)
         X_aug_norm = iaa.PerspectiveTransform(scale=(0.01, max(0.02, magnitude*0.125 ))).augment_images(X_norm) # first scale param must be larger
+        np.clip(X_aug_norm, 0.0, 1.0, out=X_aug_norm)
         X_aug = denormalize(X_aug_norm)
     elif aug_type == "elastic-transform": # deprecated
         X_norm = normalize(X)
