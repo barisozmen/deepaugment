@@ -2,11 +2,12 @@
 import keras
 
 import numpy as np
+import pandas as pd
 
 from augmenter import Augmenter
 
 
-def deepaugment_generator(X, y, policy, batch_size=64, augment_chance=0.5):
+def deepaugment_image_generator(X, y, policy, batch_size=64, augment_chance=0.5):
     """Yields batch of images after applying random augmentations from the policy
 
     Each image is augmented by 50% chance. If augmented, one of the augment-chain in the policy is applied.
@@ -19,7 +20,13 @@ def deepaugment_generator(X, y, policy, batch_size=64, augment_chance=0.5):
 
     Returns:
     """
-    augmenter = Augmenter
+    if type(policy)==str:
+        policy_df = pd.read_csv(policy)
+        policy_df = policy_df[["aug1_type","aug1_magnitude","aug2_type","aug2_magnitude","portion"]]
+        policy = policy_df.to_dict(orient="records")
+
+
+    augmenter = Augmenter()
 
     while True:
         ix = np.arange(len(X))
@@ -48,7 +55,7 @@ def deepaugment_generator(X, y, policy, batch_size=64, augment_chance=0.5):
             yield aug_X, aug_y
 
 
-def test_deepaugment_generator():
+def test_deepaugment_image_generator():
     X = np.random.rand(200, 32, 32, 3)
 
     y = np.random.randint(10, size=200)
