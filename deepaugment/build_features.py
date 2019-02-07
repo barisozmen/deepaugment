@@ -8,24 +8,7 @@ import keras
 class DataOp:
 
     @staticmethod
-    def load_normal(dataset_name):
-        if hasattr(keras.datasets, dataset_name):
-            (X_train, y_train), (X_val, y_val) = getattr(
-                keras.datasets, dataset_name
-            ).load_data()
-        else:
-            sys.exit(f"Unknown dataset {dataset_name}")
-
-        input_shape = X_train.shape[1:]
-
-        data = {"X_train": X_train, "y_train": y_train,
-                "X_val": X_val, "y_val": y_val}
-
-        return data, input_shape
-
-
-    @staticmethod
-    def load(dataset_name, training_set_size):
+    def load(dataset_name, training_set_size=None):
         """Loads dataset from keras and returns a sample out of it
 
         Args:
@@ -42,22 +25,31 @@ class DataOp:
             ).load_data()
         else:
             sys.exit(f"Unknown dataset {dataset_name}")
-        # reduce training dataset
-        ix = np.random.choice(len(X_train), training_set_size, False)
-        X_train_reduced = X_train[ix]
-        y_train_reduced = y_train[ix]
-
-        other_ix = set(np.arange(len(X_train))).difference(set(ix))
-        other_ix = list(other_ix)
-        X_train_non_chosen = X_train[other_ix]
-        y_train_non_chosen = y_train[other_ix]
-
-        X_val_seed = np.concatenate([X_val, X_train_non_chosen])
-        y_val_seed = np.concatenate([y_val, y_train_non_chosen])
-
-        data = {"X_train": X_train_reduced, "y_train": y_train_reduced,
-                "X_val_seed": X_val_seed, "y_val_seed": y_val_seed}
+        
         input_shape = X_train.shape[1:]
+        
+        if training_set_size==None:
+            print(f"Using all trainin images")
+            data = {"X_train": X_train, "y_train": y_train,
+                    "X_val": X_val, "y_val": y_val}
+
+        else:
+            print(f"Using {training_set_size} training images")
+            # reduce training dataset
+            ix = np.random.choice(len(X_train), training_set_size, False)
+            X_train_reduced = X_train[ix]
+            y_train_reduced = y_train[ix]
+
+            other_ix = set(np.arange(len(X_train))).difference(set(ix))
+            other_ix = list(other_ix)
+            X_train_non_chosen = X_train[other_ix]
+            y_train_non_chosen = y_train[other_ix]
+
+            X_val_seed = np.concatenate([X_val, X_train_non_chosen])
+            y_val_seed = np.concatenate([y_val, y_train_non_chosen])
+
+            data = {"X_train": X_train_reduced, "y_train": y_train_reduced,
+                    "X_val_seed": X_val_seed, "y_val_seed": y_val_seed}
 
         return data, input_shape
 

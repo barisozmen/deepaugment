@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 from augmenter import Augmenter
-from lib.cutout import cutout_numpy(img, size=16)
+from lib.cutout import cutout_numpy
 
 
 def random_flip(x):
