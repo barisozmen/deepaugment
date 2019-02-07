@@ -41,7 +41,7 @@ def transform(aug_type, magnitude, X):
     elif aug_type == "sharpen":
         X_aug = iaa.Sharpen(alpha=(0, 1.0), lightness=(0.50, 5 * magnitude)).augment_images(X)
     elif aug_type == "emboss":
-        X_aug = iaa.Emboss(alpha=(0, 1.0), strength=(0, 20.0 * magnitude)).augment_images(X)
+        X_aug = iaa.Emboss(alpha=(0, 1.0), strength=(0.0, 20.0 * magnitude)).augment_images(X)
     elif aug_type == "additive-gaussian-noise":
         X_aug = iaa.AdditiveGaussianNoise(loc=0, scale=(0.0, magnitude * 255), per_channel=0.5).augment_images(X)
     elif aug_type == "dropout":
@@ -111,11 +111,21 @@ class Augmenter:
         else:
             # get a portion of data
             ix = np.random.choice(len(_X), int(len(_X)*portion), False)
+
             X_portion = _X[ix].copy()
             y_portion = y[ix].copy()
 
+        if X_portion.shape[0]==0:
+            print("X_portion has zero size !!!")
+            nix = [1,2,3,4,5,6,7,8,9,10]
+            X_portion = _X[nix].copy()
+            y_portion = y[nix].copy()
+
         # transform that portion
         X_portion_aug = transform(aug1_type, aug1_magnitude, X_portion) # first transform
+
+        print("X_portion_aug.shape -> ",X_portion_aug.shape)
+
         assert X_portion_aug.min()>=-0.1 and X_portion_aug.max()<=255.1, "first transform is unvalid"
         np.clip(X_portion_aug, 0, 255, out=X_portion_aug)
 
