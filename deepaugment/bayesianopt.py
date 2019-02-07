@@ -48,8 +48,7 @@ logger = Reporter.logger
 AUG_TYPES = [
     "crop", "gaussian-blur", "rotate", "shear", "translate-x", "translate-y", "sharpen",
     "emboss", "additive-gaussian-noise", "dropout", "coarse-dropout", "gamma-contrast",
-    "brighten", "invert", "fog", "clouds", "perspective-transform",
-    "add-to-hue-and-saturation"
+    "brighten", "invert", "fog", "clouds", "add-to-hue-and-saturation"
 ]
 
 # warn user if TensorFlow does not see the GPU
@@ -184,6 +183,7 @@ def run_bayesianopt(
 
     # get top-10 policies
     top10_df = notebook.get_top10()
+    notebook.save()
 
 
 
