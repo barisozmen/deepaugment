@@ -65,7 +65,7 @@ def run_model(dataset_name, num_classes, epochs, batch_size, policies_path):
         datagen = deepaugment_image_generator(
             data["X_train"], data["y_train"],
             policies_path, batch_size=batch_size,
-            augment_chance=1.0
+            augment_chance=0.8
         )
         print("fitting the model")
         history = wrn_28_10.fit_with_generator(
