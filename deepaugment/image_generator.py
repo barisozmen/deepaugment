@@ -34,6 +34,16 @@ def zero_pad_and_crop(img, amount=4):
 
 
 
+def apply_default_transformations(X):
+    # apply cutout
+    X_aug = []
+    for img in X:
+        img_aug = zero_pad_and_crop(img, amount=4)
+        img_aug = cutout_numpy(img_aug, size=6)
+        X_aug.append(img_aug)
+    return X_aug
+
+
 def deepaugment_image_generator(X, y, policy, batch_size=64, augment_chance=0.5):
     """Yields batch of images after applying random augmentations from the policy
 
@@ -51,6 +61,10 @@ def deepaugment_image_generator(X, y, policy, batch_size=64, augment_chance=0.5)
         policy_df = pd.read_csv(policy)
         policy_df = policy_df[["aug1_type","aug1_magnitude","aug2_type","aug2_magnitude","portion"]]
         policy = policy_df.to_dict(orient="records")
+
+    print("Policies are:")
+    print(policy)
+    print()
 
     augmenter = Augmenter()
 
@@ -73,17 +87,12 @@ def deepaugment_image_generator(X, y, policy, batch_size=64, augment_chance=0.5)
                     aug_chain['portion'] = 1.0 # last element is portion, which we want to be 1
                     hyperparams = list(aug_chain.values())
 
-                    # apply cutout
-                    tiny_X_aug = []
-                    for img in tiny_X:
-                        img_aug = random_flip(img)
-                        img_aug = zero_pad_and_crop(img_aug, amount=4)
-                        img_aug = cutout_numpy(img_aug, size=6)
-                        tiny_X_aug.append(img_aug)
                     tiny_X_aug = np.array(tiny_X_aug)
 
                     aug_data = augmenter.run(tiny_X_aug, tiny_y, *hyperparams)
 
+                    aug_data["X_train"] = apply_default_transformations(aug_data["X_train"])
+                    
                     aug_X = np.concatenate([aug_X, aug_data["X_train"]])
                     aug_y = np.concatenate([aug_y, aug_data["y_train"]])
                 else:
