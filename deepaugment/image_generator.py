@@ -87,12 +87,10 @@ def deepaugment_image_generator(X, y, policy, batch_size=64, augment_chance=0.5)
                     aug_chain['portion'] = 1.0 # last element is portion, which we want to be 1
                     hyperparams = list(aug_chain.values())
 
-                    tiny_X_aug = np.array(tiny_X_aug)
-
-                    aug_data = augmenter.run(tiny_X_aug, tiny_y, *hyperparams)
+                    aug_data = augmenter.run(tiny_X, tiny_y, *hyperparams)
 
                     aug_data["X_train"] = apply_default_transformations(aug_data["X_train"])
-                    
+
                     aug_X = np.concatenate([aug_X, aug_data["X_train"]])
                     aug_y = np.concatenate([aug_y, aug_data["y_train"]])
                 else:
