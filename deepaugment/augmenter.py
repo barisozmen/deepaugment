@@ -126,8 +126,6 @@ class Augmenter:
         # transform that portion
         X_portion_aug = transform(aug1_type, aug1_magnitude, X_portion) # first transform
 
-        print("X_portion_aug.shape -> ",X_portion_aug.shape)
-
         assert X_portion_aug.min()>=-0.1 and X_portion_aug.max()<=255.1, "first transform is unvalid"
         np.clip(X_portion_aug, 0, 255, out=X_portion_aug)
 
