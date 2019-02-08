@@ -1,10 +1,38 @@
-aerial-autoaug
-==============================
+# DeepAugment
 
-Automatically augment aerial images for optimizing object detection
+Discover best augmentation strategies for your dataset.
 
-Project Organization
-------------
+**Benefits**
+- Boosts accuracy of deep learning models upto +X% compared to models with non-augmented data, and +Y% compared to models with manually augmented data.
+- Saves weeks of time by automating data augmentation process, which normally takes lots of trial & error.
+
+## Installation & Usage
+```console
+$ pip install deepaugment
+```
+
+```Python
+import deepaugment
+
+best_policies = DeepAugment(my_data, my_labels)
+
+my_augmented_data = daug.apply(my_data, best_policies)
+```
+
+## Results with CIFAR-10, ImageNet, & blabla
+
+## How it works?
+DeepAugment working method can be disected into three areas:
+1. Search space of augmentation
+2. Optimizer
+3. Child model
+
+### 1. Search space of augmentation
+### 2. Optimizer
+### 3. Child model
+
+
+### Repo Organization
 
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
@@ -55,3 +83,6 @@ Project Organization
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+
+## Contact
+Baris Ozmen, hbaristr@gmail.com
