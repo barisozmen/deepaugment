@@ -184,7 +184,7 @@ def run_bayesianopt(
     )
 
     # get top-20 policies
-    top20_df = notebook.get_top20()
+    top20_df = notebook.get_top_policies(k=20)
     notebook.save()
 
 
