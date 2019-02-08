@@ -26,3 +26,10 @@ imgaug
 opencv-contrib-python
 # skopt
 scikit-optimize
+
+# Dev/Deployment
+sphinx
+sphinx_rtd_theme
+nose
+coverage
+pypi-publisher
