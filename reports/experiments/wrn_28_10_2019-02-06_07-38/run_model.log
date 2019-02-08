@@ -1,6 +1,0 @@
-INFO:root:run_model ran with args: (), and kwargs: {'dataset_name': 'cifar10', 'num_classes': 10, 'n_epochs': 2, 'batch_size': 128, 'policies_path': 'dont_augment'}
-INFO:root:wrn_28_10 model built as child model.
- Model summary:
-INFO:root:run_model ran with args: (), and kwargs: {'dataset_name': 'cifar10', 'num_classes': 10, 'n_epochs': 200, 'batch_size': 128, 'policies_path': 'dont_augment'}
-INFO:root:wrn_28_10 model built as child model.
- Model summary:
