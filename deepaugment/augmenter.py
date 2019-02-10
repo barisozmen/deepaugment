@@ -116,58 +116,54 @@ def transform(aug_type, magnitude, X):
     return X_aug
 
 
-class Augmenter:
-    """Augments given datasets
+
+def augment_by_policy(X, y, aug1_type, aug1_magnitude, aug2_type, aug2_magnitude, portion):
     """
+    """
+    assert (
+        portion >= 0.0 and portion <= 1.0
+    ), "portion argument value is out of accepted interval"
 
-    @staticmethod
-    def run(X, y, aug1_type, aug1_magnitude, aug2_type, aug2_magnitude, portion):
-        """
-        """
-        assert (
-            portion >= 0.0 and portion <= 1.0
-        ), "portion argument value is out of accepted interval"
+    # convert data to 255 from normalized
+    _X = denormalize(X)
 
-        # convert data to 255 from normalized
-        _X = denormalize(X)
+    if portion == 1.0:
+        X_portion = _X
+        y_portion = y
+    else:
+        # get a portion of data
+        ix = np.random.choice(len(_X), int(len(_X) * portion), False)
 
-        if portion == 1.0:
-            X_portion = _X
-            y_portion = y
-        else:
-            # get a portion of data
-            ix = np.random.choice(len(_X), int(len(_X) * portion), False)
+        X_portion = _X[ix].copy()
+        y_portion = y[ix].copy()
 
-            X_portion = _X[ix].copy()
-            y_portion = y[ix].copy()
+    if X_portion.shape[0] == 0:
+        print("X_portion has zero size !!!")
+        nix = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        X_portion = _X[nix].copy()
+        y_portion = y[nix].copy()
 
-        if X_portion.shape[0] == 0:
-            print("X_portion has zero size !!!")
-            nix = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-            X_portion = _X[nix].copy()
-            y_portion = y[nix].copy()
+    # transform that portion
+    X_portion_aug = transform(
+        aug1_type, aug1_magnitude, X_portion
+    )  # first transform
 
-        # transform that portion
-        X_portion_aug = transform(
-            aug1_type, aug1_magnitude, X_portion
-        )  # first transform
+    assert (
+        X_portion_aug.min() >= -0.1 and X_portion_aug.max() <= 255.1
+    ), "first transform is unvalid"
+    np.clip(X_portion_aug, 0, 255, out=X_portion_aug)
 
-        assert (
-            X_portion_aug.min() >= -0.1 and X_portion_aug.max() <= 255.1
-        ), "first transform is unvalid"
-        np.clip(X_portion_aug, 0, 255, out=X_portion_aug)
+    X_portion_aug = transform(
+        aug2_type, aug2_magnitude, X_portion_aug
+    )  # second transform
+    assert (
+        X_portion_aug.min() >= -0.1 and X_portion_aug.max() <= 255.1
+    ), "second transform is unvalid"
+    np.clip(X_portion_aug, 0, 255, out=X_portion_aug)
 
-        X_portion_aug = transform(
-            aug2_type, aug2_magnitude, X_portion_aug
-        )  # second transform
-        assert (
-            X_portion_aug.min() >= -0.1 and X_portion_aug.max() <= 255.1
-        ), "second transform is unvalid"
-        np.clip(X_portion_aug, 0, 255, out=X_portion_aug)
+    augmented_data = {
+        "X_train": X_portion_aug / 255.0,
+        "y_train": y_portion,
+    }  # back to normalization
 
-        augmented_data = {
-            "X_train": X_portion_aug / 255.0,
-            "y_train": y_portion,
-        }  # back to normalization
-
-        return augmented_data  # augmenteed data is mostly smaller than whole data
+    return augmented_data  # augmenteed data is mostly smaller than whole data
