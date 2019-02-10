@@ -15,15 +15,19 @@ import numpy as np
 import sys
 from lib.decorators import Reporter
 from lib.helpers import log_and_print
+
 timer = Reporter.timer
 
 
 class ChildCNN:
     def __init__(
-        self, model_name="basicCNN",
-        input_shape=None, batch_size=None,
-        num_classes=None, pre_augmentation_weights_path=None,
-        logging=None
+        self,
+        model_name="basicCNN",
+        input_shape=None,
+        batch_size=None,
+        num_classes=None,
+        pre_augmentation_weights_path=None,
+        logging=None,
     ):
         self.model_name = model_name
         self.input_shape = input_shape
@@ -43,21 +47,23 @@ class ChildCNN:
             validation_data=(data["X_val"], data["y_val"]),
             shuffle=True,
             verbose=2,
-            callbacks=[csv_logger]
+            callbacks=[csv_logger],
         )
         return record.history
 
-    def fit_with_generator(self, datagen, X_val, y_val, train_data_size, epochs=None, csv_logger=None):
+    def fit_with_generator(
+        self, datagen, X_val, y_val, train_data_size, epochs=None, csv_logger=None
+    ):
         record = self.model.fit_generator(
-            datagen, validation_data=(X_val, y_val),
-            steps_per_epoch=train_data_size//self.batch_size,
+            datagen,
+            validation_data=(X_val, y_val),
+            steps_per_epoch=train_data_size // self.batch_size,
             epochs=epochs,
             shuffle=True,
             verbose=2,
-            callbacks=[csv_logger]
+            callbacks=[csv_logger],
         )
         return record.history
-
 
     @timer
     def fit(self, data, augmented_data=None, epochs=None):
@@ -98,8 +104,8 @@ class ChildCNN:
 
         test_loss = scores[0]
         test_acc = scores[1]
-        log_and_printt(f'Test loss:{test_loss}')
-        log_and_print(f'Test accuracy:{test_acc}')
+        log_and_printt(f"Test loss:{test_loss}")
+        log_and_print(f"Test accuracy:{test_acc}")
         return test_loss, test_acc
 
     def create_child_cnn(self):
@@ -121,10 +127,10 @@ class ChildCNN:
         x = mobilenet_v2.output
         x = GlobalAveragePooling2D()(x)
         # add a fully-connected layer
-        x = Dense(512, activation='relu')(x)
+        x = Dense(512, activation="relu")(x)
         x = Dropout(0.1)(x)
         # and a logistic layer
-        predictions = Dense(self.num_classes, activation='softmax')(x)
+        predictions = Dense(self.num_classes, activation="softmax")(x)
 
         model = Model(inputs=mobilenet_v2.input, outputs=predictions)
 
@@ -132,11 +138,21 @@ class ChildCNN:
             layer.trainable = True
 
         adam_opt = optimizers.Adam(
-            lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None,
-            decay=0.0, amsgrad=False, clipnorm=1.0
+            lr=0.001,
+            beta_1=0.9,
+            beta_2=0.999,
+            epsilon=None,
+            decay=0.0,
+            amsgrad=False,
+            clipnorm=1.0,
         )
-        model.compile(loss="categorical_crossentropy", optimizer=adam_opt, metrics=["accuracy"])
-        log_and_print(f"{self.model_name} model built as child model.\n Model summary:", self.logging)
+        model.compile(
+            loss="categorical_crossentropy", optimizer=adam_opt, metrics=["accuracy"]
+        )
+        log_and_print(
+            f"{self.model_name} model built as child model.\n Model summary:",
+            self.logging,
+        )
         print(model.summary())
         return model
 
@@ -146,22 +162,38 @@ class ChildCNN:
         # For WRN-16-8 put N = 2, k = 8
         # For WRN-28-10 put N = 4, k = 10
         # For WRN-40-4 put N = 6, k = 4
-        _depth = int(self.model_name.split("_")[1]) # e.g. wrn_[40]_4
-        _width = int(self.model_name.split("_")[2]) # e.g. wrn_40_[4]
-        model = WideResidualNetwork(depth=_depth, width=_width, dropout_rate=0.0,
-                                    include_top=True, weights=None,
-                                    input_tensor=None, input_shape=self.input_shape,
-                                    classes=self.num_classes, activation='softmax')
+        _depth = int(self.model_name.split("_")[1])  # e.g. wrn_[40]_4
+        _width = int(self.model_name.split("_")[2])  # e.g. wrn_40_[4]
+        model = WideResidualNetwork(
+            depth=_depth,
+            width=_width,
+            dropout_rate=0.0,
+            include_top=True,
+            weights=None,
+            input_tensor=None,
+            input_shape=self.input_shape,
+            classes=self.num_classes,
+            activation="softmax",
+        )
 
         adam_opt = optimizers.Adam(
-            lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None,
-            decay=0.0, amsgrad=False, clipnorm=1.0
+            lr=0.001,
+            beta_1=0.9,
+            beta_2=0.999,
+            epsilon=None,
+            decay=0.0,
+            amsgrad=False,
+            clipnorm=1.0,
         )
-        model.compile(loss="categorical_crossentropy", optimizer=adam_opt, metrics=["accuracy"])
-        log_and_print(f"{self.model_name} model built as child model.\n Model summary:", self.logging)
+        model.compile(
+            loss="categorical_crossentropy", optimizer=adam_opt, metrics=["accuracy"]
+        )
+        log_and_print(
+            f"{self.model_name} model built as child model.\n Model summary:",
+            self.logging,
+        )
         print(model.summary())
         return model
-
 
     def build_basicCNN(self):
         model = Sequential()
@@ -194,7 +226,3 @@ class ChildCNN:
         print("BasicCNN model built as child model.\n Model summary:")
         print(model.summary())
         return model
-
-
-
-

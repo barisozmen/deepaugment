@@ -6,7 +6,6 @@ import keras
 
 
 class DataOp:
-
     @staticmethod
     def load(dataset_name, training_set_size=None):
         """Loads dataset from keras and returns a sample out of it
@@ -25,13 +24,17 @@ class DataOp:
             ).load_data()
         else:
             sys.exit(f"Unknown dataset {dataset_name}")
-        
+
         input_shape = X_train.shape[1:]
-        
-        if training_set_size==None:
+
+        if training_set_size == None:
             print(f"Using all trainin images")
-            data = {"X_train": X_train, "y_train": y_train,
-                    "X_val": X_val, "y_val": y_val}
+            data = {
+                "X_train": X_train,
+                "y_train": y_train,
+                "X_val": X_val,
+                "y_val": y_val,
+            }
 
         else:
             print(f"Using {training_set_size} training images")
@@ -48,8 +51,12 @@ class DataOp:
             X_val_seed = np.concatenate([X_val, X_train_non_chosen])
             y_val_seed = np.concatenate([y_val, y_train_non_chosen])
 
-            data = {"X_train": X_train_reduced, "y_train": y_train_reduced,
-                    "X_val_seed": X_val_seed, "y_val_seed": y_val_seed}
+            data = {
+                "X_train": X_train_reduced,
+                "y_train": y_train_reduced,
+                "X_val_seed": X_val_seed,
+                "y_val_seed": y_val_seed,
+            }
 
         return data, input_shape
 
