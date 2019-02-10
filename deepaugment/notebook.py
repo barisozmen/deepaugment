@@ -58,7 +58,7 @@ class Notebook:
             x_df["mean_late_val_acc"] - baseline_val_acc
         )
 
-        top_df = x_df.drop_duplicates(["trial_no"]).sort_values(
+        self.top_df = x_df.drop_duplicates(["trial_no"]).sort_values(
             "mean_late_val_acc", ascending=False
         )[:k]
 
@@ -72,15 +72,15 @@ class Notebook:
             "mean_late_val_acc",
             "expected_accuracy_increase",
         ]
-
-        top_df = top_df[SELECT]
+        self.top_df = self.top_df[SELECT]
 
         print(f"top-{k} policies:")
-        print(top_df)
+        print(self.top_df)
 
-        top_df.to_csv(
-            get_folder_path(
-                get_folder_path(self.store_path) + "top{k}_policies.csv", index=False
-            )
-        )
-        return top_df
+
+        return self.top_df
+
+    def output_top_policies(self):
+        out_path = get_folder_path(self.store_path) + f"top{k}_policies.csv"
+        self.top_df.to_csv(out_path, index=False)
+        print(f"Top policies are saved to {out_path}")

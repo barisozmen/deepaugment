@@ -24,6 +24,7 @@ class ChildCNN:
         self,
         model_name="basicCNN",
         input_shape=None,
+        child_epochs=None,
         batch_size=None,
         num_classes=None,
         pre_augmentation_weights_path=None,
@@ -31,11 +32,38 @@ class ChildCNN:
     ):
         self.model_name = model_name
         self.input_shape = input_shape
+        self.epochs = child_epochs
         self.batch_size = batch_size
         self.num_classes = num_classes
         self.pre_augmentation_weights_path = pre_augmentation_weights_path
         self.logging = logging
         self.model = self.create_child_cnn()
+
+    @timer
+    def fit(self, data, augmented_data=None, epochs=None):
+
+        if epochs is None:
+            epochs = self.epochs
+
+        if augmented_data is None:
+            X_train = data["X_train"]
+            y_train = data["y_train"]
+        else:
+            X_train = np.concatenate([data["X_train"], augmented_data["X_train"]])
+            y_train = np.concatenate([data["y_train"], augmented_data["y_train"]])
+
+        X_val, y_val = DataOp.sample_validation_set(data)
+
+        record = self.model.fit(
+            x=X_train,
+            y=y_train,
+            batch_size=self.batch_size,
+            epochs=epochs,
+            validation_data=(X_val, y_val),
+            shuffle=True,
+            verbose=2,
+        )
+        return record.history
 
     @timer
     def fit_normal(self, data, epochs=None, csv_logger=None):
@@ -66,29 +94,6 @@ class ChildCNN:
         return record.history
 
     @timer
-    def fit(self, data, augmented_data=None, epochs=None):
-
-        if augmented_data is None:
-            X_train = data["X_train"]
-            y_train = data["y_train"]
-        else:
-            X_train = np.concatenate([data["X_train"], augmented_data["X_train"]])
-            y_train = np.concatenate([data["y_train"], augmented_data["y_train"]])
-
-        X_val, y_val = DataOp.sample_validation_set(data)
-
-        record = self.model.fit(
-            x=X_train,
-            y=y_train,
-            batch_size=self.batch_size,
-            epochs=epochs,
-            validation_data=(X_val, y_val),
-            shuffle=True,
-            verbose=2,
-        )
-        return record.history
-
-    @timer
     def load_pre_augment_weights(self):
         self.model.load_weights(self.pre_augmentation_weights_path)
 
@@ -109,14 +114,17 @@ class ChildCNN:
         return test_loss, test_acc
 
     def create_child_cnn(self):
-        if self.model_name.lower() == "basiccnn":
-            return self.build_basicCNN()
-        elif self.model_name.lower().startswith("wrn"):
-            return self.build_wrn()
-        elif self.model_name.lower() == "mobilenet":
-            return self.build_mobilenetv2()
-        else:
-            raise ValueError
+        if type(self.model_name)==str:
+            if self.model_name.lower() == "basiccnn":
+                return self.build_basicCNN()
+            elif self.model_name.lower().startswith("wrn"):
+                return self.build_wrn()
+            elif self.model_name.lower() == "mobilenet":
+                return self.build_mobilenetv2()
+            else:
+                raise ValueError
+        else: # if model_name is the models itself
+            return self.model_name
 
     def build_mobilenetv2(self):
         mobilenet_v2 = MobileNetV2(
