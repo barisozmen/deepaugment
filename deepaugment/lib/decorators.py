@@ -98,7 +98,11 @@ class Reporter:
 
         @wraps(func)
         def wrapper(*args, **kwargs):
-            logging.info("{} ran with args: {}, and kwargs: {}".format(func.__name__, args, kwargs))
+            logging.info(
+                "{} ran with args: {}, and kwargs: {}".format(
+                    func.__name__, args, kwargs
+                )
+            )
             return func(*args, **kwargs)
 
         return wrapper

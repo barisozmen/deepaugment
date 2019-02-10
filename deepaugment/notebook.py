@@ -6,10 +6,10 @@ import numpy as np
 
 def get_folder_path(path):
     last = path.split("/")[-1]
-    return path.replace(last , "")
+    return path.replace(last, "")
 
-class Notebook():
 
+class Notebook:
     def __init__(self, store_path):
         self.df = pd.DataFrame()
         self.store_path = store_path
@@ -24,8 +24,8 @@ class Notebook():
         new_df["portion"] = trial_hyperparams[4]
         new_df["sample_no"] = sample_no
         new_df["mean_late_val_acc"] = reward
-        new_df = new_df.round(3) # round all float values to 3 decimals after point
-        new_df["epoch"] = np.arange(1, len(new_df)+1)
+        new_df = new_df.round(3)  # round all float values to 3 decimals after point
+        new_df["epoch"] = np.arange(1, len(new_df) + 1)
         self.df = pd.concat([self.df, new_df])
 
     def save(self):
@@ -36,40 +36,51 @@ class Notebook():
         self.df = pd.concat([self.df, notebook_df])
 
     def get_top_policies(self, k):
-        trial_avg_val_acc_df = (self.df.drop_duplicates(["trial_no", "sample_no"])
+        trial_avg_val_acc_df = (
+            self.df.drop_duplicates(["trial_no", "sample_no"])
             .groupby("trial_no")
             .mean()["mean_late_val_acc"]
             .reset_index()
-        )[["trial_no","mean_late_val_acc"]]
+        )[["trial_no", "mean_late_val_acc"]]
 
         x_df = pd.merge(
             self.df.drop(columns=["mean_late_val_acc"]),
             trial_avg_val_acc_df,
-            on="trial_no", how="left"
+            on="trial_no",
+            how="left",
         )
 
         x_df = x_df.sort_values("mean_late_val_acc", ascending=False)
 
-        baseline_val_acc = x_df[x_df["portion"]==0.0]["mean_late_val_acc"].values[0]
+        baseline_val_acc = x_df[x_df["portion"] == 0.0]["mean_late_val_acc"].values[0]
 
-        x_df["expected_accuracy_increase"] = x_df["mean_late_val_acc"] - baseline_val_acc
-
-        top_df = (x_df.drop_duplicates(["trial_no"])
-            .sort_values("mean_late_val_acc", ascending=False)
-            [:k]
+        x_df["expected_accuracy_increase"] = (
+            x_df["mean_late_val_acc"] - baseline_val_acc
         )
 
-        SELECT = ['trial_no', 'aug1_type', 'aug1_magnitude', 'aug2_type',
-                  'aug2_magnitude', 'portion', 'mean_late_val_acc',
-                  "expected_accuracy_increase"]
+        top_df = x_df.drop_duplicates(["trial_no"]).sort_values(
+            "mean_late_val_acc", ascending=False
+        )[:k]
+
+        SELECT = [
+            "trial_no",
+            "aug1_type",
+            "aug1_magnitude",
+            "aug2_type",
+            "aug2_magnitude",
+            "portion",
+            "mean_late_val_acc",
+            "expected_accuracy_increase",
+        ]
 
         top_df = top_df[SELECT]
 
         print(f"top-{k} policies:")
         print(top_df)
 
-        top_df.to_csv( get_folder_path( get_folder_path(self.store_path) + "top{k}_policies.csv", index=False))
+        top_df.to_csv(
+            get_folder_path(
+                get_folder_path(self.store_path) + "top{k}_policies.csv", index=False
+            )
+        )
         return top_df
-
-
-
