@@ -8,13 +8,13 @@ Discover best augmentation strategies for your dataset.
 
 ![alt text](/reports/figures/simplified_workflow.png "Workflow")
 
-## Installation & Usage
+## Installation/Usage
 ```console
 $ pip install deepaugment
 ```
 
 ```Python
-import deepaugment
+from deepaugment import DeepAugment
 
 best_policies = DeepAugment(my_data, my_labels)
 
