@@ -19,7 +19,7 @@ best_policies = DeepAugment(my_data, my_labels)
 my_augmented_data = daug.apply(my_data, best_policies)
 ```
 
-## Results with CIFAR-10, ImageNet, & blabla
+## Results with CIFAR-10, ImageNet
 
 ## How it works?
 DeepAugment working method can be disected into three areas:
