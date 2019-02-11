@@ -1,3 +1,7 @@
+
+
+
+
 def log_and_print(text, logging_obj, level="info"):
     print(text)
     if level == "info":
