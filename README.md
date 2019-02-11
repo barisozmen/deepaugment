@@ -45,6 +45,7 @@ DeepAugment working method can be dissected into three areas:
 ### 1. Search space of augmentation
 ### 2. Optimizer
 ### 3. Child model
+<img width="800" alt="child-cnn" src="https://user-images.githubusercontent.com/14996155/52545277-10e98200-2d6b-11e9-9639-48b671711eba.png">
 
 
 ### Repo Organization
