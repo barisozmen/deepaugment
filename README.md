@@ -16,7 +16,8 @@ Resources: [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCK
 $ pip install deepaugment
 ```
 
-Simple usage for your dataset
+
+**Simple usage with your dataset**
 ```Python
 from deepaugment import DeepAugment
 
@@ -25,7 +26,7 @@ deepaug = DeepAugment(my_data, my_labels)
 best_policies = deepaug.optimize(300)
 ```
 
-Usage for cifar-10 dataset
+**Simple usage with cifar-10 dataset**
 ```Python
 deepaug = DeepAugment("cifar10")
 
@@ -33,7 +34,7 @@ best_policies = deepaug.optimize(300)
 ```
 
 
-Advance usage with configurations
+**Advanced usage by changing configurations, and with fashion-mnist dataset**
 ```Python
 from keras.datasets import fashion_mnist
 
