@@ -10,9 +10,9 @@ def get_folder_path(path):
 
 
 class Notebook:
-    def __init__(self, store_path):
+    def __init__(self, config):
         self.df = pd.DataFrame()
-        self.store_path = store_path
+        self.store_path = config["notebook_path"]
 
     def record(self, trial_no, trial_hyperparams, sample_no, reward, history):
         new_df = pd.DataFrame(history)
@@ -74,13 +74,14 @@ class Notebook:
         ]
         self.top_df = self.top_df[SELECT]
 
-        print(f"top-{k} policies:")
+        print(f"top-{k} policies:", k)
         print(self.top_df)
 
 
         return self.top_df
 
     def output_top_policies(self):
+        k = len(self.top_df)
         out_path = get_folder_path(self.store_path) + f"top{k}_policies.csv"
         self.top_df.to_csv(out_path, index=False)
         print(f"Top policies are saved to {out_path}")
