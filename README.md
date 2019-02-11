@@ -4,11 +4,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-Discover best augmentation strategies for your dataset utilizing Bayesian Optimization.
-
-### Benefits
-- **Boosts accuracy** of deep learning models upto +X% compared to models with non-augmented data, and +Y% compared to models with manually augmented data.
-- **Saves time** by automating data augmentation process, which normally takes lots of trial & error.
+DeepAugment discovers best augmentation strategies tailored for your images. It utilizes Bayesian Optimization for optimization the augmentation strategy. DeepAugment...
+- boosts deep learning model accuracy 5% compared to models not using augmentation.
+- saves times by automating the process
 
 ### Resources
 - [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCKmPravyqmaGjy-eIU5cTbG1A/edit#slide=id.g4cc092dbc6_0_0)
