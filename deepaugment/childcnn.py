@@ -20,22 +20,54 @@ timer = Reporter.timer
 
 
 class ChildCNN:
+    """Child CNN model which reflects full models
+
+    """
     def __init__(
         self,
-        model_name="basicCNN",
-        input_shape=None,
-        batch_size=None,
-        num_classes=None,
-        pre_augmentation_weights_path=None,
-        logging=None,
+        input_shape=None, num_classes=None,
+        config=None
     ):
-        self.model_name = model_name
+
         self.input_shape = input_shape
-        self.batch_size = batch_size
         self.num_classes = num_classes
-        self.pre_augmentation_weights_path = pre_augmentation_weights_path
-        self.logging = logging
+        self.config = config
         self.model = self.create_child_cnn()
+
+    @timer
+    def fit(self, data, augmented_data=None, epochs=None):
+        """Fits the model with given data and augmented-data
+
+        Args:
+             data (dict): should have keys 'X_train' and 'y_train'
+             augmented_data (dict): should have keys 'X_train' and 'y_train'. If none, augmented-data not used
+             epochs (int):
+        Returns:
+            dict: history of training
+        """
+
+        if epochs is None:
+            epochs = self.config["child_epochs"]
+
+        if augmented_data is None:
+            X_train = data["X_train"]
+            y_train = data["y_train"]
+        else:
+            X_train = np.concatenate([data["X_train"], augmented_data["X_train"]])
+            y_train = np.concatenate([data["y_train"], augmented_data["y_train"]])
+
+        X_val, y_val = DataOp.sample_validation_set(data)
+
+        record = self.model.fit(
+            x=X_train,
+            y=y_train,
+            batch_size=self.config["child_batch_size"],
+            epochs=epochs,
+            validation_data=(X_val, y_val),
+            shuffle=True,
+            verbose=2,
+        )
+        return record.history
 
     @timer
     def fit_normal(self, data, epochs=None, csv_logger=None):
@@ -66,31 +98,8 @@ class ChildCNN:
         return record.history
 
     @timer
-    def fit(self, data, augmented_data=None, epochs=None):
-
-        if augmented_data is None:
-            X_train = data["X_train"]
-            y_train = data["y_train"]
-        else:
-            X_train = np.concatenate([data["X_train"], augmented_data["X_train"]])
-            y_train = np.concatenate([data["y_train"], augmented_data["y_train"]])
-
-        X_val, y_val = DataOp.sample_validation_set(data)
-
-        record = self.model.fit(
-            x=X_train,
-            y=y_train,
-            batch_size=self.batch_size,
-            epochs=epochs,
-            validation_data=(X_val, y_val),
-            shuffle=True,
-            verbose=2,
-        )
-        return record.history
-
-    @timer
     def load_pre_augment_weights(self):
-        self.model.load_weights(self.pre_augmentation_weights_path)
+        self.model.load_weights(self.config["pre_aug_weights_path"])
 
     def evaluate_with_refreshed_validation_set(self, data):
         X_val_backup = data["X_val_backup"]
@@ -108,15 +117,29 @@ class ChildCNN:
         log_and_print(f"Test accuracy:{test_acc}")
         return test_loss, test_acc
 
+    def save_pre_aug_weights(self):
+        self.model.save_weights(self.config["pre_aug_weights_path"])
+
     def create_child_cnn(self):
-        if self.model_name.lower() == "basiccnn":
-            return self.build_basicCNN()
-        elif self.model_name.lower().startswith("wrn"):
-            return self.build_wrn()
-        elif self.model_name.lower() == "mobilenet":
-            return self.build_mobilenetv2()
-        else:
-            raise ValueError
+        """Creates the child CNN
+
+        Model choices:
+            basicCNN
+            WRN (with any N and k)
+            MobileNet
+        """
+        if type(self.config["model"])==str:
+            if self.config["model"].lower() == "basiccnn":
+                return self.build_basicCNN()
+            elif self.config["model"].lower().startswith("wrn"):
+                return self.build_wrn()
+            elif self.config["model"].lower() == "mobilenet":
+                return self.build_mobilenetv2()
+            else:
+                raise ValueError
+        else: # if a keras model is the models itself
+            return self.config["model"]
+
 
     def build_mobilenetv2(self):
         mobilenet_v2 = MobileNetV2(
@@ -196,6 +219,13 @@ class ChildCNN:
         return model
 
     def build_basicCNN(self):
+        """Builds basic convolutional neural net (CNN) model
+
+        Returns:
+            keras.models.Model
+
+        :return:
+        """
         model = Sequential()
         model.add(Conv2D(32, (3, 3), padding="same", input_shape=self.input_shape))
         model.add(Activation("relu"))

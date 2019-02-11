@@ -10,11 +10,20 @@ def get_folder_path(path):
 
 
 class Notebook:
-    def __init__(self, store_path):
+    def __init__(self, config):
         self.df = pd.DataFrame()
-        self.store_path = store_path
+        self.store_path = config["notebook_path"]
 
     def record(self, trial_no, trial_hyperparams, sample_no, reward, history):
+        """Records one complete training of child model
+
+        Args:
+            trial_no (int): no of trial (iteration) of training
+            trial_hyperparams (list) : list of data augmentation hyperparameters used for training
+            sample_no (int): sample no among training with same hyperparameters
+            reward (float): reward is basically last n validation accuracy before overfitting
+            history (dict): history returned by keras.model.fit()
+        """
         new_df = pd.DataFrame(history)
         new_df["trial_no"] = trial_no
         new_df["aug1_type"] = trial_hyperparams[0]
@@ -36,6 +45,14 @@ class Notebook:
         self.df = pd.concat([self.df, notebook_df])
 
     def get_top_policies(self, k):
+        """Prints and returns top-k policies
+
+        Policies are ordered by their expected accuracy increas
+        Args:
+            k (int) top-k
+        Returns
+            pandas.DataFrame: top-k policies as dataframe
+        """
         trial_avg_val_acc_df = (
             self.df.drop_duplicates(["trial_no", "sample_no"])
             .groupby("trial_no")
@@ -58,7 +75,7 @@ class Notebook:
             x_df["mean_late_val_acc"] - baseline_val_acc
         )
 
-        top_df = x_df.drop_duplicates(["trial_no"]).sort_values(
+        self.top_df = x_df.drop_duplicates(["trial_no"]).sort_values(
             "mean_late_val_acc", ascending=False
         )[:k]
 
@@ -72,15 +89,16 @@ class Notebook:
             "mean_late_val_acc",
             "expected_accuracy_increase",
         ]
+        self.top_df = self.top_df[SELECT]
 
-        top_df = top_df[SELECT]
+        print(f"top-{k} policies:", k)
+        print(self.top_df)
 
-        print(f"top-{k} policies:")
-        print(top_df)
 
-        top_df.to_csv(
-            get_folder_path(
-                get_folder_path(self.store_path) + "top{k}_policies.csv", index=False
-            )
-        )
-        return top_df
+        return self.top_df
+
+    def output_top_policies(self):
+        k = len(self.top_df)
+        out_path = get_folder_path(self.store_path) + f"top{k}_policies.csv"
+        self.top_df.to_csv(out_path, index=False)
+        print(f"Top policies are saved to {out_path}")
