@@ -6,7 +6,7 @@ click
 
 # requirements for imgaug library
 six
-numpy>=1.15,<1.16
+numpy
 scipy
 Pillow
 matplotlib
