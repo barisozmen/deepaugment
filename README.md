@@ -6,13 +6,15 @@ Discover best augmentation strategies for your dataset.
 - Boosts accuracy of deep learning models upto +X% compared to models with non-augmented data, and +Y% compared to models with manually augmented data.
 - Saves weeks of time by automating data augmentation process, which normally takes lots of trial & error.
 
-## Installation & Usage
+![alt text](/reports/figures/simplified_workflow.png "Workflow")
+
+## Installation/Usage
 ```console
 $ pip install deepaugment
 ```
 
 ```Python
-import deepaugment
+from deepaugment import DeepAugment
 
 best_policies = DeepAugment(my_data, my_labels)
 
