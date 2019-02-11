@@ -6,11 +6,12 @@
 
 Discover best augmentation strategies for your dataset utilizing Bayesian Optimization.
 
-**Benefits**
+### Benefits
 - **Boosts accuracy** of deep learning models upto +X% compared to models with non-augmented data, and +Y% compared to models with manually augmented data.
 - **Saves time** by automating data augmentation process, which normally takes lots of trial & error.
 
-
+### Resources
+- [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCKmPravyqmaGjy-eIU5cTbG1A/edit#slide=id.g4cc092dbc6_0_0)
 
 ## Installation/Usage
 ```console
