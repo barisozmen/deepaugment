@@ -14,9 +14,15 @@
 #
 import os
 import sys
-sys.path.insert(0, "/Users/baris.ozmen/Desktop/github-insight/deepaugment/")
-sys.path.insert(0, "/Users/baris.ozmen/Desktop/github-insight/deepaugment/deepaugment")
-sys.path.insert(0, "/Users/baris.ozmen/Desktop/github-insight/deepaugment/deepaugment/lib")
+from os.path import dirname, realpath
+file_path = realpath(__file__)
+dir_of_file = dirname(file_path)
+parent_dir_of_file = dirname(dir_of_file)
+sys.path.insert(0, parent_dir_of_file)
+
+sys.path.insert(0, "./")
+sys.path.insert(0, "deepaugment/")
+sys.path.insert(0, "deepaugment/lib/")
 
 
 # -- Project information -----------------------------------------------------
