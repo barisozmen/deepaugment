@@ -1,14 +1,16 @@
 # DeepAugment
+<img width="400" alt="concise_workflow" src="https://user-images.githubusercontent.com/14996155/52543808-6d47a400-2d61-11e9-8df7-8271872ba0ad.png">
+
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-Discover best augmentation strategies for your dataset.
+Discover best augmentation strategies for your dataset utilizing Bayesian Optimization.
 
 **Benefits**
 - Boosts accuracy of deep learning models upto +X% compared to models with non-augmented data, and +Y% compared to models with manually augmented data.
 - Saves weeks of time by automating data augmentation process, which normally takes lots of trial & error.
 
-![alt text](/reports/figures/simplified_workflow.png "Workflow")
+
 
 ## Installation/Usage
 ```console
@@ -26,7 +28,10 @@ my_augmented_data = daug.apply(my_data, best_policies)
 ## Results with CIFAR-10, ImageNet
 
 ## How it works?
-DeepAugment working method can be disected into three areas:
+
+![alt text](/reports/figures/simplified_workflow.png "Workflow")
+
+DeepAugment working method can be dissected into three areas:
 1. Search space of augmentation
 2. Optimizer
 3. Child model
