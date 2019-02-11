@@ -22,28 +22,20 @@ timer = Reporter.timer
 class ChildCNN:
     def __init__(
         self,
-        model_name="basicCNN",
-        input_shape=None,
-        child_epochs=None,
-        batch_size=None,
-        num_classes=None,
-        pre_augmentation_weights_path=None,
-        logging=None,
+        input_shape=None, num_classes=None,
+        config=None
     ):
-        self.model_name = model_name
+
         self.input_shape = input_shape
-        self.epochs = child_epochs
-        self.batch_size = batch_size
         self.num_classes = num_classes
-        self.pre_augmentation_weights_path = pre_augmentation_weights_path
-        self.logging = logging
+        self.config = config
         self.model = self.create_child_cnn()
 
     @timer
     def fit(self, data, augmented_data=None, epochs=None):
 
         if epochs is None:
-            epochs = self.epochs
+            epochs = self.config["child_epochs"]
 
         if augmented_data is None:
             X_train = data["X_train"]
@@ -57,7 +49,7 @@ class ChildCNN:
         record = self.model.fit(
             x=X_train,
             y=y_train,
-            batch_size=self.batch_size,
+            batch_size=self.config["child_batch_size"],
             epochs=epochs,
             validation_data=(X_val, y_val),
             shuffle=True,
@@ -95,7 +87,7 @@ class ChildCNN:
 
     @timer
     def load_pre_augment_weights(self):
-        self.model.load_weights(self.pre_augmentation_weights_path)
+        self.model.load_weights(self.config["pre_aug_weights_path"])
 
     def evaluate_with_refreshed_validation_set(self, data):
         X_val_backup = data["X_val_backup"]
@@ -113,18 +105,22 @@ class ChildCNN:
         log_and_print(f"Test accuracy:{test_acc}")
         return test_loss, test_acc
 
+    def save_pre_aug_weights(self):
+        self.model.save_weights(self.config["pre_aug_weights_path"])
+
     def create_child_cnn(self):
-        if type(self.model_name)==str:
-            if self.model_name.lower() == "basiccnn":
+        if type(self.config["model"])==str:
+            if self.config["model"].lower() == "basiccnn":
                 return self.build_basicCNN()
-            elif self.model_name.lower().startswith("wrn"):
+            elif self.config["model"].lower().startswith("wrn"):
                 return self.build_wrn()
-            elif self.model_name.lower() == "mobilenet":
+            elif self.config["model"].lower() == "mobilenet":
                 return self.build_mobilenetv2()
             else:
                 raise ValueError
-        else: # if model_name is the models itself
-            return self.model_name
+        else: # if a keras model is the models itself
+            return self.config["model"]
+
 
     def build_mobilenetv2(self):
         mobilenet_v2 = MobileNetV2(
