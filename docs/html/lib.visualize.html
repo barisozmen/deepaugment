@@ -1,0 +1,227 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="Python">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>visualize module &#8212; deepaugment 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-visualize">
+<span id="visualize-module"></span><h1>visualize module<a class="headerlink" href="#module-visualize" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="visualize.PlotOp">
+<em class="property">class </em><code class="descclassname">visualize.</code><code class="descname">PlotOp</code><a class="reference internal" href="_modules/visualize.html#PlotOp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#visualize.PlotOp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Plotting Operations class. Keeps static plot functions.</p>
+<p>Each function is conforming as much as possible to &quot;Functional Programming Standards&quot; (<a class="reference external" href="https://en.wikipedia.org/wiki/Functional_programming">https://en.wikipedia.org/wiki/Functional_programming</a>).
+Each function, hence, do not affected by any variable not given to it as argument (with exception of influences from
+appealed external libraries, such as matplotlib, altair, and bokeh) .</p>
+<dl class="staticmethod">
+<dt id="visualize.PlotOp.plot_heatmap">
+<em class="property">static </em><code class="descname">plot_heatmap</code><span class="sig-paren">(</span><em>value_matrix</em>, <em>xlabels</em>, <em>ylabels</em>, <em>min_value=-1</em>, <em>max_value=1</em>, <em>labels_fontsize=24</em>, <em>xlabels_fontsize=None</em>, <em>ylabels_fontsize=None</em>, <em>colorbar_labels_fontsize=None</em>, <em>sg_length=None</em>, <em>figsize=None</em>, <em>save_fig_to=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/visualize.html#PlotOp.plot_heatmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#visualize.PlotOp.plot_heatmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots heatmap of a given 2d array</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">value_matrix (numpy.array): matrix to plot its heatmap
+xlabels (list):
+ylabels (list):
+min_value (float):
+max_value (float):
+labels_fontsize (int): determines fontsize of text in the plot.</p>
+<dl class="docutils">
+<dt>xlabels_fontsize (int): determines fontsize of x axis labels. If not given,</dt>
+<dd>value of <cite>labels_fontsize</cite> argument is used.</dd>
+<dt>ylabels_fontsize (int): determines fontsize of y axis labels. If not given,</dt>
+<dd>value of <cite>labels_fontsize</cite> argument is used.</dd>
+<dt>colorbar_labels_fontsize (int): determines fontsize of colorbar labels. If</dt>
+<dd>not given, value of <cite>labels_fontsize</cite> argument is used.</dd>
+<dt>sg_length (int): slopper over grid line lenght. If not given, it is</dt>
+<dd>taken as 10% of length of x or y axes whichever is smaller.</dd>
+</dl>
+<p class="last">figsize (tuple): determines size of the plot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="visualize.PlotOp.plot_heatmap_of_uppertriangle">
+<em class="property">static </em><code class="descname">plot_heatmap_of_uppertriangle</code><span class="sig-paren">(</span><em>value_matrix</em>, <em>xlabels</em>, <em>ylabels</em>, <em>min_value=-1</em>, <em>max_value=1</em>, <em>labels_fontsize=18</em>, <em>xlabels_fontsize=None</em>, <em>ylabels_fontsize=None</em>, <em>colorbar_labels_fontsize=None</em>, <em>sg_length=None</em>, <em>figsize=None</em>, <em>save_fig_to=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/visualize.html#PlotOp.plot_heatmap_of_uppertriangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#visualize.PlotOp.plot_heatmap_of_uppertriangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots heatmap of a given 2d array</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">value_matrix (numpy.array): matrix to plot its heatmap
+xlabels (list):
+ylabels (list):
+min_value (float):
+max_value (float):
+labels_fontsize (int): determines fontsize of text in the plot.</p>
+<p>xlabels_fontsize (int): determines fontsize of x axis labels. If not given,
+value of <cite>labels_fontsize</cite> argument is used.</p>
+<p>ylabels_fontsize (int): determines fontsize of y axis labels. If not given,
+value of <cite>labels_fontsize</cite> argument is used.</p>
+<p>colorbar_labels_fontsize (int): determines fontsize of colorbar labels. If
+not given, value of <cite>labels_fontsize</cite> argument is used.</p>
+<p>sg_length (int): slopper over grid line lenght. If not given, it is
+taken as 10% of length of x or y axes whichever is smaller.</p>
+<p class="last">figsize (tuple): determines size of the plot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="visualize.PlotOp.plot_heatmap_with_altair">
+<em class="property">static </em><code class="descname">plot_heatmap_with_altair</code><span class="sig-paren">(</span><em>df</em>, <em>xcol='event1'</em>, <em>ycol='event2'</em>, <em>valuecol='phi'</em>, <em>minval=-1</em>, <em>maxval=1</em>, <em>tooltip=None</em>, <em>savefigto=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/visualize.html#PlotOp.plot_heatmap_with_altair"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#visualize.PlotOp.plot_heatmap_with_altair" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Args:</dt>
+<dd>df (pandas.DataFrame): dataframe to be drawn
+xcol (str): <cite>df</cite> column for x-axis
+ycol (str): <cite>df</cite> column for
+valuecol (str): <cite>df</cite> column for value (colored)
+tooltip (list): <cite>df</cite> columns to be shown when blocks are hovered by mouse
+savefigto (str): address that figure will be saved</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="visualize.PlotOp.plot_mutation_percentage">
+<em class="property">static </em><code class="descname">plot_mutation_percentage</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/visualize.html#PlotOp.plot_mutation_percentage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#visualize.PlotOp.plot_mutation_percentage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots percentage of patients having misssense or nonsense mutation, as a vertical barplot.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>dataframe:</dt>
+<dd>columns: hgnc_symbol, percentage_missense, percentage_nonsense</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="visualize.PlotOp.plot_volcano">
+<em class="property">static </em><code class="descname">plot_volcano</code><span class="sig-paren">(</span><em>df, xcol, ycol, xcolrange=[-1, 1], xtitle=None, ytitle=None, ythreshold=2, clampthreshold=400, tooltip=[], topk=5, figsize=(600, 600), titlefontsize=18, titlefontweight='normal', labelfontsize=14, savefigto='volcano_plot', show=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/visualize.html#PlotOp.plot_volcano"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#visualize.PlotOp.plot_volcano" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots volcano figure and saves it to given address</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>df (pandas.DataFrame): data
+xcol (str): column for x-axis
+ycol (str):
+xcolrange (tuple):
+xtitle (str):
+ytitle (str):
+ythreshold int:
+tooltip (list):
+topk int:
+figsize (tuple):
+titlefontsize (int):
+titlefontweight (int or str):
+labelfontsize (int):
+savefigto (str):</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="visualize.PlotOp.pvalue_qq_plot">
+<code class="descname">pvalue_qq_plot</code><span class="sig-paren">(</span><em>label_fontsize=20</em>, <em>ax=None</em>, <em>param_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/visualize.html#PlotOp.pvalue_qq_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#visualize.PlotOp.pvalue_qq_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws a p-value QQ-plot given observed p-values</p>
+<p>Args:
+obs_pvalues (list): observed p-values
+label_fontsize (int): fontsize of x and y axis labels
+ax (matplotlib.axes._subplots.AxesSubplot): (optional) AxesSubplot object for plot to be drawn on.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">deepaugment</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Baris Ozmen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/lib.visualize.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

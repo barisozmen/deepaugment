@@ -1,0 +1,220 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="Python">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>build_features &#8212; deepaugment 0.2.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for build_features</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) 2019 Baris Ozmen &lt;hbaristr@gmail.com&gt;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">keras</span>
+
+
+<div class="viewcode-block" id="DataOp"><a class="viewcode-back" href="../build_features.html#build_features.DataOp">[docs]</a><span class="k">class</span> <span class="nc">DataOp</span><span class="p">:</span>
+<div class="viewcode-block" id="DataOp.load"><a class="viewcode-back" href="../build_features.html#build_features.DataOp.load">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads dataset from keras and returns a sample out of it</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dataset_name (str):</span>
+<span class="sd">            training_set_size (int):</span>
+<span class="sd">            validation_set_size (int):</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: data, with keys X_train, Y_train, X_val, Y_val</span>
+<span class="sd">            list: input shape</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">datasets</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">):</span>
+            <span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="p">(</span><span class="n">x_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">)</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+                <span class="n">keras</span><span class="o">.</span><span class="n">datasets</span><span class="p">,</span> <span class="n">dataset_name</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Unknown dataset </span><span class="si">{dataset_name}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">x_train</span><span class="p">,</span> <span class="n">x_val</span><span class="p">])</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_val</span><span class="p">])</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+        <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">input_shape</span></div>
+
+<div class="viewcode-block" id="DataOp.preprocess_normal"><a class="viewcode-back" href="../build_features.html#build_features.DataOp.preprocess_normal">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">preprocess_normal</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="c1"># normalize images</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;X_train&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;X_train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;X_val&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;X_val&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span>
+
+        <span class="c1"># convert labels to categorical</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">])</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;y_val&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;y_val&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="DataOp.split_train_val_sets"><a class="viewcode-back" href="../build_features.html#build_features.DataOp.split_train_val_sets">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">split_train_val_sets</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_set_size</span><span class="p">,</span> <span class="n">val_set_size</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Splits given images randomly into `train` and `val_seed` groups</span>
+
+<span class="sd">        val_seed -&gt; is validation seed dataset, from where validation sets are sampled</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (numpy.array):</span>
+<span class="sd">            y (numpy.array):</span>
+<span class="sd">            train_set_size (int):</span>
+<span class="sd">            val_set_size (int):</span>
+<span class="sd">        return:</span>
+<span class="sd">            dict: dict with keys `X_train`, `y_train`, `X_val_seed`, `y_val_seed`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">train_set_size</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Using all training images&quot;</span><span class="p">)</span>
+            <span class="n">train_set_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">-</span> <span class="n">val_set_size</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Using </span><span class="si">{train_set_size}</span><span class="s2"> training images&quot;</span><span class="p">)</span>
+
+        <span class="c1"># reduce training dataset</span>
+        <span class="n">ix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">train_set_size</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">X_train</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
+        <span class="n">y_train</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
+
+        <span class="n">other_ix</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ix</span><span class="p">))</span>
+        <span class="n">other_ix</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">other_ix</span><span class="p">)</span>
+        <span class="n">X_val_seed</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">other_ix</span><span class="p">]</span>
+        <span class="n">y_val_seed</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">other_ix</span><span class="p">]</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;X_train&quot;</span><span class="p">:</span> <span class="n">X_train</span><span class="p">,</span>
+            <span class="s2">&quot;y_train&quot;</span><span class="p">:</span> <span class="n">y_train</span><span class="p">,</span>
+            <span class="s2">&quot;X_val_seed&quot;</span><span class="p">:</span> <span class="n">X_val_seed</span><span class="p">,</span>
+            <span class="s2">&quot;y_val_seed&quot;</span><span class="p">:</span> <span class="n">y_val_seed</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="DataOp.preprocess"><a class="viewcode-back" href="../build_features.html#build_features.DataOp.preprocess">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_set_size</span><span class="p">,</span> <span class="n">val_set_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Preprocess images by:</span>
+<span class="sd">            1. normalize to 0-1 range (divide by 255)</span>
+<span class="sd">            2. convert labels to categorical)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (numpy.array):</span>
+<span class="sd">            y (numpy.array):</span>
+<span class="sd">            train_set_size (int):</span>
+<span class="sd">            val_set_size (int):</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: preprocessed data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">DataOp</span><span class="o">.</span><span class="n">split_train_val_sets</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_set_size</span><span class="p">,</span> <span class="n">val_set_size</span><span class="p">)</span>
+
+        <span class="c1"># normalize images</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;X_train&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;X_train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;X_val_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;X_val_seed&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span>
+
+        <span class="c1"># convert labels to categorical</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">])</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;y_val_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;y_val_seed&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="DataOp.sample_validation_set"><a class="viewcode-back" href="../build_features.html#build_features.DataOp.sample_validation_set">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">sample_validation_set</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="n">ix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;X_val_seed&quot;</span><span class="p">])),</span> <span class="mi">1000</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">X_val</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;X_val_seed&quot;</span><span class="p">][</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">y_val</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;y_val_seed&quot;</span><span class="p">][</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span></div>
+
+<div class="viewcode-block" id="DataOp.find_num_classes"><a class="viewcode-back" href="../build_features.html#build_features.DataOp.find_num_classes">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">find_num_classes</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">deepaugment</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Baris Ozmen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

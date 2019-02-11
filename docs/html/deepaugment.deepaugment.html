@@ -1,0 +1,148 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="Python">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>deepaugment.deepaugment module &#8212; deepaugment 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-deepaugment.deepaugment">
+<span id="deepaugment-deepaugment-module"></span><h1>deepaugment.deepaugment module<a class="headerlink" href="#module-deepaugment.deepaugment" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="deepaugment.deepaugment.DeepAugment">
+<em class="property">class </em><code class="descclassname">deepaugment.deepaugment.</code><code class="descname">DeepAugment</code><span class="sig-paren">(</span><em>images='cifar10'</em>, <em>labels=None</em>, <em>config={}</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/deepaugment/deepaugment.html#DeepAugment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deepaugment.deepaugment.DeepAugment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Initiliazes commponents of DeepAugment (e.g. Controller, Child-model, Notebook) and optimizes image augmentation hyperparameters</p>
+<dl class="method">
+<dt id="deepaugment.deepaugment.DeepAugment.do_initial_training">
+<code class="descname">do_initial_training</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/deepaugment/deepaugment.html#DeepAugment.do_initial_training"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deepaugment.deepaugment.DeepAugment.do_initial_training" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do the first training without augmentations</p>
+<p>Training weights will be used as based to further child model trainings</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="deepaugment.deepaugment.DeepAugment.evaluate_objective_func_without_augmentation">
+<code class="descname">evaluate_objective_func_without_augmentation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/deepaugment/deepaugment.html#DeepAugment.evaluate_objective_func_without_augmentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deepaugment.deepaugment.DeepAugment.evaluate_objective_func_without_augmentation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find out what would be the accuracy if augmentation are not applied</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="deepaugment.deepaugment.DeepAugment.load_and_preprocess_data">
+<code class="descname">load_and_preprocess_data</code><span class="sig-paren">(</span><em>images</em>, <em>labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/deepaugment/deepaugment.html#DeepAugment.load_and_preprocess_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deepaugment.deepaugment.DeepAugment.load_and_preprocess_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads and preprocesses data</p>
+<p>Records <cite>input_shape</cite>, <cite>data</cite>, and <cite>num_classes</cite> into <a href="#id1"><span class="problematic" id="id2">`</span></a>self</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>images (numpy.array/str): array with shape (n_images, dim1, dim2 , channel_size), or a string with name of keras-dataset (cifar10, fashion_mnsit)
+labels (numpy.array): labels of images, array with shape (n_images) where each element is an integer from 0 to number of classes</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="deepaugment.deepaugment.DeepAugment.optimize">
+<code class="descname">optimize</code><span class="sig-paren">(</span><em>iterations=300</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/deepaugment/deepaugment.html#DeepAugment.optimize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deepaugment.deepaugment.DeepAugment.optimize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimize objective function hyperparameters using controller and child model</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>iterations (int): number of optimization iterations, which the child model will be run</dd>
+<dt>Returns:</dt>
+<dd>pandas.DataFrame: top policies (with highest expected accuracy increase)</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">deepaugment</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Baris Ozmen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/deepaugment.deepaugment.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

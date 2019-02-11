@@ -1,0 +1,678 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="Python">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>visualize &#8212; deepaugment 0.2.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for visualize</h1><div class="highlight"><pre>
+<span></span><span class="n">__date__</span> <span class="o">=</span> <span class="s2">&quot;10 Nov 2018&quot;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Baris Ozmen&quot;</span>
+
+
+<span class="sd">&quot;&quot;&quot;Collects plotting functions to be used</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">altair</span> <span class="k">as</span> <span class="nn">alt</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">lib.decorators</span> <span class="k">import</span> <span class="n">Reporter</span>
+
+<span class="n">timer</span> <span class="o">=</span> <span class="n">Reporter</span><span class="o">.</span><span class="n">timer</span>
+<span class="n">counter</span> <span class="o">=</span> <span class="n">Reporter</span><span class="o">.</span><span class="n">counter</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="PlotOp"><a class="viewcode-back" href="../lib.visualize.html#visualize.PlotOp">[docs]</a><span class="k">class</span> <span class="nc">PlotOp</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Plotting Operations class. Keeps static plot functions.</span>
+
+<span class="sd">    Each function is conforming as much as possible to &quot;Functional Programming Standards&quot; (https://en.wikipedia.org/wiki/Functional_programming).</span>
+<span class="sd">    Each function, hence, do not affected by any variable not given to it as argument (with exception of influences from</span>
+<span class="sd">    appealed external libraries, such as matplotlib, altair, and bokeh) .</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PlotOp.plot_heatmap"><a class="viewcode-back" href="../lib.visualize.html#visualize.PlotOp.plot_heatmap">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="nd">@timer</span>
+    <span class="nd">@counter</span>
+    <span class="k">def</span> <span class="nf">plot_heatmap</span><span class="p">(</span>
+        <span class="n">value_matrix</span><span class="p">,</span>
+        <span class="n">xlabels</span><span class="p">,</span>
+        <span class="n">ylabels</span><span class="p">,</span>
+        <span class="n">min_value</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">max_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">labels_fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span>
+        <span class="n">xlabels_fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ylabels_fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">colorbar_labels_fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sg_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">save_fig_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;Plots heatmap of a given 2d array</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                value_matrix (numpy.array): matrix to plot its heatmap</span>
+<span class="sd">                xlabels (list):</span>
+<span class="sd">                ylabels (list):</span>
+<span class="sd">                min_value (float):</span>
+<span class="sd">                max_value (float):</span>
+<span class="sd">                labels_fontsize (int): determines fontsize of text in the plot.</span>
+
+<span class="sd">                xlabels_fontsize (int): determines fontsize of x axis labels. If not given,</span>
+<span class="sd">                                        value of `labels_fontsize` argument is used.</span>
+
+<span class="sd">                ylabels_fontsize (int): determines fontsize of y axis labels. If not given,</span>
+<span class="sd">                                        value of `labels_fontsize` argument is used.</span>
+
+<span class="sd">                colorbar_labels_fontsize (int): determines fontsize of colorbar labels. If</span>
+<span class="sd">                                                not given, value of `labels_fontsize` argument is used.</span>
+
+<span class="sd">                sg_length (int): slopper over grid line lenght. If not given, it is</span>
+<span class="sd">                                 taken as 10% of length of x or y axes whichever is smaller.</span>
+
+<span class="sd">                figsize (tuple): determines size of the plot</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">xlabels_fontsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">xlabels_fontsize</span> <span class="o">=</span> <span class="n">labels_fontsize</span>
+
+        <span class="k">if</span> <span class="n">ylabels_fontsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ylabels_fontsize</span> <span class="o">=</span> <span class="n">labels_fontsize</span>
+
+        <span class="k">if</span> <span class="n">colorbar_labels_fontsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">colorbar_labels_fontsize</span> <span class="o">=</span> <span class="n">labels_fontsize</span> <span class="o">-</span> <span class="mi">2</span>
+
+        <span class="k">if</span> <span class="n">figsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xlabels</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ylabels</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;figsize is </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">figsize</span><span class="p">))</span>
+
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+
+        <span class="c1">################</span>
+        <span class="c1"># Plot heatmap #</span>
+        <span class="c1">################</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+            <span class="n">value_matrix</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;bwr&quot;</span><span class="p">,</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+            <span class="n">vmin</span><span class="o">=</span><span class="n">min_value</span><span class="p">,</span>
+            <span class="n">vmax</span><span class="o">=</span><span class="n">max_value</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s2">&quot;top&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xlabels</span><span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">xlabels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">xlabels_fontsize</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ylabels</span><span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">ylabels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">ylabels_fontsize</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;bottom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">xlim</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+        <span class="n">ylim</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+
+        <span class="n">xlength</span> <span class="o">=</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ylength</span> <span class="o">=</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">sg_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sg_length</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">xlength</span><span class="p">,</span> <span class="n">ylength</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span>
+
+        <span class="n">x_micro_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">xlabels</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span>
+        <span class="n">y_micro_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ylabels</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span>
+
+        <span class="n">x_macro_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">xlabels</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span>
+        <span class="n">y_macro_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ylabels</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_micro_grid</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">ylim</span><span class="p">,</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">y_micro_grid</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xlim</span><span class="p">,</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_macro_grid</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">sg_length</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_clip_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">y_macro_grid</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">sg_length</span><span class="p">,</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_clip_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+
+        <span class="n">colorbar_axes</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.13</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+
+        <span class="n">colorbar_axes</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="n">labels_fontsize</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">colorbar_axes</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">save_fig_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_fig_to</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PlotOp.plot_heatmap_of_uppertriangle"><a class="viewcode-back" href="../lib.visualize.html#visualize.PlotOp.plot_heatmap_of_uppertriangle">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="nd">@timer</span>
+    <span class="nd">@counter</span>
+    <span class="k">def</span> <span class="nf">plot_heatmap_of_uppertriangle</span><span class="p">(</span>
+        <span class="n">value_matrix</span><span class="p">,</span>
+        <span class="n">xlabels</span><span class="p">,</span>
+        <span class="n">ylabels</span><span class="p">,</span>
+        <span class="n">min_value</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">max_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">labels_fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
+        <span class="n">xlabels_fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ylabels_fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">colorbar_labels_fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sg_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">save_fig_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;Plots heatmap of a given 2d array</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value_matrix (numpy.array): matrix to plot its heatmap</span>
+<span class="sd">            xlabels (list):</span>
+<span class="sd">            ylabels (list):</span>
+<span class="sd">            min_value (float):</span>
+<span class="sd">            max_value (float):</span>
+<span class="sd">            labels_fontsize (int): determines fontsize of text in the plot.</span>
+
+<span class="sd">            xlabels_fontsize (int): determines fontsize of x axis labels. If not given,</span>
+<span class="sd">            value of `labels_fontsize` argument is used.</span>
+
+<span class="sd">            ylabels_fontsize (int): determines fontsize of y axis labels. If not given,</span>
+<span class="sd">            value of `labels_fontsize` argument is used.</span>
+
+<span class="sd">            colorbar_labels_fontsize (int): determines fontsize of colorbar labels. If</span>
+<span class="sd">            not given, value of `labels_fontsize` argument is used.</span>
+
+<span class="sd">            sg_length (int): slopper over grid line lenght. If not given, it is</span>
+<span class="sd">            taken as 10% of length of x or y axes whichever is smaller.</span>
+
+<span class="sd">            figsize (tuple): determines size of the plot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">xlabels_fontsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">xlabels_fontsize</span> <span class="o">=</span> <span class="n">labels_fontsize</span>
+
+        <span class="k">if</span> <span class="n">ylabels_fontsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ylabels_fontsize</span> <span class="o">=</span> <span class="n">labels_fontsize</span>
+
+        <span class="k">if</span> <span class="n">colorbar_labels_fontsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">colorbar_labels_fontsize</span> <span class="o">=</span> <span class="n">labels_fontsize</span> <span class="o">-</span> <span class="mi">2</span>
+
+        <span class="k">if</span> <span class="n">figsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xlabels</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ylabels</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;figsize is </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">figsize</span><span class="p">))</span>
+
+        <span class="c1"># get upper-triangle</span>
+        <span class="n">value_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">value_matrix</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+
+        <span class="c1">################</span>
+        <span class="c1"># Plot heatmap #</span>
+        <span class="c1">################</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+            <span class="n">value_matrix</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;bwr&quot;</span><span class="p">,</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+            <span class="n">vmin</span><span class="o">=</span><span class="n">min_value</span><span class="p">,</span>
+            <span class="n">vmax</span><span class="o">=</span><span class="n">max_value</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s2">&quot;top&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xlabels</span><span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">xlabels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">xlabels_fontsize</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ylabels</span><span class="p">)))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">ylabels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">ylabels_fontsize</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;bottom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">xlim</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+        <span class="n">ylim</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+
+        <span class="n">xlength</span> <span class="o">=</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ylength</span> <span class="o">=</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">sg_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sg_length</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">xlength</span><span class="p">,</span> <span class="n">ylength</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span>
+
+        <span class="n">x_micro_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">xlabels</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span>
+        <span class="n">y_micro_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ylabels</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span>
+
+        <span class="n">x_macro_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">xlabels</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span>
+        <span class="n">y_macro_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ylabels</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_micro_grid</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">y_micro_grid</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_macro_grid</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">sg_length</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_clip_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">y_macro_grid</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">sg_length</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_clip_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+
+        <span class="n">colorbar_axes</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.13</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">])</span>
+        <span class="n">colorbar_axes</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="n">labels_fontsize</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">colorbar_axes</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">save_fig_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_fig_to</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PlotOp.plot_heatmap_with_altair"><a class="viewcode-back" href="../lib.visualize.html#visualize.PlotOp.plot_heatmap_with_altair">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="nd">@timer</span>
+    <span class="nd">@counter</span>
+    <span class="k">def</span> <span class="nf">plot_heatmap_with_altair</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">,</span>
+        <span class="n">xcol</span><span class="o">=</span><span class="s2">&quot;event1&quot;</span><span class="p">,</span>
+        <span class="n">ycol</span><span class="o">=</span><span class="s2">&quot;event2&quot;</span><span class="p">,</span>
+        <span class="n">valuecol</span><span class="o">=</span><span class="s2">&quot;phi&quot;</span><span class="p">,</span>
+        <span class="n">minval</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">maxval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">tooltip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">savefigto</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            df (pandas.DataFrame): dataframe to be drawn</span>
+<span class="sd">            xcol (str): `df` column for x-axis</span>
+<span class="sd">            ycol (str): `df` column for</span>
+<span class="sd">            valuecol (str): `df` column for value (colored)</span>
+<span class="sd">            tooltip (list): `df` columns to be shown when blocks are hovered by mouse</span>
+<span class="sd">            savefigto (str): address that figure will be saved</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Argument operations</span>
+        <span class="k">assert</span> <span class="n">xcol</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+        <span class="k">assert</span> <span class="n">ycol</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+        <span class="k">assert</span> <span class="n">savefigto</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">tooltip</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tooltip</span> <span class="o">=</span> <span class="p">[</span><span class="n">xcol</span><span class="p">,</span> <span class="n">ycol</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">item</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">tooltip</span><span class="p">)</span>
+
+        <span class="kn">import</span> <span class="nn">altair</span> <span class="k">as</span> <span class="nn">alt</span>
+
+        <span class="n">color_scheme</span> <span class="o">=</span> <span class="s2">&quot;redblue&quot;</span>
+
+        <span class="n">selection_by_x</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">selection_multi</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="n">xcol</span><span class="p">],</span> <span class="n">nearest</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">selection_by_y</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">selection_multi</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="n">ycol</span><span class="p">],</span> <span class="n">nearest</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">heatmap_base</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">mark_rect</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="n">xcol</span><span class="p">,</span>
+                <span class="n">y</span><span class="o">=</span><span class="n">ycol</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:Q&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">valuecol</span><span class="p">),</span>
+                    <span class="n">scale</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">scheme</span><span class="o">=</span><span class="n">color_scheme</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="p">[</span><span class="n">maxval</span><span class="p">,</span> <span class="n">minval</span><span class="p">]),</span>
+                <span class="p">),</span>
+                <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">heatmap1</span> <span class="o">=</span> <span class="n">heatmap_base</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+            <span class="n">opacity</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">selection_by_x</span><span class="p">,</span> <span class="n">alt</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">alt</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">add_selection</span><span class="p">(</span><span class="n">selection_by_x</span><span class="p">)</span>
+
+        <span class="n">heatmap2</span> <span class="o">=</span> <span class="n">heatmap_base</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+            <span class="n">opacity</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">selection_by_y</span><span class="p">,</span> <span class="n">alt</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">alt</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">add_selection</span><span class="p">(</span><span class="n">selection_by_y</span><span class="p">)</span>
+
+        <span class="n">whole_chart</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">layer</span><span class="p">(</span><span class="n">heatmap1</span><span class="p">,</span> <span class="n">heatmap2</span><span class="p">)</span><span class="o">.</span><span class="n">configure_view</span><span class="p">(</span><span class="n">strokeWidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># whole_chart.save(savefigto + &#39;.png&#39;)</span>
+
+        <span class="n">whole_chart</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">savefigto</span> <span class="o">+</span> <span class="s2">&quot;.html&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">whole_chart</span></div>
+
+<div class="viewcode-block" id="PlotOp.plot_mutation_percentage"><a class="viewcode-back" href="../lib.visualize.html#visualize.PlotOp.plot_mutation_percentage">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="nd">@timer</span>
+    <span class="nd">@counter</span>
+    <span class="k">def</span> <span class="nf">plot_mutation_percentage</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plots percentage of patients having misssense or nonsense mutation, as a vertical barplot.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                dataframe:</span>
+<span class="sd">                    columns: hgnc_symbol, percentage_missense, percentage_nonsense</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+
+        <span class="c1"># data to plot</span>
+        <span class="n">n_groups</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;hgnc_symbol&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+        <span class="n">mis_percentages</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;percentage_missense&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">non_percentages</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;percentage_nonsense&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="c1"># create plot</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+
+        <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_groups</span><span class="p">)</span>
+        <span class="n">bar_width</span> <span class="o">=</span> <span class="mf">0.25</span>
+        <span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="n">rects1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span>
+            <span class="n">index</span><span class="p">,</span>
+            <span class="n">non_percentages</span><span class="p">,</span>
+            <span class="n">bar_width</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">opacity</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;salmon&quot;</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Nonsense&quot;</span><span class="p">,</span>
+            <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">rects2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span>
+            <span class="n">index</span> <span class="o">+</span> <span class="n">bar_width</span><span class="p">,</span>
+            <span class="n">mis_percentages</span><span class="p">,</span>
+            <span class="n">bar_width</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">opacity</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Missense&quot;</span><span class="p">,</span>
+            <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+            <span class="s2">&quot;LUAD Driver Genes by Proportion of Samples Mutated </span><span class="se">\n</span><span class="s2"> (ordered alphabetically)&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">5</span><span class="p">)])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="n">bar_width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;hgnc_symbol&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+        <span class="c1"># ax.yaxis.grid()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;minor&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">()</span>
+        <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">ylevel</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="p">[</span><span class="n">ylevel</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">ylevel</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">],</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+                <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">ylevel</span> <span class="o">+</span> <span class="mf">0.6</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">((</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">y0</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y1</span> <span class="o">-</span> <span class="mf">1.5</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PlotOp.plot_volcano"><a class="viewcode-back" href="../lib.visualize.html#visualize.PlotOp.plot_volcano">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="nd">@timer</span>
+    <span class="nd">@counter</span>
+    <span class="k">def</span> <span class="nf">plot_volcano</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">,</span>
+        <span class="n">xcol</span><span class="p">,</span>
+        <span class="n">ycol</span><span class="p">,</span>
+        <span class="n">xcolrange</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="n">xtitle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ytitle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ythreshold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">clampthreshold</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
+        <span class="n">tooltip</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">topk</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
+        <span class="n">titlefontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
+        <span class="n">titlefontweight</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span>
+        <span class="n">labelfontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+        <span class="n">savefigto</span><span class="o">=</span><span class="s2">&quot;volcano_plot&quot;</span><span class="p">,</span>
+        <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plots volcano figure and saves it to given address</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            df (pandas.DataFrame): data</span>
+<span class="sd">            xcol (str): column for x-axis</span>
+<span class="sd">            ycol (str):</span>
+<span class="sd">            xcolrange (tuple):</span>
+<span class="sd">            xtitle (str):</span>
+<span class="sd">            ytitle (str):</span>
+<span class="sd">            ythreshold int:</span>
+<span class="sd">            tooltip (list):</span>
+<span class="sd">            topk int:</span>
+<span class="sd">            figsize (tuple):</span>
+<span class="sd">            titlefontsize (int):</span>
+<span class="sd">            titlefontweight (int or str):</span>
+<span class="sd">            labelfontsize (int):</span>
+<span class="sd">            savefigto (str):</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">xcol</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+        <span class="k">assert</span> <span class="n">ycol</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+        <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">item</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">tooltip</span><span class="p">)</span>
+
+        <span class="c1"># CLAMP fisher-exact values</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">ycol</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">clampthreshold</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="s2">&quot;fisher_exact&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                <span class="n">df</span><span class="p">[</span><span class="s2">&quot;fisher_exact&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">clampthreshold</span><span class="p">,</span> <span class="n">clampthreshold</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;fisher_exact&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;Datapoints&#39; fisher-exact values clamped at </span><span class="si">{}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">clampthreshold</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">xAxis</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">xtitle</span><span class="p">)</span>
+        <span class="n">yAxis</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">ytitle</span><span class="p">)</span>
+
+        <span class="n">X</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="n">xcol</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="n">xcolrange</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">xAxis</span><span class="p">)</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="n">ycol</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">ycol</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()]),</span> <span class="n">axis</span><span class="o">=</span><span class="n">yAxis</span><span class="p">)</span>
+
+        <span class="n">points_below</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">ycol</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">ythreshold</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">mark_circle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">interactive</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="n">points_above</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">ycol</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">ythreshold</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">mark_circle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">interactive</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="n">top_k_points</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="n">topk</span><span class="p">,</span> <span class="n">ycol</span><span class="p">))</span>
+            <span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">Y</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">mark_circle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">mark_text</span><span class="p">(</span><span class="n">align</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">dy</span><span class="o">=-</span><span class="mi">17</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;pairs&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">rule1_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span><span class="s2">&quot;fisher_exact&quot;</span><span class="p">:</span> <span class="n">ythreshold</span><span class="p">}])</span>
+        <span class="n">rule1</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">rule1_data</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">mark_rule</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">strokeDash</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">ycol</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">rule2_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span><span class="n">xcol</span><span class="p">:</span> <span class="mi">0</span><span class="p">}])</span>
+        <span class="n">rule2</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">rule2_data</span><span class="p">)</span><span class="o">.</span><span class="n">mark_rule</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">xcol</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Superimpose all charts</span>
+        <span class="n">whole_chart</span> <span class="o">=</span> <span class="n">rule1</span> <span class="o">+</span> <span class="n">rule2</span> <span class="o">+</span> <span class="n">points_below</span> <span class="o">+</span> <span class="n">points_above</span> <span class="o">+</span> <span class="n">top_k_points</span>
+
+        <span class="c1"># adjust aesthetics</span>
+        <span class="n">whole_chart</span> <span class="o">=</span> <span class="n">whole_chart</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span>
+            <span class="n">titleFontSize</span><span class="o">=</span><span class="n">titlefontsize</span><span class="p">,</span>
+            <span class="n">titleFontWeight</span><span class="o">=</span><span class="n">titlefontweight</span><span class="p">,</span>
+            <span class="n">labelFontSize</span><span class="o">=</span><span class="n">labelfontsize</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># save as html</span>
+        <span class="k">if</span> <span class="n">savefigto</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">whole_chart</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">savefigto</span> <span class="o">+</span> <span class="s2">&quot;.html&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">show</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">alt</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">whole_chart</span></div>
+
+<div class="viewcode-block" id="PlotOp.pvalue_qq_plot"><a class="viewcode-back" href="../lib.visualize.html#visualize.PlotOp.pvalue_qq_plot">[docs]</a>    <span class="k">def</span> <span class="nf">pvalue_qq_plot</span><span class="p">(</span><span class="n">obs_pvalues</span><span class="p">,</span> <span class="n">label_fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Draws a p-value QQ-plot given observed p-values</span>
+<span class="sd">            </span>
+<span class="sd">            Args:</span>
+<span class="sd">            obs_pvalues (list): observed p-values</span>
+<span class="sd">            label_fontsize (int): fontsize of x and y axis labels</span>
+<span class="sd">            ax (matplotlib.axes._subplots.AxesSubplot): (optional) AxesSubplot object for plot to be drawn on.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+        <span class="n">obs_pvalues</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">obs_pvalues</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">obs_pvalues</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">obs_pvalues</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">obs_pvalues</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">obs_pvalues</span><span class="p">)),</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">pvalues</span> <span class="ow">in</span> <span class="n">obs_pvalues</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pvalues</span><span class="p">))</span>
+                <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pvalues</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">pvalues</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">pvalues</span><span class="p">)),</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># see **kwargs parameter in matplotlib</span>
+        <span class="c1"># documentation (https://matplotlib.org/api/pyplot_api.html)</span>
+        <span class="c1"># for using param_dict more efficiently in the future</span>
+        <span class="k">if</span> <span class="s2">&quot;fillstyle&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">param_dict</span><span class="p">:</span>
+            <span class="n">param_dict</span><span class="p">[</span><span class="s2">&quot;fillstyle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;--&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;color&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">param_dict</span><span class="p">:</span>
+            <span class="n">param_dict</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;gray&quot;</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="o">**</span><span class="n">param_dict</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">-log10 (Expected P-value)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">label_fontsize</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;-log10 (Observed P-value)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">label_fontsize</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">deepaugment</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Baris Ozmen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,270 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="Python">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>augmenter &#8212; deepaugment 0.2.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for augmenter</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) 2019 Baris Ozmen &lt;hbaristr@gmail.com&gt;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">imgaug</span> <span class="k">import</span> <span class="n">augmenters</span> <span class="k">as</span> <span class="n">iaa</span>
+
+
+<div class="viewcode-block" id="normalize"><a class="viewcode-back" href="../augmenter.html#augmenter.normalize">[docs]</a><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">X</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="denormalize"><a class="viewcode-back" href="../augmenter.html#augmenter.denormalize">[docs]</a><span class="k">def</span> <span class="nf">denormalize</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">X_dn</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">X_dn</span></div>
+
+
+<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../augmenter.html#augmenter.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">aug_type</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;crop&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Crop</span><span class="p">(</span><span class="n">px</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">magnitude</span> <span class="o">*</span> <span class="mi">32</span><span class="p">)))</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;gaussian-blur&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">sigma</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">magnitude</span> <span class="o">*</span> <span class="mf">25.0</span><span class="p">))</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;rotate&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Affine</span><span class="p">(</span><span class="n">rotate</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span> <span class="o">*</span> <span class="n">magnitude</span><span class="p">,</span> <span class="mi">180</span> <span class="o">*</span> <span class="n">magnitude</span><span class="p">))</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;shear&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Affine</span><span class="p">(</span><span class="n">shear</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span> <span class="o">*</span> <span class="n">magnitude</span><span class="p">,</span> <span class="mi">90</span> <span class="o">*</span> <span class="n">magnitude</span><span class="p">))</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;translate-x&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Affine</span><span class="p">(</span>
+            <span class="n">translate_percent</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">),</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)}</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;translate-y&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Affine</span><span class="p">(</span>
+            <span class="n">translate_percent</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">)}</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;horizontal-flip&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Fliplr</span><span class="p">(</span><span class="n">magnitude</span><span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;vertical-flip&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Flipud</span><span class="p">(</span><span class="n">magnitude</span><span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;sharpen&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Sharpen</span><span class="p">(</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">lightness</span><span class="o">=</span><span class="p">(</span><span class="mf">0.50</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">magnitude</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;emboss&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Emboss</span><span class="p">(</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">strength</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">20.0</span> <span class="o">*</span> <span class="n">magnitude</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;additive-gaussian-noise&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">AdditiveGaussianNoise</span><span class="p">(</span>
+            <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">magnitude</span> <span class="o">*</span> <span class="mi">255</span><span class="p">),</span> <span class="n">per_channel</span><span class="o">=</span><span class="mf">0.5</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;dropout&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span>
+            <span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.011</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">)),</span> <span class="n">per_channel</span><span class="o">=</span><span class="mf">0.5</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span>
+            <span class="n">X</span>
+        <span class="p">)</span>  <span class="c1"># Dropout first argument should be smaller than second one</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;coarse-dropout&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">CoarseDropout</span><span class="p">(</span>
+            <span class="p">(</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">),</span> <span class="n">size_percent</span><span class="o">=</span><span class="p">(</span><span class="mf">0.30</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">magnitude</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">per_channel</span><span class="o">=</span><span class="mf">0.2</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;gamma-contrast&quot;</span><span class="p">:</span>
+        <span class="n">X_norm</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">X_aug_norm</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">GammaContrast</span><span class="p">(</span><span class="n">magnitude</span> <span class="o">*</span> <span class="mf">1.75</span><span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span>
+            <span class="n">X_norm</span>
+        <span class="p">)</span>  <span class="c1"># needs 0-1 values</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">denormalize</span><span class="p">(</span><span class="n">X_aug_norm</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;brighten&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span>
+            <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="o">-</span><span class="mi">40</span> <span class="o">*</span> <span class="n">magnitude</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="mi">40</span> <span class="o">*</span> <span class="n">magnitude</span><span class="p">)),</span> <span class="n">per_channel</span><span class="o">=</span><span class="mf">0.5</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span>
+            <span class="n">X</span>
+        <span class="p">)</span>  <span class="c1"># brighten</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;invert&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Invert</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># magnitude not used</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;fog&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Fog</span><span class="p">()</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># magnitude not used</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;clouds&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Clouds</span><span class="p">()</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># magnitude not used</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;histogram-equalize&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">AllChannelsHistogramEqualization</span><span class="p">()</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span>
+            <span class="n">X</span>
+        <span class="p">)</span>  <span class="c1"># magnitude not used</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;super-pixels&quot;</span><span class="p">:</span>  <span class="c1"># deprecated</span>
+        <span class="n">X_norm</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">X_norm2</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_norm</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">X_aug_norm2</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Superpixels</span><span class="p">(</span>
+            <span class="n">p_replace</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">),</span> <span class="n">n_segments</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X_norm2</span><span class="p">)</span>
+        <span class="n">X_aug_norm</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_aug_norm2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">denormalize</span><span class="p">(</span><span class="n">X_aug_norm</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;perspective-transform&quot;</span><span class="p">:</span>
+        <span class="n">X_norm</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">X_aug_norm</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">PerspectiveTransform</span><span class="p">(</span>
+            <span class="n">scale</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">))</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span>
+            <span class="n">X_norm</span>
+        <span class="p">)</span>  <span class="c1"># first scale param must be larger</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">X_aug_norm</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">X_aug_norm</span><span class="p">)</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">denormalize</span><span class="p">(</span><span class="n">X_aug_norm</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;elastic-transform&quot;</span><span class="p">:</span>  <span class="c1"># deprecated</span>
+        <span class="n">X_norm</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">X_norm2</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_norm</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">X_aug_norm2</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">ElasticTransformation</span><span class="p">(</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">magnitude</span> <span class="o">*</span> <span class="mi">300</span><span class="p">)),</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">5.0</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X_norm2</span><span class="p">)</span>
+        <span class="n">X_aug_norm</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_aug_norm2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">denormalize</span><span class="p">(</span><span class="n">X_aug_norm</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;add-to-hue-and-saturation&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">AddToHueAndSaturation</span><span class="p">(</span>
+            <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="o">-</span><span class="mi">45</span> <span class="o">*</span> <span class="n">magnitude</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="mi">45</span> <span class="o">*</span> <span class="n">magnitude</span><span class="p">))</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;coarse-salt-pepper&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">CoarseSaltAndPepper</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">size_percent</span><span class="o">=</span><span class="n">magnitude</span><span class="p">)</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">aug_type</span> <span class="o">==</span> <span class="s2">&quot;grayscale&quot;</span><span class="p">:</span>
+        <span class="n">X_aug</span> <span class="o">=</span> <span class="n">iaa</span><span class="o">.</span><span class="n">Grayscale</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">))</span><span class="o">.</span><span class="n">augment_images</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span>
+    <span class="k">return</span> <span class="n">X_aug</span></div>
+
+
+
+<div class="viewcode-block" id="augment_by_policy"><a class="viewcode-back" href="../augmenter.html#augmenter.augment_by_policy">[docs]</a><span class="k">def</span> <span class="nf">augment_by_policy</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">aug1_type</span><span class="p">,</span> <span class="n">aug1_magnitude</span><span class="p">,</span> <span class="n">aug2_type</span><span class="p">,</span> <span class="n">aug2_magnitude</span><span class="p">,</span> <span class="n">portion</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">portion</span> <span class="o">&gt;=</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">portion</span> <span class="o">&lt;=</span> <span class="mf">1.0</span>
+    <span class="p">),</span> <span class="s2">&quot;portion argument value is out of accepted interval&quot;</span>
+
+    <span class="c1"># convert data to 255 from normalized</span>
+    <span class="n">_X</span> <span class="o">=</span> <span class="n">denormalize</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">portion</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="n">X_portion</span> <span class="o">=</span> <span class="n">_X</span>
+        <span class="n">y_portion</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># get a portion of data</span>
+        <span class="n">ix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">_X</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">_X</span><span class="p">)</span> <span class="o">*</span> <span class="n">portion</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">X_portion</span> <span class="o">=</span> <span class="n">_X</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">y_portion</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">X_portion</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X_portion has zero size !!!&quot;</span><span class="p">)</span>
+        <span class="n">nix</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+        <span class="n">X_portion</span> <span class="o">=</span> <span class="n">_X</span><span class="p">[</span><span class="n">nix</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">y_portion</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">nix</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># transform that portion</span>
+    <span class="n">X_portion_aug</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span>
+        <span class="n">aug1_type</span><span class="p">,</span> <span class="n">aug1_magnitude</span><span class="p">,</span> <span class="n">X_portion</span>
+    <span class="p">)</span>  <span class="c1"># first transform</span>
+
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">X_portion_aug</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">0.1</span> <span class="ow">and</span> <span class="n">X_portion_aug</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">255.1</span>
+    <span class="p">),</span> <span class="s2">&quot;first transform is unvalid&quot;</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">X_portion_aug</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">X_portion_aug</span><span class="p">)</span>
+
+    <span class="n">X_portion_aug</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span>
+        <span class="n">aug2_type</span><span class="p">,</span> <span class="n">aug2_magnitude</span><span class="p">,</span> <span class="n">X_portion_aug</span>
+    <span class="p">)</span>  <span class="c1"># second transform</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">X_portion_aug</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">0.1</span> <span class="ow">and</span> <span class="n">X_portion_aug</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">255.1</span>
+    <span class="p">),</span> <span class="s2">&quot;second transform is unvalid&quot;</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">X_portion_aug</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">X_portion_aug</span><span class="p">)</span>
+
+    <span class="n">augmented_data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;X_train&quot;</span><span class="p">:</span> <span class="n">X_portion_aug</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">,</span>
+        <span class="s2">&quot;y_train&quot;</span><span class="p">:</span> <span class="n">y_portion</span><span class="p">,</span>
+    <span class="p">}</span>  <span class="c1"># back to normalization</span>
+
+    <span class="k">return</span> <span class="n">augmented_data</span>  <span class="c1"># augmenteed data is mostly smaller than whole data</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">deepaugment</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Baris Ozmen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
