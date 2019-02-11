@@ -7,12 +7,16 @@ from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
 
 from keras.applications.mobilenetv2 import MobileNetV2
 
-from wide_res_net import WideResidualNetwork
-from build_features import DataOp
-
 import numpy as np
 
 import sys
+from os.path import dirname, realpath
+file_path = realpath(__file__)
+dir_of_file = dirname(file_path)
+sys.path.insert(0, dir_of_file)
+
+from wide_res_net import WideResidualNetwork
+from build_features import DataOp
 from lib.decorators import Reporter
 from lib.helpers import log_and_print
 

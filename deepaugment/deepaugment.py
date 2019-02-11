@@ -17,7 +17,7 @@ import click
 file_path = realpath(__file__)
 dir_of_file = dirname(file_path)
 parent_dir_of_file = dirname(dir_of_file)
-sys.path.insert(0, parent_dir_of_file)
+sys.path.insert(0, dir_of_file)
 # Set experiment name
 import datetime
 now = datetime.datetime.now()
@@ -29,6 +29,7 @@ EXPERIMENT_FOLDER_PATH = os.path.join(
 )
 log_path = pathlib.Path(EXPERIMENT_FOLDER_PATH)
 log_path.mkdir(parents=True, exist_ok=True)
+
 
 # import modules from DeepAugmenter
 from controller import Controller
@@ -65,7 +66,7 @@ DEFAULT_CONFIG = {
 }
 
 
-class DeepAugment():
+class DeepAugment:
     """Initiliazes commponents of DeepAugment (e.g. Controller, Child-model, Notebook) and optimizes image augmentation hyperparameters
 
     """
