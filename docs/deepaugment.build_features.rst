@@ -1,4 +1,4 @@
-build\_features module
+deepaugment.build\_features module
 ==================================
 
 .. automodule:: deepaugment.build_features
