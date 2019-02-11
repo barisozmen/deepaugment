@@ -1,5 +1,5 @@
 # DeepAugment
-<img width="400" alt="concise_workflow" src="https://user-images.githubusercontent.com/14996155/52543808-6d47a400-2d61-11e9-8df7-8271872ba0ad.png">
+<img width="300" alt="concise_workflow" src="https://user-images.githubusercontent.com/14996155/52543808-6d47a400-2d61-11e9-8df7-8271872ba0ad.png">
 
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
@@ -7,8 +7,8 @@
 Discover best augmentation strategies for your dataset utilizing Bayesian Optimization.
 
 **Benefits**
-- Boosts accuracy of deep learning models upto +X% compared to models with non-augmented data, and +Y% compared to models with manually augmented data.
-- Saves weeks of time by automating data augmentation process, which normally takes lots of trial & error.
+- **Boosts accuracy** of deep learning models upto +X% compared to models with non-augmented data, and +Y% compared to models with manually augmented data.
+- **Saves time** by automating data augmentation process, which normally takes lots of trial & error.
 
 
 
