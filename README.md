@@ -19,7 +19,7 @@ $ pip install deepaugment
 
 Simple usage (with any dataset)
 ```Python
-from deepaugment import DeepAugment
+from deepaugment.deepaugment import DeepAugment
 
 deepaug = DeepAugment(my_data, my_labels)
 
