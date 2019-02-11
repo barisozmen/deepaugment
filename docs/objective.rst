@@ -1,7 +1,7 @@
 objective module
 ============================
 
-.. automodule:: objective
+.. automodule:: deepaugment.objective
     :members:
     :undoc-members:
     :show-inheritance:

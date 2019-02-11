@@ -1,7 +1,7 @@
 build\_features module
 ==================================
 
-.. automodule:: build_features
+.. automodule:: deepaugment.build_features
     :members:
     :undoc-members:
     :show-inheritance:
