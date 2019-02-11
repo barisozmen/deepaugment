@@ -22,6 +22,7 @@ sys.path.insert(0, parent_dir_of_file)
 
 sys.path.insert(0, "./")
 sys.path.insert(0, "deepaugment/")
+sys.path.insert(0, "deepaugment/deepaugment/")
 sys.path.insert(0, "deepaugment/lib/")
 
 
