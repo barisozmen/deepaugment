@@ -10,8 +10,7 @@ from os.path import dirname, realpath
 
 file_path = realpath(__file__)
 dir_of_file = dirname(file_path)
-parent_dir_of_file = dirname(dir_of_file)
-sys.path.insert(0, parent_dir_of_file)
+sys.path.insert(0, dir_of_file)
 
 now = datetime.datetime.now()
 EXPERIMENT_NAME = (
