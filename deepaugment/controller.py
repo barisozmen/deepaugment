@@ -35,13 +35,12 @@ class Controller():
     opt=None # used only if method is bayesian optimization
     random_search_space=None # used only if method is random search
 
-    def __init__(self, method="bayesian_optimization", opt_initial_points=10):
+    def __init__(self, config):
 
-        if method.startswith("bayes"):
+        if config["method"].startswith("bayes"):
             self.method = "bayesian_optimization"
-            self.init_skopt(opt_initial_points)
-
-        elif method.startswith("random"):
+            self.init_skopt(config["opt_initial_points"])
+        elif config["method"].startswith("random"):
             self.method = "random_search"
             self.init_random_search()
         else:
