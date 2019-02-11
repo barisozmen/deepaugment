@@ -14,9 +14,9 @@
 #
 import os
 import sys
-sys.path.insert(0, "/Users/baris.ozmen/Desktop/github-insight/deepaugment")
-sys.path.insert(0, "/Users/baris.ozmen/Desktop/github-insight/deepaugment/deepaugment")
-sys.path.insert(0, "/Users/baris.ozmen/Desktop/github-insight/deepaugment/deepaugment/lib")
+sys.path.insert(0, "../")
+sys.path.insert(0, "../deepaugment")
+sys.path.insert(0, "../deepaugment/lib")
 
 
 # -- Project information -----------------------------------------------------
