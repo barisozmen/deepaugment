@@ -16,13 +16,48 @@ Resources: [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCK
 $ pip install deepaugment
 ```
 
+Simple usage for your dataset
 ```Python
 from deepaugment import DeepAugment
 
-best_policies = DeepAugment(my_data, my_labels)
+deepaug = DeepAugment(my_data, my_labels)
 
-my_augmented_data = daug.apply(my_data, best_policies)
+best_policies = deepaug.optimize(300)
 ```
+
+Usage for cifar-10 dataset
+```Python
+deepaug = DeepAugment("cifar10")
+
+best_policies = deepaug.optimize(300)
+```
+
+
+Advance usage with configurations
+```Python
+from keras.datasets import fashion_mnist
+
+# my configuration
+my_config = {
+    "model": "basiccnn",
+    "method": "bayesian_optimization",
+    "train_set_size": 2000,
+    "opt_samples": 3,
+    "opt_last_n_epochs": 3,
+    "opt_initial_points": 10,
+    "child_epochs": 50,
+    "child_first_train_epochs": 0,
+    "child_batch_size": 64
+}
+
+(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
+# X_train.shape -> (N, M, M, 3)
+# y_train.shape -> (N)
+deepaug = DeepAugment(data=x_train, labels=y_train, config=my_config)
+
+best_policies = deepaug.optimize(300)
+```
+
 
 ## Results
 ### CIFAR-10 best policies tested on WRN-28-10 
