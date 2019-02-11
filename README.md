@@ -19,7 +19,7 @@ $ pip install deepaugment
 
 Simple usage (with any dataset)
 ```Python
-from deepaugment import DeepAugment
+from deepaugment.deepaugment import DeepAugment
 
 deepaug = DeepAugment(my_data, my_labels)
 
@@ -69,7 +69,7 @@ best_policies = deepaug.optimize(300)
  
 ## How it works?
 
-![alt text](/reports/figures/simplified_workflow.png "Workflow")
+<img width="600" alt="simplified_workflow" src="https://user-images.githubusercontent.com/14996155/52587711-797a4280-2def-11e9-84f8-2368fd709ab9.png">
 
 DeepAugment working method can be dissected into three areas:
 1. Search space of augmentation
