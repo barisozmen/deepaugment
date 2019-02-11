@@ -1,7 +1,7 @@
-deepaugment.deepaugment module
+deepaugment module
 ==============================
 
-.. automodule:: deepaugment.deepaugment
+.. automodule:: deepaugment
     :members:
     :undoc-members:
     :show-inheritance:
