@@ -26,8 +26,13 @@ best_policies = DeepAugment(my_data, my_labels)
 my_augmented_data = daug.apply(my_data, best_policies)
 ```
 
-## Results with CIFAR-10, ImageNet
+## Results
+### CIFAR-10 best policies tested on WRN-28-10 
+- Method: Wide-ResNet-28-10 trained with CIFAR-10 augmented images by best found policies, and with unaugmented images (everything else same).
+- Result: **5.2% accuracy increase** by DeepAugment
 
+<img src="https://user-images.githubusercontent.com/14996155/52544784-e0541900-2d67-11e9-93db-0b8b192f5b37.png" width="400"> <img src="https://user-images.githubusercontent.com/14996155/52545044-63c23a00-2d69-11e9-9879-3d7bcb8f88f4.png" width="400">
+ 
 ## How it works?
 
 ![alt text](/reports/figures/simplified_workflow.png "Workflow")
