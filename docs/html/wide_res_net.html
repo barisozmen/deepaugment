@@ -1,0 +1,151 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="Python">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>wide_res_net module &#8212; deepaugment 0.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-wide_res_net">
+<span id="wide-res-net-module"></span><h1>wide_res_net module<a class="headerlink" href="#module-wide_res_net" title="Permalink to this headline">¶</a></h1>
+<p>Wide Residual Network models for Keras.
+# Reference
+- [Wide Residual Networks](<a class="reference external" href="https://arxiv.org/abs/1605.07146">https://arxiv.org/abs/1605.07146</a>)</p>
+<dl class="function">
+<dt id="wide_res_net.WideResidualNetwork">
+<code class="descclassname">wide_res_net.</code><code class="descname">WideResidualNetwork</code><span class="sig-paren">(</span><em>depth=28</em>, <em>width=8</em>, <em>dropout_rate=0.0</em>, <em>include_top=True</em>, <em>weights='cifar10'</em>, <em>input_tensor=None</em>, <em>input_shape=None</em>, <em>classes=10</em>, <em>activation='softmax'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wide_res_net.html#WideResidualNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wide_res_net.WideResidualNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate the Wide Residual Network architecture,
+optionally loading weights pre-trained
+on CIFAR-10. Note that when using TensorFlow,
+for best performance you should set
+<cite>image_dim_ordering=&quot;tf&quot;</cite> in your Keras config
+at ~/.keras/keras.json.
+The model and the weights are compatible with both
+TensorFlow and Theano. The dimension ordering
+convention used by the model is the one
+specified in your Keras config file.
+# Arguments</p>
+<blockquote>
+<div><p>depth: number or layers in the DenseNet
+width: multiplier to the ResNet width (number of filters)
+dropout_rate: dropout rate
+include_top: whether to include the fully-connected</p>
+<blockquote>
+<div>layer at the top of the network.</div></blockquote>
+<dl class="docutils">
+<dt>weights: one of <cite>None</cite> (random initialization) or</dt>
+<dd>&quot;cifar10&quot; (pre-training on CIFAR-10)..</dd>
+<dt>input_tensor: optional Keras tensor (i.e. output of <cite>layers.Input()</cite>)</dt>
+<dd>to use as image input for the model.</dd>
+<dt>input_shape: optional shape tuple, only to be specified</dt>
+<dd>if <cite>include_top</cite> is False (otherwise the input shape
+has to be <cite>(32, 32, 3)</cite> (with <cite>tf</cite> dim ordering)
+or <cite>(3, 32, 32)</cite> (with <cite>th</cite> dim ordering).
+It should have exactly 3 inputs channels,
+and width and height should be no smaller than 8.
+E.g. <cite>(200, 200, 3)</cite> would be one valid value.</dd>
+<dt>classes: optional number of classes to classify images</dt>
+<dd>into, only to be specified if <cite>include_top</cite> is True, and
+if no <cite>weights</cite> argument is specified.</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt># Returns</dt>
+<dd>A Keras model instance.</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">deepaugment</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Baris Ozmen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/wide_res_net.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
