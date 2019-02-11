@@ -15,6 +15,15 @@ class Notebook:
         self.store_path = config["notebook_path"]
 
     def record(self, trial_no, trial_hyperparams, sample_no, reward, history):
+        """Records one complete training of child model
+
+        Args:
+            trial_no (int): no of trial (iteration) of training
+            trial_hyperparams (list) : list of data augmentation hyperparameters used for training
+            sample_no (int): sample no among training with same hyperparameters
+            reward (float): reward is basically last n validation accuracy before overfitting
+            history (dict): history returned by keras.model.fit()
+        """
         new_df = pd.DataFrame(history)
         new_df["trial_no"] = trial_no
         new_df["aug1_type"] = trial_hyperparams[0]
@@ -36,6 +45,14 @@ class Notebook:
         self.df = pd.concat([self.df, notebook_df])
 
     def get_top_policies(self, k):
+        """Prints and returns top-k policies
+
+        Policies are ordered by their expected accuracy increas
+        Args:
+            k (int) top-k
+        Returns
+            pandas.DataFrame: top-k policies as dataframe
+        """
         trial_avg_val_acc_df = (
             self.df.drop_duplicates(["trial_no", "sample_no"])
             .groupby("trial_no")
