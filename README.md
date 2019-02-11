@@ -1,5 +1,7 @@
 # DeepAugment
 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+
 Discover best augmentation strategies for your dataset.
 
 **Benefits**
@@ -21,7 +23,7 @@ best_policies = DeepAugment(my_data, my_labels)
 my_augmented_data = daug.apply(my_data, best_policies)
 ```
 
-## Results with CIFAR-10, ImageNet, & blabla
+## Results with CIFAR-10, ImageNet
 
 ## How it works?
 DeepAugment working method can be disected into three areas:
