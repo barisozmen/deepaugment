@@ -3,6 +3,13 @@
 import pandas as pd
 import numpy as np
 
+
+import sys
+from os.path import dirname, realpath
+file_path = realpath(__file__)
+dir_of_file = dirname(file_path)
+sys.path.insert(0, dir_of_file)
+
 from augmenter import augment_by_policy
 from lib.helpers import log_and_print
 

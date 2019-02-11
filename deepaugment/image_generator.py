@@ -3,9 +3,15 @@ import keras
 import numpy as np
 import pandas as pd
 
-from augmenter import Augmenter
-from lib.cutout import cutout_numpy
 
+import sys
+from os.path import dirname, realpath
+file_path = realpath(__file__)
+dir_of_file = dirname(file_path)
+sys.path.insert(0, dir_of_file)
+
+from lib.cutout import cutout_numpy
+from augmenter import augment_by_policy
 
 def random_flip(x):
     """Flip the input x horizontally with 50% probability."""
@@ -67,8 +73,6 @@ def deepaugment_image_generator(X, y, policy, batch_size=64, augment_chance=0.5)
     print(policy)
     print()
 
-    augmenter = Augmenter()
-
     while True:
         ix = np.arange(len(X))
         np.random.shuffle(ix)
@@ -90,7 +94,7 @@ def deepaugment_image_generator(X, y, policy, batch_size=64, augment_chance=0.5)
                     ] = 1.0  # last element is portion, which we want to be 1
                     hyperparams = list(aug_chain.values())
 
-                    aug_data = augmenter.run(tiny_X, tiny_y, *hyperparams)
+                    aug_data = augment_by_policy(tiny_X, tiny_y, *hyperparams)
 
                     aug_data["X_train"] = apply_default_transformations(
                         aug_data["X_train"]
