@@ -20,6 +20,9 @@ timer = Reporter.timer
 
 
 class ChildCNN:
+    """Child CNN model which reflects full models
+
+    """
     def __init__(
         self,
         input_shape=None, num_classes=None,
@@ -33,6 +36,15 @@ class ChildCNN:
 
     @timer
     def fit(self, data, augmented_data=None, epochs=None):
+        """Fits the model with given data and augmented-data
+
+        Args:
+             data (dict): should have keys 'X_train' and 'y_train'
+             augmented_data (dict): should have keys 'X_train' and 'y_train'. If none, augmented-data not used
+             epochs (int):
+        Returns:
+            dict: history of training
+        """
 
         if epochs is None:
             epochs = self.config["child_epochs"]
@@ -109,6 +121,13 @@ class ChildCNN:
         self.model.save_weights(self.config["pre_aug_weights_path"])
 
     def create_child_cnn(self):
+        """Creates the child CNN
+
+        Model choices:
+            basicCNN
+            WRN (with any N and k)
+            MobileNet
+        """
         if type(self.config["model"])==str:
             if self.config["model"].lower() == "basiccnn":
                 return self.build_basicCNN()
@@ -200,6 +219,13 @@ class ChildCNN:
         return model
 
     def build_basicCNN(self):
+        """Builds basic convolutional neural net (CNN) model
+
+        Returns:
+            keras.models.Model
+
+        :return:
+        """
         model = Sequential()
         model.add(Conv2D(32, (3, 3), padding="same", input_shape=self.input_shape))
         model.add(Activation("relu"))
