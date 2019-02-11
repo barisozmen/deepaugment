@@ -66,7 +66,7 @@ DEFAULT_CONFIG = {
 
 
 class DeepAugment():
-    """
+    """Initiliazes commponents of DeepAugment (e.g. Controller, Child-model, Notebook) and optimizes image augmentation hyperparameters
 
     """
 

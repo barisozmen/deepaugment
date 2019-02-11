@@ -44,6 +44,18 @@ class DataOp:
 
     @staticmethod
     def split_train_val_sets(X, y, train_set_size, val_set_size):
+        """Splits given images randomly into `train` and `val_seed` groups
+
+        val_seed -> is validation seed dataset, from where validation sets are sampled
+
+        Args:
+            X (numpy.array):
+            y (numpy.array):
+            train_set_size (int):
+            val_set_size (int):
+        return:
+            dict: dict with keys `X_train`, `y_train`, `X_val_seed`, `y_val_seed`
+        """
         if train_set_size == None:
             print(f"Using all training images")
             train_set_size = len(X) - val_set_size
@@ -70,6 +82,19 @@ class DataOp:
 
     @staticmethod
     def preprocess(X, y, train_set_size, val_set_size=1000):
+        """Preprocess images by:
+            1. normalize to 0-1 range (divide by 255)
+            2. convert labels to categorical)
+
+        Args:
+            X (numpy.array):
+            y (numpy.array):
+            train_set_size (int):
+            val_set_size (int):
+
+        Returns:
+            dict: preprocessed data
+        """
 
         data = DataOp.split_train_val_sets(X, y, train_set_size, val_set_size)
 
