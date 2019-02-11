@@ -1,0 +1,424 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="Python">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>wide_res_net &#8212; deepaugment 0.2.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for wide_res_net</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copy-pasted from https://github.com/keras-team/keras-contrib/blob/master/keras_contrib/applications/wide_resnet.py</span>
+
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;Wide Residual Network models for Keras.</span>
+<span class="sd"># Reference</span>
+<span class="sd">- [Wide Residual Networks](https://arxiv.org/abs/1605.07146)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="k">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">keras.layers.core</span> <span class="k">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">Activation</span>
+<span class="kn">from</span> <span class="nn">keras.layers.pooling</span> <span class="k">import</span> <span class="n">MaxPooling2D</span><span class="p">,</span> <span class="n">GlobalAveragePooling2D</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="k">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Conv2D</span>
+<span class="kn">from</span> <span class="nn">keras.layers.merge</span> <span class="k">import</span> <span class="n">add</span>
+<span class="kn">from</span> <span class="nn">keras.layers.normalization</span> <span class="k">import</span> <span class="n">BatchNormalization</span>
+<span class="kn">from</span> <span class="nn">keras.utils.layer_utils</span> <span class="k">import</span> <span class="n">convert_all_kernels_in_model</span>
+<span class="kn">from</span> <span class="nn">keras.utils.data_utils</span> <span class="k">import</span> <span class="n">get_file</span>
+<span class="kn">from</span> <span class="nn">keras.engine.topology</span> <span class="k">import</span> <span class="n">get_source_inputs</span>
+<span class="kn">from</span> <span class="nn">keras_applications.imagenet_utils</span> <span class="k">import</span> <span class="n">_obtain_input_shape</span>
+<span class="kn">import</span> <span class="nn">keras.backend</span> <span class="k">as</span> <span class="nn">K</span>
+
+<span class="n">TH_WEIGHTS_PATH</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/titu1994/Wide-Residual-Networks/releases/download/v1.2/wrn_28_8_th_kernels_th_dim_ordering.h5&quot;</span>
+<span class="n">TF_WEIGHTS_PATH</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/titu1994/Wide-Residual-Networks/releases/download/v1.2/wrn_28_8_tf_kernels_tf_dim_ordering.h5&quot;</span>
+<span class="n">TH_WEIGHTS_PATH_NO_TOP</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/titu1994/Wide-Residual-Networks/releases/download/v1.2/wrn_28_8_th_kernels_th_dim_ordering_no_top.h5&quot;</span>
+<span class="n">TF_WEIGHTS_PATH_NO_TOP</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/titu1994/Wide-Residual-Networks/releases/download/v1.2/wrn_28_8_tf_kernels_tf_dim_ordering_no_top.h5&quot;</span>
+
+
+<div class="viewcode-block" id="WideResidualNetwork"><a class="viewcode-back" href="../wide_res_net.html#wide_res_net.WideResidualNetwork">[docs]</a><span class="k">def</span> <span class="nf">WideResidualNetwork</span><span class="p">(</span>
+    <span class="n">depth</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">include_top</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">weights</span><span class="o">=</span><span class="s2">&quot;cifar10&quot;</span><span class="p">,</span>
+    <span class="n">input_tensor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">input_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">classes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Instantiate the Wide Residual Network architecture,</span>
+<span class="sd">        optionally loading weights pre-trained</span>
+<span class="sd">        on CIFAR-10. Note that when using TensorFlow,</span>
+<span class="sd">        for best performance you should set</span>
+<span class="sd">        `image_dim_ordering=&quot;tf&quot;` in your Keras config</span>
+<span class="sd">        at ~/.keras/keras.json.</span>
+<span class="sd">        The model and the weights are compatible with both</span>
+<span class="sd">        TensorFlow and Theano. The dimension ordering</span>
+<span class="sd">        convention used by the model is the one</span>
+<span class="sd">        specified in your Keras config file.</span>
+<span class="sd">        # Arguments</span>
+<span class="sd">            depth: number or layers in the DenseNet</span>
+<span class="sd">            width: multiplier to the ResNet width (number of filters)</span>
+<span class="sd">            dropout_rate: dropout rate</span>
+<span class="sd">            include_top: whether to include the fully-connected</span>
+<span class="sd">                layer at the top of the network.</span>
+<span class="sd">            weights: one of `None` (random initialization) or</span>
+<span class="sd">                &quot;cifar10&quot; (pre-training on CIFAR-10)..</span>
+<span class="sd">            input_tensor: optional Keras tensor (i.e. output of `layers.Input()`)</span>
+<span class="sd">                to use as image input for the model.</span>
+<span class="sd">            input_shape: optional shape tuple, only to be specified</span>
+<span class="sd">                if `include_top` is False (otherwise the input shape</span>
+<span class="sd">                has to be `(32, 32, 3)` (with `tf` dim ordering)</span>
+<span class="sd">                or `(3, 32, 32)` (with `th` dim ordering).</span>
+<span class="sd">                It should have exactly 3 inputs channels,</span>
+<span class="sd">                and width and height should be no smaller than 8.</span>
+<span class="sd">                E.g. `(200, 200, 3)` would be one valid value.</span>
+<span class="sd">            classes: optional number of classes to classify images</span>
+<span class="sd">                into, only to be specified if `include_top` is True, and</span>
+<span class="sd">                if no `weights` argument is specified.</span>
+<span class="sd">        # Returns</span>
+<span class="sd">            A Keras model instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">weights</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;cifar10&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The `weights` argument should be either &quot;</span>
+            <span class="s2">&quot;`None` (random initialization) or `cifar10` &quot;</span>
+            <span class="s2">&quot;(pre-training on CIFAR-10).&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">weights</span> <span class="o">==</span> <span class="s2">&quot;cifar10&quot;</span> <span class="ow">and</span> <span class="n">include_top</span> <span class="ow">and</span> <span class="n">classes</span> <span class="o">!=</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;If using `weights` as CIFAR 10 with `include_top`&quot;</span>
+            <span class="s2">&quot; as true, `classes` should be 10&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> <span class="o">%</span> <span class="mi">6</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Depth of the network must be such that (depth - 4)&quot;</span>
+            <span class="s2">&quot;should be divisible by 6.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Determine proper input shape</span>
+    <span class="n">input_shape</span> <span class="o">=</span> <span class="n">_obtain_input_shape</span><span class="p">(</span>
+        <span class="n">input_shape</span><span class="p">,</span>
+        <span class="n">default_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+        <span class="n">min_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">data_format</span><span class="o">=</span><span class="n">K</span><span class="o">.</span><span class="n">image_dim_ordering</span><span class="p">(),</span>
+        <span class="n">require_flatten</span><span class="o">=</span><span class="n">include_top</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">input_tensor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">img_input</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">input_shape</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">K</span><span class="o">.</span><span class="n">is_keras_tensor</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">):</span>
+            <span class="n">img_input</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">tensor</span><span class="o">=</span><span class="n">input_tensor</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">input_shape</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">img_input</span> <span class="o">=</span> <span class="n">input_tensor</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">__create_wide_residual_network</span><span class="p">(</span>
+        <span class="n">classes</span><span class="p">,</span> <span class="n">img_input</span><span class="p">,</span> <span class="n">include_top</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="p">,</span> <span class="n">activation</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Ensure that the model takes into account</span>
+    <span class="c1"># any potential predecessors of `input_tensor`.</span>
+    <span class="k">if</span> <span class="n">input_tensor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">get_source_inputs</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">img_input</span>
+    <span class="c1"># Create model.</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;wide-resnet&quot;</span><span class="p">)</span>
+
+    <span class="c1"># load weights</span>
+    <span class="k">if</span> <span class="n">weights</span> <span class="o">==</span> <span class="s2">&quot;cifar10&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">==</span> <span class="mi">28</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">width</span> <span class="o">==</span> <span class="mi">8</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">dropout_rate</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">):</span>
+            <span class="c1"># Default parameters match. Weights for this model exist:</span>
+
+            <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">image_dim_ordering</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;th&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">include_top</span><span class="p">:</span>
+                    <span class="n">weights_path</span> <span class="o">=</span> <span class="n">get_file</span><span class="p">(</span>
+                        <span class="s2">&quot;wide_resnet_28_8_th_dim_ordering_th_kernels.h5&quot;</span><span class="p">,</span>
+                        <span class="n">TH_WEIGHTS_PATH</span><span class="p">,</span>
+                        <span class="n">cache_subdir</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">weights_path</span> <span class="o">=</span> <span class="n">get_file</span><span class="p">(</span>
+                        <span class="s2">&quot;wide_resnet_28_8_th_dim_ordering_th_kernels_no_top.h5&quot;</span><span class="p">,</span>
+                        <span class="n">TH_WEIGHTS_PATH_NO_TOP</span><span class="p">,</span>
+                        <span class="n">cache_subdir</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+                <span class="n">model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="n">weights_path</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">backend</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;tensorflow&quot;</span><span class="p">:</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                        <span class="s2">&quot;You are using the TensorFlow backend, yet you &quot;</span>
+                        <span class="s2">&quot;are using the Theano &quot;</span>
+                        <span class="s2">&quot;image dimension ordering convention &quot;</span>
+                        <span class="s1">&#39;(`image_dim_ordering=&quot;th&quot;`). &#39;</span>
+                        <span class="s2">&quot;For best performance, set &quot;</span>
+                        <span class="s1">&#39;`image_dim_ordering=&quot;tf&quot;` in &#39;</span>
+                        <span class="s2">&quot;your Keras config &quot;</span>
+                        <span class="s2">&quot;at ~/.keras/keras.json.&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">convert_all_kernels_in_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">include_top</span><span class="p">:</span>
+                    <span class="n">weights_path</span> <span class="o">=</span> <span class="n">get_file</span><span class="p">(</span>
+                        <span class="s2">&quot;wide_resnet_28_8_tf_dim_ordering_tf_kernels.h5&quot;</span><span class="p">,</span>
+                        <span class="n">TF_WEIGHTS_PATH</span><span class="p">,</span>
+                        <span class="n">cache_subdir</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">weights_path</span> <span class="o">=</span> <span class="n">get_file</span><span class="p">(</span>
+                        <span class="s2">&quot;wide_resnet_28_8_tf_dim_ordering_tf_kernels_no_top.h5&quot;</span><span class="p">,</span>
+                        <span class="n">TF_WEIGHTS_PATH_NO_TOP</span><span class="p">,</span>
+                        <span class="n">cache_subdir</span><span class="o">=</span><span class="s2">&quot;models&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+                <span class="n">model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="n">weights_path</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">backend</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;theano&quot;</span><span class="p">:</span>
+                    <span class="n">convert_all_kernels_in_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">model</span></div>
+
+
+<span class="k">def</span> <span class="nf">__conv1_block</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="nb">input</span><span class="p">)</span>
+
+    <span class="n">channel_axis</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">image_data_format</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;channels_first&quot;</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">channel_axis</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="k">def</span> <span class="nf">__conv2_block</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+    <span class="n">init</span> <span class="o">=</span> <span class="nb">input</span>
+
+    <span class="n">channel_axis</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">image_data_format</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;channels_first&quot;</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="c1"># Check if input number of filters is same as 16 * k, else create convolution2d for this input</span>
+    <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">image_data_format</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;channels_first&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">init</span><span class="o">.</span><span class="n">_keras_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">16</span> <span class="o">*</span> <span class="n">k</span><span class="p">:</span>
+            <span class="n">init</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">init</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">init</span><span class="o">.</span><span class="n">_keras_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">16</span> <span class="o">*</span> <span class="n">k</span><span class="p">:</span>
+            <span class="n">init</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">init</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">channel_axis</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dropout</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">channel_axis</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">add</span><span class="p">([</span><span class="n">init</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">m</span>
+
+
+<span class="k">def</span> <span class="nf">__conv3_block</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+    <span class="n">init</span> <span class="o">=</span> <span class="nb">input</span>
+
+    <span class="n">channel_axis</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">image_data_format</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;channels_first&quot;</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="c1"># Check if input number of filters is same as 32 * k, else create convolution2d for this input</span>
+    <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">image_data_format</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;channels_first&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">init</span><span class="o">.</span><span class="n">_keras_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">32</span> <span class="o">*</span> <span class="n">k</span><span class="p">:</span>
+            <span class="n">init</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">32</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">init</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">init</span><span class="o">.</span><span class="n">_keras_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">32</span> <span class="o">*</span> <span class="n">k</span><span class="p">:</span>
+            <span class="n">init</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">32</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">init</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">32</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">channel_axis</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dropout</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">32</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">channel_axis</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">add</span><span class="p">([</span><span class="n">init</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">m</span>
+
+
+<span class="k">def</span> <span class="nf">___conv4_block</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+    <span class="n">init</span> <span class="o">=</span> <span class="nb">input</span>
+
+    <span class="n">channel_axis</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">image_dim_ordering</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;th&quot;</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="c1"># Check if input number of filters is same as 64 * k, else create convolution2d for this input</span>
+    <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">image_dim_ordering</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;th&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">init</span><span class="o">.</span><span class="n">_keras_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">64</span> <span class="o">*</span> <span class="n">k</span><span class="p">:</span>
+            <span class="n">init</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">init</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">init</span><span class="o">.</span><span class="n">_keras_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">64</span> <span class="o">*</span> <span class="n">k</span><span class="p">:</span>
+            <span class="n">init</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">init</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">channel_axis</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dropout</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">channel_axis</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">add</span><span class="p">([</span><span class="n">init</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">m</span>
+
+
+<span class="k">def</span> <span class="nf">__create_wide_residual_network</span><span class="p">(</span>
+    <span class="n">nb_classes</span><span class="p">,</span>
+    <span class="n">img_input</span><span class="p">,</span>
+    <span class="n">include_top</span><span class="p">,</span>
+    <span class="n">depth</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">dropout</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Creates a Wide Residual Network with specified parameters</span>
+<span class="sd">    Args:</span>
+<span class="sd">        nb_classes: Number of output classes</span>
+<span class="sd">        img_input: Input tensor or layer</span>
+<span class="sd">        include_top: Flag to include the last dense layer</span>
+<span class="sd">        depth: Depth of the network. Compute N = (n - 4) / 6.</span>
+<span class="sd">               For a depth of 16, n = 16, N = (16 - 4) / 6 = 2</span>
+<span class="sd">               For a depth of 28, n = 28, N = (28 - 4) / 6 = 4</span>
+<span class="sd">               For a depth of 40, n = 40, N = (40 - 4) / 6 = 6</span>
+<span class="sd">        width: Width of the network.</span>
+<span class="sd">        dropout: Adds dropout if value is greater than 0.0</span>
+<span class="sd">    Returns:a Keras Model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">N</span> <span class="o">=</span> <span class="p">(</span><span class="n">depth</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> <span class="o">//</span> <span class="mi">6</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">__conv1_block</span><span class="p">(</span><span class="n">img_input</span><span class="p">)</span>
+    <span class="n">nb_conv</span> <span class="o">=</span> <span class="mi">4</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">__conv2_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+        <span class="n">nb_conv</span> <span class="o">+=</span> <span class="mi">2</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">__conv3_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+        <span class="n">nb_conv</span> <span class="o">+=</span> <span class="mi">2</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">___conv4_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+        <span class="n">nb_conv</span> <span class="o">+=</span> <span class="mi">2</span>
+
+    <span class="k">if</span> <span class="n">include_top</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">GlobalAveragePooling2D</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">nb_classes</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">deepaugment</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Baris Ozmen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -14,20 +14,9 @@
 #
 import os
 import sys
-sys.path.insert(0, "../")
-sys.path.insert(0, "../deepaugment")
-sys.path.insert(0, "../deepaugment/lib")
-
-
-from unittest.mock import MagicMock
-
-class Mock(MagicMock):
-    @classmethod
-    def __getattr__(cls, name):
-        return MagicMock()
-
-MOCK_MODULES = ['keras', 'tensorflow', 'pandas', 'argparse', 'numpy', 'pandas', 'click']
-sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+sys.path.insert(0, "/Users/baris.ozmen/Desktop/github-insight/deepaugment/")
+sys.path.insert(0, "/Users/baris.ozmen/Desktop/github-insight/deepaugment/deepaugment")
+sys.path.insert(0, "/Users/baris.ozmen/Desktop/github-insight/deepaugment/deepaugment/lib")
 
 
 # -- Project information -----------------------------------------------------
