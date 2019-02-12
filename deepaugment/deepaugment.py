@@ -75,7 +75,7 @@ class DeepAugment:
     """
 
     @logger(logfile_dir=EXPERIMENT_FOLDER_PATH)
-    def __init__(self, images="cifar10", labels=None, config={}):
+    def __init__(self, images="cifar10", labels=None, config=None):
         """Initializes DeepAugment object
 
         Does following steps:
@@ -157,7 +157,7 @@ class DeepAugment:
             images (numpy.array/str): array with shape (n_images, dim1, dim2 , channel_size), or a string with name of keras-dataset (cifar10, fashion_mnsit)
             labels (numpy.array): labels of images, array with shape (n_images) where each element is an integer from 0 to number of classes
         """
-        if type(images) == str:
+        if isinstance(images, str):
             X, y, self.input_shape = DataOp.load(images)
         else:
             X, y = images, labels
@@ -210,22 +210,26 @@ def main(
     opt_initial_points,
     child_epochs,
     child_first_train_epochs,
-    child_batch_size,
+    child_batch_size
 ):
-    DeepAugment(
-        images,
-        labels,
-        model,
-        method,
-        train_set_size,
-        opt_iterations,
-        opt_samples,
-        opt_last_n_epochs,
-        opt_initial_points,
-        child_epochs,
-        child_first_train_epochs,
-        child_batch_size,
-    )
+
+    _config = {
+        "model" : model,
+        "method" : method,
+        "train_set_size" : train_set_size,
+        "opt_samples" : opt_samples,
+        "opt_last_n_epochs" : opt_last_n_epochs,
+        "opt_initial_points" : opt_initial_points,
+        "child_epochs" : child_epochs,
+        "child_first_train_epochs" : child_first_train_epochs,
+        "child_batch_size" : child_batch_size
+    }
+
+    deepaug = DeepAugment(images, labels, config=_config)
+
+    best_policies = deepaug.optimize(opt_iterations)
+
+    print(best_policies)
 
 
 if __name__ == "__main__":
