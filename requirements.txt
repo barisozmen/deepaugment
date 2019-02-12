@@ -14,7 +14,7 @@ scikit-image
 opencv-python
 imageio
 Shapely
-imgaug
+imgaug>=0.2.7
 
 # opencv
 opencv-contrib-python
