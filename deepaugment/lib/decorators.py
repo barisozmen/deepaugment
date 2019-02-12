@@ -181,8 +181,8 @@ def multi_element_argument(func):
         if type(first_arg) in multi_element_types:
             first_arg = list(first_arg)
             result = []
-            for i in range(len(first_arg)):
-                new_args = [first_arg[i]] + args_copy[1:]
+            for i, val in enumerate(first_arg):
+                new_args = [val] + args_copy[1:]
                 result.append(func(*new_args, **kwargs))
         else:
             result = func(*args, **kwargs)

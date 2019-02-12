@@ -139,14 +139,15 @@ def test_deepaugment_image_generator():
         },
     ]
 
-    return deepaugment_generator(X, y, policy, batch_size=batch_size)
-
-
-if __name__ == "__main__":
-    gen = test_deepaugment_generator()
+    gen = deepaugment_generator(X, y, policy, batch_size=batch_size)
 
     a = next(gen)
     b = next(gen)
     c = next(gen)
+    # if no error happened during next()'s, it is good
 
-    pass
+
+if __name__ == "__main__":
+    test_deepaugment_generator()
+
+
