@@ -26,6 +26,19 @@ sys.path.insert(0, "./deepaugment/deepaugment/")
 sys.path.insert(0, "./deepaugment/lib/")
 
 
+# mock some libraries, for modules to work in readthedocs.io
+from unittest.mock import MagicMock
+
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+        return MagicMock()
+
+MOCK_MODULES = ['pygtk', 'gtk', 'gobject', 'argparse', 'numpy', 'pandas',
+                'tensorflow', 'keras', 'skopt', 'imgaug']
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+
+
 # -- Project information -----------------------------------------------------
 
 project = 'deepaugment'
