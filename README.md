@@ -91,7 +91,5 @@ Reward function is calculated as mean of K highest validation accuracies of the 
 
 --------
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
-
 ## Contact
 Baris Ozmen, hbaristr@gmail.com
