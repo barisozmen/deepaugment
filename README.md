@@ -69,30 +69,29 @@ best_policies = deepaug.optimize(300)
  
 ## How it works?
 
+DeepAugment consists three main components: controller, augmenter, and child model. Controller samples new augmentation policies ((see below)[#Augmentation policy]), augmenter transforms images by the new policy, and child model is trained from scratch by augmented images. Then, a reward is calculated from child model's validation accuracy curve by the formula as explained at (reward function section)[#Reward function]. This reward is returned back to controller, and it updates its internal and samples a new augmentation policy, returning to the beginning of the cycle (iteration).
+
+Controller might be set to use Bayesian Optimization (defaul), or Random Search. If Bayesian Optimization set, it samples new policies by a Random Forest Estimator, which is updated at each iteration.
+
 <img width="600" alt="simplified_workflow" src="https://user-images.githubusercontent.com/14996155/52587711-797a4280-2def-11e9-84f8-2368fd709ab9.png">
 
-DeepAugment consists three main components: Controller, Augmenter, and Child model. Controller samples new augmentation policies ()
-
-### What is an augmentation policy?
+### Augmentation policy
 
 A policy describes the augmentation will be applied on a dataset. Each policy consists variables for two augmentation types, their magnitude and the portion of the data to be augmented. An example policy is as following: 
+
 <img width="400" alt="example policy" src="https://user-images.githubusercontent.com/14996155/52595719-59ed1500-2e03-11e9-9a40-a79462006924.png">
 
 There are currently 20 types of augmentation techniques (above, right) that each aug. type variable can take. All techniques are (this list might grow in later versions):
 ```
 AUG_TYPES = [ "crop", "gaussian-blur", "rotate", "shear", "translate-x", "translate-y", "sharpen", "emboss", "additive-gaussian-noise", "dropout", "coarse-dropout", "gamma-contrast", "brighten", "invert", "fog", "clouds", "add-to-hue-and-saturation", "coarse-salt-pepper", "horizontal-flip", "vertical-flip"]
 ```
-
-
-DeepAugment working method can be dissected into three areas:
-1. Search space of augmentation
-2. Optimizer
-3. Child model
-
-### 1. Search space of augmentation
-### 2. Optimizer
-### 3. Child model
+### Child model
 <img width="800" alt="child-cnn" src="https://user-images.githubusercontent.com/14996155/52545277-10e98200-2d6b-11e9-9639-48b671711eba.png">
+
+### Reward function
+Reward function is calculated as mean of K highest validation accuracies of the child model which is not smaller than corresponding training accuracy by 0.05. K can be determined by the user by updating `opt_last_n_epochs` key in config dictionary as argument to `DeepAugment()` class (K is 3 by default).
+
+
 
 
 ### Repo Organization
