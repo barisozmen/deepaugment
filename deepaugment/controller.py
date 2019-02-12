@@ -26,6 +26,7 @@ AUG_TYPES = [
     "vertical-flip",
 ]
 
+
 def augment_type_chooser():
     """A random function to choose among augmentation types
 
@@ -35,10 +36,10 @@ def augment_type_chooser():
     return np.random.choice(AUG_TYPES)
 
 
-class Controller():
+class Controller:
 
-    opt=None # used only if method is bayesian optimization
-    random_search_space=None # used only if method is random search
+    opt = None  # used only if method is bayesian optimization
+    random_search_space = None  # used only if method is random search
 
     def __init__(self, config):
         """Initiliaze Controller either as a Bayesian Optimizer or as a Random Search Algorithm
@@ -88,7 +89,7 @@ class Controller():
             np.random.rand,
             augment_type_chooser,
             np.random.rand,
-            np.random.rand
+            np.random.rand,
         ]
 
     def ask(self):
@@ -101,9 +102,9 @@ class Controller():
         Returns:
             list: list of hyperparameters
         """
-        if self.method=="bayesian_optimization":
+        if self.method == "bayesian_optimization":
             return self.opt.ask()
-        elif self.method=="random_search":
+        elif self.method == "random_search":
             return [func() for func in random_search_space]
 
     def tell(self, trial_hyperparams, f_val):
@@ -115,7 +116,7 @@ class Controller():
             trial_hyperparams (list): list of tried hyperparamters
             f_val (float): trial cost
         """
-        if self.method=="bayesian_optimization":
+        if self.method == "bayesian_optimization":
             self.opt.tell(trial_hyperparams, f_val)
-        elif self.method=="random_search":
-            pass # no need to tell anythin
+        elif self.method == "random_search":
+            pass  # no need to tell anythin
