@@ -16,6 +16,9 @@ from lib.helpers import log_and_print
 
 
 class Objective:
+    """Objective class for the controller
+
+    """
     def __init__(self, data, child_model, notebook, config):
         self.data = data
         self.child_model = child_model
@@ -25,6 +28,17 @@ class Objective:
         self.logging = config["logging"]
 
     def evaluate(self, trial_no, trial_hyperparams):
+        """Evaluates objective function
+
+        Trains the child model k times with same augmentation hyperparameters.
+        k is determined by the user by `opt_samples` argument.
+
+        Args:
+            trial_no (int): no of trial. needed for recording to notebook
+            trial_hyperparams (list)
+        Returns:
+            float: trial-cost = 1 - avg. rewards from samples
+        """
 
         augmented_data = augment_by_policy(
             self.data["X_train"], self.data["y_train"], *trial_hyperparams
@@ -53,6 +67,18 @@ class Objective:
         return trial_cost
 
     def calculate_reward(self, history):
+        """Calculates reward for the history.
+
+        Reward is mean of largest n validation accuracies which are not overfitting.
+        n is determined by the user by `opt_last_n_epochs` argument. A validation
+        accuracy is considered as overfitting if the training accuracy in the same
+        epoch is larger by 0.05
+
+        Args:
+            history (dict): dictionary of loss and accuracy
+        Returns:
+            float: reward
+        """
         history_df = pd.DataFrame(history)
         history_df["acc_overfit"] = history_df["acc"] - history_df["val_acc"]
         reward = (
