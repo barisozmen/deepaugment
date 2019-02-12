@@ -26,6 +26,7 @@ logging.basicConfig(filename=(log_path / "info.log").absolute(), level=logging.D
 
 import sys
 from os.path import dirname, realpath
+
 file_path = realpath(__file__)
 dir_of_file = dirname(file_path)
 sys.path.insert(0, dir_of_file)

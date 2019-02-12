@@ -6,12 +6,14 @@ import pandas as pd
 
 import sys
 from os.path import dirname, realpath
+
 file_path = realpath(__file__)
 dir_of_file = dirname(file_path)
 sys.path.insert(0, dir_of_file)
 
 from lib.cutout import cutout_numpy
 from augmenter import augment_by_policy
+
 
 def random_flip(x):
     """Flip the input x horizontally with 50% probability."""

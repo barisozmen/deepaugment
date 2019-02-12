@@ -26,7 +26,7 @@ class DataOp:
             sys.exit(f"Unknown dataset {dataset_name}")
 
         X = np.concatenate([x_train, x_val])
-        y = np.concatenate([y_train,y_val])
+        y = np.concatenate([y_train, y_val])
         input_shape = x_train.shape[1:]
 
         return X, y, input_shape
