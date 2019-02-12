@@ -312,8 +312,6 @@ class PlotOp:
             tooltip = [xcol, ycol]
         assert all(item in df.columns for item in tooltip)
 
-        import altair as alt
-
         color_scheme = "redblue"
 
         selection_by_x = alt.selection_multi(fields=[xcol], nearest=False)
@@ -367,13 +365,13 @@ class PlotOp:
         non_percentages = df["percentage_nonsense"].values
 
         # create plot
-        fig, ax = plt.subplots(figsize=(5, 30))
+        _, ax = plt.subplots(figsize=(5, 30))
 
         index = np.arange(n_groups)
         bar_width = 0.25
         opacity = 1
 
-        rects1 = plt.barh(
+        plt.barh(
             index,
             non_percentages,
             bar_width,
@@ -383,7 +381,7 @@ class PlotOp:
             zorder=2,
         )
 
-        rects2 = plt.barh(
+        plt.barh(
             index + bar_width,
             mis_percentages,
             bar_width,
@@ -441,7 +439,7 @@ class PlotOp:
         ytitle=None,
         ythreshold=2,
         clampthreshold=400,
-        tooltip=[],
+        tooltip=None,
         topk=5,
         figsize=(600, 600),
         titlefontsize=18,

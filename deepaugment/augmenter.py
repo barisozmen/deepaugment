@@ -116,8 +116,9 @@ def transform(aug_type, magnitude, X):
     return X_aug
 
 
-
-def augment_by_policy(X, y, aug1_type, aug1_magnitude, aug2_type, aug2_magnitude, portion):
+def augment_by_policy(
+    X, y, aug1_type, aug1_magnitude, aug2_type, aug2_magnitude, portion
+):
     """
     """
     assert (
@@ -144,9 +145,7 @@ def augment_by_policy(X, y, aug1_type, aug1_magnitude, aug2_type, aug2_magnitude
         y_portion = y[nix].copy()
 
     # transform that portion
-    X_portion_aug = transform(
-        aug1_type, aug1_magnitude, X_portion
-    )  # first transform
+    X_portion_aug = transform(aug1_type, aug1_magnitude, X_portion)  # first transform
 
     assert (
         X_portion_aug.min() >= -0.1 and X_portion_aug.max() <= 255.1

@@ -24,12 +24,6 @@ log_path = pathlib.Path(EXPERIMENT_FOLDER_PATH)
 log_path.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(filename=(log_path / "info.log").absolute(), level=logging.DEBUG)
 
-import sys
-from os.path import dirname, realpath
-file_path = realpath(__file__)
-dir_of_file = dirname(file_path)
-sys.path.insert(0, dir_of_file)
-
 from childcnn import ChildCNN
 from build_features import DataOp
 from lib.decorators import Reporter

@@ -2,6 +2,7 @@
 
 import tensorflow as tf
 import keras
+
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True  # tell tensorflow not to use all resources
 session = tf.Session(config=config)
@@ -18,12 +19,12 @@ file_path = realpath(__file__)
 dir_of_file = dirname(file_path)
 parent_dir_of_file = dirname(dir_of_file)
 sys.path.insert(0, dir_of_file)
+
 # Set experiment name
 import datetime
+
 now = datetime.datetime.now()
-EXPERIMENT_NAME = (
-    f"{now.month:02}-{now.day:02}_{now.hour:02}-{now.minute:02}"
-)
+EXPERIMENT_NAME = f"{now.month:02}-{now.day:02}_{now.hour:02}-{now.minute:02}"
 EXPERIMENT_FOLDER_PATH = os.path.join(
     parent_dir_of_file, f"reports/experiments/{EXPERIMENT_NAME}"
 )
@@ -38,11 +39,13 @@ from childcnn import ChildCNN
 from notebook import Notebook
 from build_features import DataOp
 from lib.decorators import Reporter
+
 logger = Reporter.logger
 
 
 # warn user if TensorFlow does not see the GPU
 from tensorflow.python.client import device_lib
+
 if "GPU" not in str(device_lib.list_local_devices()):
     print("GPU not available!")
     logging.warning("GPU not available!")
@@ -62,7 +65,7 @@ DEFAULT_CONFIG = {
     "child_batch_size": 64,
     "pre_aug_weights_path": "pre_aug_weights.h5",
     "logging": logging,
-    "notebook_path": f"{EXPERIMENT_FOLDER_PATH}/notebook.csv"
+    "notebook_path": f"{EXPERIMENT_FOLDER_PATH}/notebook.csv",
 }
 
 
@@ -72,12 +75,7 @@ class DeepAugment:
     """
 
     @logger(logfile_dir=EXPERIMENT_FOLDER_PATH)
-    def __init__(
-        self,
-        images="cifar10",
-        labels=None,
-        config={}
-    ):
+    def __init__(self, images="cifar10", labels=None, config=None):
         """Initializes DeepAugment object
 
         Does following steps:
@@ -108,9 +106,9 @@ class DeepAugment:
                     "notebook_path": f"{EXPERIMENT_FOLDER_PATH}/notebook.csv"
                 }
         """
-        self.config=DEFAULT_CONFIG
+        self.config = DEFAULT_CONFIG
         self.config.update(config)
-        self.iterated = 0 # keep tracks how many times optimizer iterated
+        self.iterated = 0  # keep tracks how many times optimizer iterated
 
         self.load_and_preprocess_data(images, labels)
 
@@ -121,11 +119,13 @@ class DeepAugment:
         if self.config["child_first_train_epochs"] > 0:
             self.do_initial_training()
         self.child_model.save_pre_aug_weights()
-        self.objective_func = Objective(self.data, self.child_model, self.notebook, self.config)
+        self.objective_func = Objective(
+            self.data, self.child_model, self.notebook, self.config
+        )
 
         self.evaluate_objective_func_without_augmentation()
 
-    def optimize(self, iterations = 300):
+    def optimize(self, iterations=300):
         """Optimize objective function hyperparameters using controller and child model
 
         Args:
@@ -141,7 +141,7 @@ class DeepAugment:
             f_val = self.objective_func.evaluate(trial_no, trial_hyperparams)
             self.controller.tell(trial_hyperparams, f_val)
 
-        self.iterated+=iterations # update number of previous iterations
+        self.iterated += iterations  # update number of previous iterations
 
         top_policies = self.notebook.get_top_policies(20)
         self.notebook.output_top_policies()
@@ -157,7 +157,7 @@ class DeepAugment:
             images (numpy.array/str): array with shape (n_images, dim1, dim2 , channel_size), or a string with name of keras-dataset (cifar10, fashion_mnsit)
             labels (numpy.array): labels of images, array with shape (n_images) where each element is an integer from 0 to number of classes
         """
-        if type(images) == str:
+        if isinstance(images, str):
             X, y, self.input_shape = DataOp.load(images)
         else:
             X, y = images, labels
@@ -165,14 +165,17 @@ class DeepAugment:
         self.data = DataOp.preprocess(X, y, self.config["train_set_size"])
         self.num_classes = DataOp.find_num_classes(self.data)
 
-
     def do_initial_training(self):
         """Do the first training without augmentations
 
         Training weights will be used as based to further child model trainings
         """
-        history = self.child_model.fit(self.data, epochs=self.config["child_first_train_epochs"])
-        self.notebook.record(-1, ["first", 0.0, "first", 0.0, "first", 0.0, 0.0], 1, None, history)
+        history = self.child_model.fit(
+            self.data, epochs=self.config["child_first_train_epochs"]
+        )
+        self.notebook.record(
+            -1, ["first", 0.0, "first", 0.0, "first", 0.0, 0.0], 1, None, history
+        )
 
     def evaluate_objective_func_without_augmentation(self):
         """Find out what would be the accuracy if augmentation are not applied
@@ -182,9 +185,8 @@ class DeepAugment:
         self.controller.tell(no_aug_hyperparams, f_val)
 
 
-
 @click.command()
-@click.option("--images",  default="cifar10")
+@click.option("--images", default="cifar10")
 @click.option("--labels")
 @click.option("--model", type=click.STRING, default="basiccnn")
 @click.option("--method", type=click.STRING, default="bayesian_optimization")
@@ -208,11 +210,26 @@ def main(
     opt_initial_points,
     child_epochs,
     child_first_train_epochs,
-    child_batch_size,
+    child_batch_size
 ):
-    DeepAugment(images, labels, model, method, train_set_size, opt_iterations, opt_samples,
-                opt_last_n_epochs, opt_initial_points, child_epochs, child_first_train_epochs,
-                child_batch_size)
+
+    _config = {
+        "model" : model,
+        "method" : method,
+        "train_set_size" : train_set_size,
+        "opt_samples" : opt_samples,
+        "opt_last_n_epochs" : opt_last_n_epochs,
+        "opt_initial_points" : opt_initial_points,
+        "child_epochs" : child_epochs,
+        "child_first_train_epochs" : child_first_train_epochs,
+        "child_batch_size" : child_batch_size
+    }
+
+    deepaug = DeepAugment(images, labels, config=_config)
+
+    best_policies = deepaug.optimize(opt_iterations)
+
+    print(best_policies)
 
 
 if __name__ == "__main__":

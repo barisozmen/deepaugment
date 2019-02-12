@@ -6,12 +6,14 @@ import pandas as pd
 
 import sys
 from os.path import dirname, realpath
+
 file_path = realpath(__file__)
 dir_of_file = dirname(file_path)
 sys.path.insert(0, dir_of_file)
 
 from lib.cutout import cutout_numpy
 from augmenter import augment_by_policy
+
 
 def random_flip(x):
     """Flip the input x horizontally with 50% probability."""
@@ -137,14 +139,15 @@ def test_deepaugment_image_generator():
         },
     ]
 
-    return deepaugment_generator(X, y, policy, batch_size=batch_size)
-
-
-if __name__ == "__main__":
-    gen = test_deepaugment_generator()
+    gen = deepaugment_generator(X, y, policy, batch_size=batch_size)
 
     a = next(gen)
     b = next(gen)
     c = next(gen)
+    # if no error happened during next()'s, it is good
 
-    pass
+
+if __name__ == "__main__":
+    test_deepaugment_generator()
+
+

@@ -1,6 +1,6 @@
 # (C) 2019 Baris Ozmen <hbaristr@gmail.com>
 
-from keras import models, layers, optimizers, Model
+from keras import optimizers, Model
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
@@ -11,6 +11,7 @@ import numpy as np
 
 import sys
 from os.path import dirname, realpath
+
 file_path = realpath(__file__)
 dir_of_file = dirname(file_path)
 sys.path.insert(0, dir_of_file)
@@ -27,11 +28,8 @@ class ChildCNN:
     """Child CNN model which reflects full models
 
     """
-    def __init__(
-        self,
-        input_shape=None, num_classes=None,
-        config=None
-    ):
+
+    def __init__(self, input_shape=None, num_classes=None, config=None):
 
         self.input_shape = input_shape
         self.num_classes = num_classes
@@ -132,7 +130,7 @@ class ChildCNN:
             WRN (with any N and k)
             MobileNet
         """
-        if type(self.config["model"])==str:
+        if isinstance(self.config["model"], str):
             if self.config["model"].lower() == "basiccnn":
                 return self.build_basicCNN()
             elif self.config["model"].lower().startswith("wrn"):
@@ -141,9 +139,8 @@ class ChildCNN:
                 return self.build_mobilenetv2()
             else:
                 raise ValueError
-        else: # if a keras model is the models itself
+        else:  # if a keras model is the models itself
             return self.config["model"]
-
 
     def build_mobilenetv2(self):
         mobilenet_v2 = MobileNetV2(
@@ -181,8 +178,6 @@ class ChildCNN:
             self.logging,
         )
         print(model.summary())
-        return model
-
         return model
 
     def build_wrn(self):

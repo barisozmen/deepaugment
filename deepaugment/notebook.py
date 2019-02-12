@@ -94,7 +94,6 @@ class Notebook:
         print(f"top-{k} policies:", k)
         print(self.top_df)
 
-
         return self.top_df
 
     def output_top_policies(self):
