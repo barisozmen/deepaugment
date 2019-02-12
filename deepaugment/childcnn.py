@@ -1,6 +1,6 @@
 # (C) 2019 Baris Ozmen <hbaristr@gmail.com>
 
-from keras import models, layers, optimizers, Model
+from keras import optimizers, Model
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
@@ -130,7 +130,7 @@ class ChildCNN:
             WRN (with any N and k)
             MobileNet
         """
-        if type(self.config["model"]) == str:
+        if isinstance(self.config["model"], str):
             if self.config["model"].lower() == "basiccnn":
                 return self.build_basicCNN()
             elif self.config["model"].lower().startswith("wrn"):
@@ -178,8 +178,6 @@ class ChildCNN:
             self.logging,
         )
         print(model.summary())
-        return model
-
         return model
 
     def build_wrn(self):

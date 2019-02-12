@@ -9,10 +9,10 @@ def df_correlations(df, features):
         features (list): features to calculate their correlations
     """
     rowList = []
-    for i in range(len(features)):
+    for i, feature_val in enumerate(features):
         for j in range(i + 1, len(features)):
-            feat1 = features[i]
-            feat2 = features[j]
+            feat1 = feature_val
+            feat2 = feature_val
             tmp_df = df[(df[feat1].notnull()) & (df[feat2].notnull())]
             p_r, p_p = pearsonr(tmp_df[feat1], tmp_df[feat2])
             s_r, s_p = spearmanr(tmp_df[feat1], tmp_df[feat2])

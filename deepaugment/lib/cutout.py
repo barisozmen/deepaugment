@@ -1,7 +1,5 @@
 # copy-pasted from https://github.com/tensorflow/models/blob/master/research/autoaugment/augmentation_transforms.py
 
-
-import random
 import numpy as np
 
 
