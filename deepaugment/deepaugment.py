@@ -38,6 +38,7 @@ from objective import Objective
 from childcnn import ChildCNN
 from notebook import Notebook
 from build_features import DataOp
+from image_generator import deepaugment_image_generator
 from lib.decorators import Reporter
 
 logger = Reporter.logger
@@ -143,10 +144,33 @@ class DeepAugment:
 
         self.iterated += iterations  # update number of previous iterations
 
-        top_policies = self.notebook.get_top_policies(20)
+        self.top_policies = self.notebook.get_top_policies(20)
         self.notebook.output_top_policies()
-        print("\ntop policies are:\n", top_policies)
-        return top_policies
+        print("\ntop policies are:\n", self.top_policies)
+
+        return self.top_policies
+
+    def image_generator_with_top_policies(self, images, labels, batch_size=None):
+        """
+
+        Args:
+            images (numpy.array): array with shape (N,dim,dim,channek-size)
+            labels (numpy.array): array with shape (N), where each eleemnt is an integer from 0 to num_classes-1
+            batch_size (int): batch size of the generator on demand
+        Returns:
+            generator: generator for augmented images
+        """
+        if batch_size is None:
+            batch_size = self.config["child_batch_size"]
+
+        top_policies_list = self.top_policies[
+            ["aug1_type","aug1_magnitude",
+             "aug2_type","aug2_magnitude",
+             "portion"]
+        ].to_dict(orient="records")
+
+        return deepaugment_image_generator(images, labels, top_policies_list, batch_size=batch_size)
+
 
     def _load_and_preprocess_data(self, images, labels):
         """Loads and preprocesses data
