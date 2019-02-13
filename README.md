@@ -99,8 +99,7 @@ Reward function is calculated as mean of K highest validation accuracies of the 
 ![classes_deepaugment](https://user-images.githubusercontent.com/14996155/52743629-4969a580-2f8f-11e9-8eb2-35aa1af161bb.png)
 
 ## Package diagram
-![packages_deepaugment](https://user-images.githubusercontent.com/14996155/52743630-4a023c00-2f8f-11e9-9b12-32b2ded6071b.png)
-
+<img width="600" alt="package-diagram" src="https://user-images.githubusercontent.com/14996155/52743630-4a023c00-2f8f-11e9-9b12-32b2ded6071b.png">
 --------
 
 ## Contact
