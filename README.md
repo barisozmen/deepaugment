@@ -1,6 +1,8 @@
 # DeepAugment
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+![pypi](https://img.shields.io/pypi/v/deepaugment.svg?style=flat)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 DeepAugment discovers best augmentation strategies tailored for your images. It optimizes augmentation hyperparameters using Bayesian Optimization, which is widely used for hyperparameter tuning. The tool:
 - boosts deep learning model accuracy 5% compared to models not using augmentation.
@@ -19,7 +21,7 @@ Simple usage (with any dataset)
 ```Python
 from deepaugment.deepaugment import DeepAugment
 
-deepaug = DeepAugment(my_data, my_labels)
+deepaug = DeepAugment(my_images, my_labels)
 
 best_policies = deepaug.optimize(300)
 ```
@@ -52,7 +54,7 @@ my_config = {
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
 # X_train.shape -> (N, M, M, 3)
 # y_train.shape -> (N)
-deepaug = DeepAugment(data=x_train, labels=y_train, config=my_config)
+deepaug = DeepAugment(iamges=x_train, labels=y_train, config=my_config)
 
 best_policies = deepaug.optimize(300)
 ```
@@ -89,6 +91,15 @@ AUG_TYPES = [ "crop", "gaussian-blur", "rotate", "shear", "translate-x", "transl
 ### Reward function
 Reward function is calculated as mean of K highest validation accuracies of the child model which is not smaller than corresponding training accuracy by 0.05. K can be determined by the user by updating `opt_last_n_epochs` key in config dictionary as argument to `DeepAugment()` class (K is 3 by default).
 
+## Data pipeline
+<img width="600" alt="data-pipeline-1" src="https://user-images.githubusercontent.com/14996155/52740937-0c9ab000-2f89-11e9-9e94-beca71caed41.png">
+<img width="600" alt="data-pipeline-2" src="https://user-images.githubusercontent.com/14996155/52740938-0d334680-2f89-11e9-8d68-117d139d9ab8.png">
+
+## Class diagram
+![classes_deepaugment](https://user-images.githubusercontent.com/14996155/52743629-4969a580-2f8f-11e9-8eb2-35aa1af161bb.png)
+
+## Package diagram
+<img width="600" alt="package-diagram" src="https://user-images.githubusercontent.com/14996155/52743630-4a023c00-2f8f-11e9-9b12-32b2ded6071b.png">
 --------
 
 ## Contact
