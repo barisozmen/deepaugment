@@ -21,7 +21,7 @@ Simple usage (with any dataset)
 ```Python
 from deepaugment.deepaugment import DeepAugment
 
-deepaug = DeepAugment(my_data, my_labels)
+deepaug = DeepAugment(my_images, my_labels)
 
 best_policies = deepaug.optimize(300)
 ```
@@ -54,7 +54,7 @@ my_config = {
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
 # X_train.shape -> (N, M, M, 3)
 # y_train.shape -> (N)
-deepaug = DeepAugment(data=x_train, labels=y_train, config=my_config)
+deepaug = DeepAugment(iamges=x_train, labels=y_train, config=my_config)
 
 best_policies = deepaug.optimize(300)
 ```
