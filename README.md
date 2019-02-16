@@ -4,9 +4,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-DeepAugment discovers best augmentation strategies tailored for your images. It optimizes augmentation hyperparameters using Bayesian Optimization, which is widely used for hyperparameter tuning. The tool:
-- boosts deep learning model accuracy 5% compared to models not using augmentation.
-- saves times by automating the process
+DeepAugment discovers optimized augmentation strategies tailored for your images. It uses Bayesian Optimization for optimizing hyperparameters for augmentation. The tool:
+1. boosts deep learning model accuracy (shown 5.2% accuracy increase (36% decrease in error) for CIFAR-10 on WRN-28-10 compared to no augmentation)
+2. saves times by automating the process
 
 
 Resources: [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCKmPravyqmaGjy-eIU5cTbG1A/edit#slide=id.g4cc092dbc6_0_0)
@@ -69,9 +69,9 @@ best_policies = deepaug.optimize(300)
  
 ## How it works?
 
-DeepAugment consists three main components: controller, augmenter, and child model. Controller samples new augmentation policies ((see below)[#Augmentation policy]), augmenter transforms images by the new policy, and child model is trained from scratch by augmented images. Then, a reward is calculated from child model's validation accuracy curve by the formula as explained at (reward function section)[#Reward function]. This reward is returned back to controller, and it updates its internal and samples a new augmentation policy, returning to the beginning of the cycle (iteration).
+Package consists three main components: controller, augmenter, and child model. Overal workflow is that controller samples new augmentation policies, augmenter transforms images by the new policy, and child model is trained from scratch by augmented images. Then, a reward is calculated from child model's validation accuracy curve by the formula as explained at (reward function section). This reward is returned back to controller, and it updates its internal and samples a new augmentation policy, returning to the beginning of the cycle.
 
-Controller might be set to use Bayesian Optimization (defaul), or Random Search. If Bayesian Optimization set, it samples new policies by a Random Forest Estimator, which is updated at each iteration.
+Controller might be set to use Bayesian Optimization (defaul), or Random Search. If Bayesian Optimization set, it samples new policies by a Random Forest Estimator.
 
 <img width="600" alt="simplified_workflow" src="https://user-images.githubusercontent.com/14996155/52587711-797a4280-2def-11e9-84f8-2368fd709ab9.png">
 
