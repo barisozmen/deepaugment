@@ -8,14 +8,12 @@ DeepAugment discovers optimized augmentation strategies tailored for your images
 1. boosts deep learning model accuracy (shown 5.2% accuracy increase (36% decrease in error) for CIFAR-10 on WRN-28-10 compared to no augmentation)
 2. saves times by automating the process
 
-
 Resources: [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCKmPravyqmaGjy-eIU5cTbG1A/edit#slide=id.g4cc092dbc6_0_0)
 
 ## Installation/Usage
 ```console
 $ pip install deepaugment
 ```
-
 
 Simple usage (with any dataset)
 ```Python
@@ -32,7 +30,6 @@ deepaug = DeepAugment("cifar10")
 
 best_policies = deepaug.optimize(300)
 ```
-
 
 Advanced usage (by changing configurations, and with fashion-mnist dataset)
 ```Python
@@ -59,7 +56,6 @@ deepaug = DeepAugment(iamges=x_train, labels=y_train, config=my_config)
 best_policies = deepaug.optimize(300)
 ```
 
-
 ## Results
 ### CIFAR-10 best policies tested on WRN-28-10 
 - Method: Wide-ResNet-28-10 trained with CIFAR-10 augmented images by best found policies, and with unaugmented images (everything else same).
@@ -67,7 +63,7 @@ best_policies = deepaug.optimize(300)
 
 <img src="https://user-images.githubusercontent.com/14996155/52544784-e0541900-2d67-11e9-93db-0b8b192f5b37.png" width="400"> <img src="https://user-images.githubusercontent.com/14996155/52545044-63c23a00-2d69-11e9-9879-3d7bcb8f88f4.png" width="400">
  
-## How it works?
+## How it works
 
 Package consists three main components: controller, augmenter, and child model. Overal workflow is that controller samples new augmentation policies, augmenter transforms images by the new policy, and child model is trained from scratch by augmented images. Then, a reward is calculated from child model's validation accuracy curve by the formula as explained at (reward function section). This reward is returned back to controller, and it updates its internal and samples a new augmentation policy, returning to the beginning of the cycle.
 
@@ -82,7 +78,7 @@ A policy describes the augmentation will be applied on a dataset. Each policy co
 <img width="400" alt="example policy" src="https://user-images.githubusercontent.com/14996155/52595719-59ed1500-2e03-11e9-9a40-a79462006924.png">
 
 There are currently 20 types of augmentation techniques (above, right) that each aug. type variable can take. All techniques are (this list might grow in later versions):
-```
+```Python
 AUG_TYPES = [ "crop", "gaussian-blur", "rotate", "shear", "translate-x", "translate-y", "sharpen", "emboss", "additive-gaussian-noise", "dropout", "coarse-dropout", "gamma-contrast", "brighten", "invert", "fog", "clouds", "add-to-hue-and-saturation", "coarse-salt-pepper", "horizontal-flip", "vertical-flip"]
 ```
 ### Child model
