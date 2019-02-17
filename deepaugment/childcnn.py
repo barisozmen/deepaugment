@@ -6,6 +6,7 @@ from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
 
 from keras.applications.mobilenetv2 import MobileNetV2
+from keras.applications.inception_v3 import InceptionV3
 
 import numpy as np
 
@@ -135,28 +136,39 @@ class ChildCNN:
                 return self.build_basicCNN()
             elif self.config["model"].lower().startswith("wrn"):
                 return self.build_wrn()
-            elif self.config["model"].lower() == "mobilenet":
-                return self.build_mobilenetv2()
+            elif self.config["model"].lower() in ("mobilenetv2","inceptionv3"):
+                return self.build_prepared_model()
             else:
+                print(f"config['model'] should be any of 'basiccnn', 'wrn_?_?', 'mobilenetv2', 'inceptionv3'")
                 raise ValueError
         else:  # if a keras model is the models itself
             return self.config["model"]
 
-    def build_mobilenetv2(self):
-        mobilenet_v2 = MobileNetV2(
-            input_shape=self.input_shape, weights=None, include_top=False
-        )
+    def build_prepared_model(self):
+
+        if self.config["model"].lower()=="mobilenetv2":
+            base_model = MobileNetV2(
+                input_shape=self.input_shape,
+                weights=self.config['weights'],
+                include_top=False
+            )
+        elif self.config["model"].lower()=="inceptionv3":
+            base_model = InceptionV3(
+                input_shape=self.input_shape,
+                weights=self.config['weights'],
+                include_top=False
+            )
 
         # add a global spatial average pooling layer
-        x = mobilenet_v2.output
+        x = base_model.output
         x = GlobalAveragePooling2D()(x)
         # add a fully-connected layer
         x = Dense(512, activation="relu")(x)
-        x = Dropout(0.1)(x)
+        x = Dropout(0.5)(x)
         # and a logistic layer
         predictions = Dense(self.num_classes, activation="softmax")(x)
 
-        model = Model(inputs=mobilenet_v2.input, outputs=predictions)
+        model = Model(inputs=base_model.input, outputs=predictions)
 
         for layer in model.layers:
             layer.trainable = True
@@ -174,8 +186,8 @@ class ChildCNN:
             loss="categorical_crossentropy", optimizer=adam_opt, metrics=["accuracy"]
         )
         log_and_print(
-            f"{self.model_name} model built as child model.\n Model summary:",
-            self.logging,
+            f"{self.config['model']} model built as child model.\n Model summary:",
+            self.config['logging'],
         )
         print(model.summary())
         return model
