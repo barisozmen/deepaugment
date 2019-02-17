@@ -61,14 +61,15 @@ def run_full_model(images, labels, epochs, batch_size, policies_path):
     num_classes = data["y_train"].shape[1]
 
     cnn_config={
-        "model" : "wrn_28_10",
+        "model" : "inceptionv3",
+        "weights" : "imagenet",
         "input_shape" : input_shape,
         "batch_size" : batch_size,
         "pre_augmentation_weights_path" : "initial_model_weights.h5",
         "logging" : logging
     }
 
-    wrn_28_10 = ChildCNN(
+    full_model = ChildCNN(
         input_shape=input_shape,
         num_classes=num_classes,
         config=cnn_config
@@ -83,7 +84,7 @@ def run_full_model(images, labels, epochs, batch_size, policies_path):
     )
 
     if policies_path == "dont_augment":
-        history = wrn_28_10.fit_normal(data, epochs=epochs, csv_logger=csv_logger)
+        history = full_model.fit_normal(data, epochs=epochs, csv_logger=csv_logger)
         print(f"Reached validation accuracy is {history['val_acc'][-1]}")
     else:
 
@@ -95,7 +96,7 @@ def run_full_model(images, labels, epochs, batch_size, policies_path):
             augment_chance=0.8,
         )
         print("fitting the model")
-        history = wrn_28_10.fit_with_generator(
+        history = full_model.fit_with_generator(
             datagen,
             data["X_val"],
             data["y_val"],
