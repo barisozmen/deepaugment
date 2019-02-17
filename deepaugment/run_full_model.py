@@ -10,6 +10,7 @@ from os.path import dirname, realpath
 
 file_path = realpath(__file__)
 dir_of_file = dirname(file_path)
+parent_dir_of_file = dirname(dir_of_file)
 sys.path.insert(0, dir_of_file)
 
 now = datetime.datetime.now()
@@ -36,26 +37,41 @@ from keras.callbacks import CSVLogger
 
 import click
 
+from sklearn.model_selection import train_test_split
 
-@click.command()
-@click.option("--dataset-name", type=click.STRING, default="cifar10")
-@click.option("--num-classes", type=click.INT, default=10)
-@click.option("--epochs", type=click.INT, default=15)
-@click.option("--batch-size", type=click.INT, default=64)
-@click.option("--policies-path", type=click.STRING, default="dont_augment")
+import logging
+
+
+# @click.command()
+# @click.option("--dataset-name", type=click.STRING, default="cifar10")
+# @click.option("--num-classes", type=click.INT, default=10)
+# @click.option("--epochs", type=click.INT, default=15)
+# @click.option("--batch-size", type=click.INT, default=64)
+# @click.option("--policies-path", type=click.STRING, default="dont_augment")
 @logger(logfile_dir=EXPERIMENT_FOLDER_PATH)
-def run_model(dataset_name, num_classes, epochs, batch_size, policies_path):
+def run_full_model(images, labels, epochs, batch_size, policies_path):
 
-    data, input_shape = DataOp.load(dataset_name)
+
+    data={}
+    data["X_train"], data["X_val"], data["y_train"], data["y_val"] = train_test_split(images, labels, test_size=0.10)
+
     data = DataOp.preprocess_normal(data)
 
+    input_shape = data["X_train"][0].shape
+    num_classes = data["y_train"].shape[1]
+
+    cnn_config={
+        "model" : "wrn_28_10",
+        "input_shape" : input_shape,
+        "batch_size" : batch_size,
+        "pre_augmentation_weights_path" : "initial_model_weights.h5",
+        "logging" : logging
+    }
+
     wrn_28_10 = ChildCNN(
-        model_name="wrn_28_10",
         input_shape=input_shape,
-        batch_size=batch_size,
         num_classes=num_classes,
-        pre_augmentation_weights_path="initial_model_weights.h5",
-        logging=logging,
+        config=cnn_config
     )
 
     if policies_path == "dont_augment":
@@ -63,7 +79,7 @@ def run_model(dataset_name, num_classes, epochs, batch_size, policies_path):
     else:
         policy_str = "augmented"
     csv_logger = CSVLogger(
-        f"{EXPERIMENT_FOLDER_PATH}/wrn_28_10_training_on_{dataset_name}_{policy_str}.csv"
+        f"{EXPERIMENT_FOLDER_PATH}/wrn_28_10_training_on_{policy_str}.csv"
     )
 
     if policies_path == "dont_augment":
@@ -92,4 +108,4 @@ def run_model(dataset_name, num_classes, epochs, batch_size, policies_path):
 
 if __name__ == "__main__":
 
-    run_model()
+    run_full_model()
