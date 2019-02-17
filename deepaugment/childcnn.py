@@ -91,7 +91,7 @@ class ChildCNN:
         record = self.model.fit_generator(
             datagen,
             validation_data=(X_val, y_val),
-            steps_per_epoch=train_data_size // self.batch_size,
+            steps_per_epoch=train_data_size // self.config["batch_size"],
             epochs=epochs,
             shuffle=True,
             verbose=2,
@@ -184,8 +184,8 @@ class ChildCNN:
         # For WRN-16-8 put N = 2, k = 8
         # For WRN-28-10 put N = 4, k = 10
         # For WRN-40-4 put N = 6, k = 4
-        _depth = int(self.model_name.split("_")[1])  # e.g. wrn_[40]_4
-        _width = int(self.model_name.split("_")[2])  # e.g. wrn_40_[4]
+        _depth = int(self.config["model"].split("_")[1])  # e.g. wrn_[40]_4
+        _width = int(self.config["model"].split("_")[2])  # e.g. wrn_40_[4]
         model = WideResidualNetwork(
             depth=_depth,
             width=_width,
@@ -211,8 +211,8 @@ class ChildCNN:
             loss="categorical_crossentropy", optimizer=adam_opt, metrics=["accuracy"]
         )
         log_and_print(
-            f"{self.model_name} model built as child model.\n Model summary:",
-            self.logging,
+            f"{self.config['model']} model built as child model.\n Model summary:",
+            self.config["logging"],
         )
         print(model.summary())
         return model
