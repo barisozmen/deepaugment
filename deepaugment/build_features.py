@@ -110,7 +110,7 @@ class DataOp:
     @staticmethod
     def sample_validation_set(data):
         val_seed_size = len(data["X_val_seed"])
-        ix = np.random.choice(range(len(val_seed_size), min(val_seed_size, 1000), False)
+        ix = np.random.choice(range(val_seed_size), min(val_seed_size, 1000), False)
         X_val = data["X_val_seed"][ix].copy()
         y_val = data["y_val_seed"][ix].copy()
         return X_val, y_val
