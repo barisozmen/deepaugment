@@ -108,7 +108,7 @@ class DeepAugment:
                 }
         """
         self.config = DEFAULT_CONFIG
-        self.config.update(config)
+        if config!=None: self.config.update(config)
         self.iterated = 0  # keep tracks how many times optimizer iterated
 
         self._load_and_preprocess_data(images, labels)
