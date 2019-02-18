@@ -92,7 +92,7 @@ class ChildCNN:
         record = self.model.fit_generator(
             datagen,
             validation_data=(X_val, y_val),
-            steps_per_epoch=train_data_size // self.config["batch_size"],
+            steps_per_epoch=train_data_size // self.config["child_batch_size"],
             epochs=epochs,
             shuffle=True,
             verbose=2,
