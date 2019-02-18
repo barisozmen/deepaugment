@@ -77,7 +77,7 @@ class ChildCNN:
         record = self.model.fit(
             x=data["X_train"],
             y=data["y_train"],
-            batch_size=self.batch_size,
+            batch_size=self.config["child_batch_size"],
             epochs=epochs,
             validation_data=(data["X_val"], data["y_val"]),
             shuffle=True,
