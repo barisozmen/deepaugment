@@ -53,7 +53,7 @@ def run_full_model(images, labels, epochs, batch_size, policies_path):
 
 
     data={}
-    data["X_train"], data["X_val"], data["y_train"], data["y_val"] = train_test_split(images, labels, test_size=0.10)
+    data["X_train"], data["X_val"], data["y_train"], data["y_val"] = train_test_split(images, labels, test_size=0.30, shuffle=True)
 
     data = DataOp.preprocess_normal(data)
 
