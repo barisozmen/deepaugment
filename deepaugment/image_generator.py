@@ -14,6 +14,38 @@ sys.path.insert(0, dir_of_file)
 from lib.cutout import cutout_numpy
 from augmenter import augment_by_policy
 
+AUG_TYPES = [
+    "crop",
+    "gaussian-blur",
+    "rotate",
+    "shear",
+    "translate-x",
+    "translate-y",
+    "sharpen",
+    "emboss",
+    "additive-gaussian-noise",
+    "dropout",
+    "coarse-dropout",
+    "gamma-contrast",
+    "brighten",
+    "invert",
+    "fog",
+    "clouds",
+    "add-to-hue-and-saturation",
+    "coarse-salt-pepper",
+    "horizontal-flip",
+    "vertical-flip",
+]
+
+
+def augment_type_chooser():
+    """A random function to choose among augmentation types
+
+    Returns:
+        function object: np.random.choice function with AUG_TYPES input
+    """
+    return np.random.choice(AUG_TYPES)
+
 
 def random_flip(x):
     """Flip the input x horizontally with 50% probability."""
@@ -65,11 +97,25 @@ def deepaugment_image_generator(X, y, policy, batch_size=64, augment_chance=0.5)
     Returns:
     """
     if type(policy) == str:
-        policy_df = pd.read_csv(policy)
-        policy_df = policy_df[
-            ["aug1_type", "aug1_magnitude", "aug2_type", "aug2_magnitude", "portion"]
-        ]
-        policy = policy_df.to_dict(orient="records")
+
+        if policy=="random":
+            policy=[]
+            for i in range(20):
+                policy.append(
+                    {
+                        "aug1_type": augment_type_chooser(),
+                        "aug1_magnitude":np.random.rand(),
+                        "aug2_type": augment_type_chooser(),
+                        "aug2_magnitude": np.random.rand(),
+                        "portion":np.random.rand()
+                    }
+                )
+        else:
+            policy_df = pd.read_csv(policy)
+            policy_df = policy_df[
+                ["aug1_type", "aug1_magnitude", "aug2_type", "aug2_magnitude", "portion"]
+            ]
+            policy = policy_df.to_dict(orient="records")
 
     print("Policies are:")
     print(policy)
