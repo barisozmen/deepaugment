@@ -17,7 +17,7 @@ Example: [google-colab](bit.ly/deepaugmentusage)
 $ pip install deepaugment
 ```
 
-Simple usage (with any dataset)
+### Simple usage (with any dataset)
 ```Python
 from deepaugment.deepaugment import DeepAugment
 
@@ -26,14 +26,14 @@ deepaug = DeepAugment(my_images, my_labels)
 best_policies = deepaug.optimize(300)
 ```
 
-Simple usage (with cifar-10 dataset)
+### Simple usage (with a dataset on keras)
 ```Python
 deepaug = DeepAugment("cifar10")
 
 best_policies = deepaug.optimize(300)
 ```
 
-Advanced usage (by changing configurations, and with fashion-mnist dataset)
+### Advanced usage
 ```Python
 from keras.datasets import fashion_mnist
 
