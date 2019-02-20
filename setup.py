@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
-__version__ = "0.12.1"
+__version__ = "0.12.3"
 
 here = path.abspath(path.dirname(__file__))
 
@@ -24,6 +24,7 @@ setup(
     version=__version__,
     description="Discover augmentation strategies tailored for your data",
     long_description=long_description,
+    long_description_content_type='text/markdown',
     url="https://github.com/barisozmen/deepaugment",
     download_url="https://github.com/barisozmen/deepaugment/tarball/" + __version__,
     license="BSD",
