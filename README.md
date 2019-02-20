@@ -11,6 +11,8 @@ DeepAugment discovers optimized augmentation strategies tailored for your images
 Resources: [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCKmPravyqmaGjy-eIU5cTbG1A/edit#slide=id.g4cc092dbc6_0_0)
 
 ## Installation/Usage
+Demo: [google-colab](bit.ly/deepaugmentusage)
+
 ```console
 $ pip install deepaugment
 ```
