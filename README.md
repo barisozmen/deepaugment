@@ -73,6 +73,13 @@ Controller might be set to use Bayesian Optimization (defaul), or Random Search.
 
 <img width="600" alt="simplified_workflow" src="https://user-images.githubusercontent.com/14996155/52587711-797a4280-2def-11e9-84f8-2368fd709ab9.png">
 
+### Why Bayesian Optimization?
+
+In hyperparameter optimization, main choices are random search, grid search, bayesian optimization, and reinforcement learning in order of complexity. Google's [AutoAugment](https://arxiv.org/abs/1805.09501) uses Reinforcement Learning for the same purpose, but it takes 15,000 iterations to learn policies which means training the child model 15,000 times. It requires huge computational resources to learn. Bayesian Optimization on the other hand learns good polices in 100-300 iterations, making it +40X faster. Bayesian Optimization beats grid search and random search in terms of accuracy, cost, and computation time ([ref](https://mlconf.com/lets-talk-bayesian-optimization/)) in hyperparameter tuning.
+
+<img width="500" alt="optimization-comparison" src="https://user-images.githubusercontent.com/14996155/53222123-4ae73d80-3621-11e9-9457-44e76012d11c.png">
+
+
 ### Augmentation policy
 
 A policy describes the augmentation will be applied on a dataset. Each policy consists variables for two augmentation types, their magnitude and the portion of the data to be augmented. An example policy is as following: 
