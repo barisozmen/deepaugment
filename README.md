@@ -79,6 +79,13 @@ In hyperparameter optimization, main choices are random search, grid search, bay
 
 <img width="500" alt="optimization-comparison" src="https://user-images.githubusercontent.com/14996155/53222123-4ae73d80-3621-11e9-9457-44e76012d11c.png">
 
+### How does Bayesian Optimization work?
+1. Build a surrogate probability model of the objective function
+2. Find the hyperparameters that perform best on the surrogate
+3. Apply these hyperparameters to the true objective function
+4. Update the surrogate model incorporating the new results
+5. Repeat steps 2–4 until max iterations or time is reached
+
 
 ### Augmentation policy
 
