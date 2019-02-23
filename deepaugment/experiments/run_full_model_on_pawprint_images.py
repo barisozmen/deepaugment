@@ -48,8 +48,9 @@ def load_images(image_dir_path):
 
 
 X, y = load_images("../../data/raw/pawprints/images")
-policies_path = "../../reports/experiments/pawprints_02-14_19-22/top20_policies.csv"
+# policies_path = "../../reports/experiments/pawprints_02-14_19-22/top20_policies.csv"
+policies_path = "random"
 
-run_full_model(X, y, epochs=200, batch_size=64, policies_path=policies_path)
+run_full_model(X, y, epochs=200, batch_size=32, policies_path=policies_path)
 
 
