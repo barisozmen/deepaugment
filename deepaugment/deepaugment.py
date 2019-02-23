@@ -46,10 +46,9 @@ logger = Reporter.logger
 
 # warn user if TensorFlow does not see the GPU
 from tensorflow.python.client import device_lib
-
-if "GPU" not in str(device_lib.list_local_devices()):
-    print("GPU not available!")
-    logging.warning("GPU not available!")
+local_devices_str = str(device_lib.list_local_devices())
+if "GPU" not in local_devices_str and "TPU" not in local_devices_str:
+    logging.info("Working with CPU")
 # Note: GPU not among local devices means GPU not used for sure,
 #       HOWEVER GPU among local devices does not guarantee it is used
 
