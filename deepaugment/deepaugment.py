@@ -43,7 +43,7 @@ from lib.decorators import Reporter
 
 logger = Reporter.logger
 
-
+#
 # warn user if TensorFlow does not see the GPU
 from tensorflow.python.client import device_lib
 local_devices_str = str(device_lib.list_local_devices())
