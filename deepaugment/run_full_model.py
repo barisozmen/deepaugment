@@ -49,11 +49,11 @@ import logging
 # @click.option("--batch-size", type=click.INT, default=64)
 # @click.option("--policies-path", type=click.STRING, default="dont_augment")
 @logger(logfile_dir=EXPERIMENT_FOLDER_PATH)
-def run_full_model(images, labels, epochs, batch_size, policies_path):
+def run_full_model(images, labels, test_proportion=0.1, epochs=200, batch_size=64, policies_path="dont_augment"):
 
 
     data={}
-    data["X_train"], data["X_val"], data["y_train"], data["y_val"] = train_test_split(images, labels, test_size=0.30, shuffle=True)
+    data["X_train"], data["X_val"], data["y_train"], data["y_val"] = train_test_split(images, labels, test_size=test_proportion, shuffle=True)
 
     data = DataOp.preprocess_normal(data)
 
