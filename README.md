@@ -81,12 +81,14 @@ In hyperparameter optimization, main choices are random search, grid search, bay
 
 ### How does Bayesian Optimization work?
 
-Aim of Bayesian Optimization (BO) is finding **set of parameters ({params})** which maximize the value of an **objective function (f())**. It builds a surrogate model for predicting value of objective function for unexplored parameters. Working cycle of BO can be summarized as:
+Aim of Bayesian Optimization (BO) is finding **set of parameters** which maximize the value of an **objective function**. It builds a surrogate model for predicting value of objective function for unexplored parameters. Working cycle of BO can be summarized as:
 1. Build a surrogate model of the objective function 
 2. Find parameters that perform best on the surrogate (or pick random hyperparameters)
 3. Execute objective function with these parameters
 4. Update the surrogate model with these parameters and result (value) of objective function
 5. Repeat steps 2-4 until maximimum number of iterations reached
+
+For more detailed explanation, read [this blogpost](https://towardsdatascience.com/a-conceptual-explanation-of-bayesian-model-based-hyperparameter-optimization-for-machine-learning-b8172278050f) explaining BO in high-level, or take a glance at [this review paper](https://ieeexplore.ieee.org/document/7352306)
 
 
 
@@ -127,7 +129,7 @@ Reward function is calculated as mean of K highest validation accuracies of the 
 [3] Shahriari et al., 2016. A review of Bayesian Optimization
 ([ieee](https://ieeexplore.ieee.org/document/7352306))
 
-[4] Bayesian Optimization Primer ([white-paper](https://app.sigopt.com/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf))
+[4] Dewancker et al. Bayesian Optimization Primer ([white-paper](https://app.sigopt.com/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf))
 
 [5] DeVries, Taylor 2017. Improved Regularization of CNN's with Cutout
 ([arxiv](https://arxiv.org/abs/1708.04552))
