@@ -103,11 +103,12 @@ AUG_TYPES = [ "crop", "gaussian-blur", "rotate", "shear", "translate-x", "transl
 ### Child model
 [source](https://github.com/barisozmen/deepaugment/blob/master/deepaugment/childcnn.py#L232-L269)
 
-Child model is trained over and over from scratch during the optimization process. Its number of training depends on the number of iterations chosen by the user, which is expected to be around 100-300 for obtaining good results. Child model is therefore the computational bottleneck of the algorithm. With the current design, training time is ~30 seconds for 32x32 images on AWS instance p3.x2large using V100 GPU (112 TensorFLOPS)
+Child model is trained over and over from scratch during the optimization process. Its number of training depends on the number of iterations chosen by the user, which is expected to be around 100-300 for obtaining good results. Child model is therefore the computational bottleneck of the algorithm. With the current design, training time is ~30 seconds for 32x32 images on AWS instance p3.x2large using V100 GPU (112 TensorFLOPS). Below is the diagram of child model:
 <img width="800" alt="child-cnn" src="https://user-images.githubusercontent.com/14996155/52545277-10e98200-2d6b-11e9-9639-48b671711eba.png">
 
 ### Reward function
 [source](https://github.com/barisozmen/deepaugment/blob/master/deepaugment/objective.py#L69-L89)
+
 Reward function is calculated as mean of K highest validation accuracies of the child model which is not smaller than corresponding training accuracy by 0.05. K can be determined by the user by updating `opt_last_n_epochs` key in config as argument to `DeepAugment()` class (K is 3 by default).
 
 ## Data pipeline
