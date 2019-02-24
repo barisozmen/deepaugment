@@ -49,7 +49,7 @@ import logging
 # @click.option("--batch-size", type=click.INT, default=64)
 # @click.option("--policies-path", type=click.STRING, default="dont_augment")
 @logger(logfile_dir=EXPERIMENT_FOLDER_PATH)
-def run_full_model(images, labels, test_proportion=0.1, epochs=200, batch_size=64, policies_path="dont_augment"):
+def run_full_model(images, labels, test_proportion=0.1, model="wrn_28_10", epochs=200, batch_size=64, policies_path="dont_augment"):
 
 
     data={}
@@ -61,10 +61,10 @@ def run_full_model(images, labels, test_proportion=0.1, epochs=200, batch_size=6
     num_classes = data["y_train"].shape[1]
 
     cnn_config={
-        "model" : "inceptionv3",
+        "model" : model,
         "weights" : "imagenet",
         "input_shape" : input_shape,
-        "batch_size" : batch_size,
+        "child_batch_size" : batch_size,
         "pre_augmentation_weights_path" : "initial_model_weights.h5",
         "logging" : logging
     }
