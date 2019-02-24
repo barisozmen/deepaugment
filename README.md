@@ -80,11 +80,15 @@ In hyperparameter optimization, main choices are random search, grid search, bay
 <img width="500" alt="optimization-comparison" src="https://user-images.githubusercontent.com/14996155/53222123-4ae73d80-3621-11e9-9457-44e76012d11c.png">
 
 ### How does Bayesian Optimization work?
-1. Build a surrogate probability model of the objective function
-2. Find the hyperparameters that perform best on the surrogate
-3. Apply these hyperparameters to the true objective function
-4. Update the surrogate model incorporating the new results
-5. Repeat steps 2–4 until max iterations or time is reached
+
+Aim of Bayesian Optimization (BO) is finding **set of parameters ({params})** which maximize the value of an **objective function (f())**. It builds a surrogate model for predicting value of objective function for unexplored parameters. Working cycle of BO can be summarized as:
+1. Build a surrogate model of the objective function 
+2. Find parameters that perform best on the surrogate (or pick random hyperparameters)
+3. Execute objective function with these parameters
+4. Update the surrogate model with these parameters and result (value) of objective function
+5. Repeat steps 2-4 until maximimum number of iterations reached
+
+
 
 
 ### Augmentation policy
@@ -112,6 +116,32 @@ Reward function is calculated as mean of K highest validation accuracies of the 
 
 ## Package diagram
 <img width="600" alt="package-diagram" src="https://user-images.githubusercontent.com/14996155/52743630-4a023c00-2f8f-11e9-9b12-32b2ded6071b.png">
+
+## References
+[1] Cubuk et al., 2018. AutoAugment: Learning Augmentation Policies from Data
+([arxiv](https://arxiv.org/abs/1805.09501))
+
+[2] Zoph et al., 2016. Neural Architecture Search with Reinforcement Learning
+([arxiv](https://arxiv.org/abs/1611.01578))
+
+[3] Shahriari et al., 2016. A review of Bayesian Optimization
+([ieee](https://ieeexplore.ieee.org/document/7352306))
+
+[4] Bayesian Optimization Primer ([white-paper](https://app.sigopt.com/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf))
+
+[5] DeVries, Taylor 2017. Improved Regularization of CNN's with Cutout
+([arxiv](https://arxiv.org/abs/1708.04552))
+
+Blogs: 
+- A conceptual explanation of Bayesian Optimization ([towardsdatascience](https://towardsdatascience.com/a-conceptual-explanation-of-bayesian-model-based-hyperparameter-optimization-for-machine-learning-b8172278050f))
+- Comparison experiment: Bayesian Opt. vs Grid Search vs Random Search ([mlconf](https://mlconf.com/lets-talk-bayesian-optimization/))
+    
+Libraries:
+- [scikit-optimize](scikit-optimize.github.io/)
+- [mgaug](github.com/aleju/imgaug)
+- [AutoAugment-unofficial](github.com/barisozmen/autoaugment-unofficial)
+- [Automold]() (Self-driving car image-augmentation library)
+
 --------
 
 ## Contact
