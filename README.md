@@ -75,17 +75,20 @@ Controller might be set to use Bayesian Optimization (defaul), or Random Search.
 
 ### Why Bayesian Optimization?
 
-In hyperparameter optimization, main choices are random search, grid search, bayesian optimization, and reinforcement learning (in the order of method complexity). Google's [AutoAugment](https://arxiv.org/abs/1805.09501) uses Reinforcement Learning for the data augmentation hyperparameter tuning, but it takes 15,000 iterations to learn policies (which means training the child CNN model 15,000 times). Thus, it requires huge computational resources. Bayesian Optimization on the other hand learns good polices in 100-300 iterations, making it +40X faster. Additionally, Bayesian Optimization beats grid search and random search in terms of accuracy, cost, and computation time ([ref](https://mlconf.com/lets-talk-bayesian-optimization/)) in hyperparameter tuning.
+In hyperparameter optimization, main choices are random search, grid search, bayesian optimization, and reinforcement learning (in the order of method complexity). Google's [AutoAugment](https://arxiv.org/abs/1805.09501) uses Reinforcement Learning for the data augmentation hyperparameter tuning, but it takes 15,000 iterations to learn policies (which means training the child CNN model 15,000 times). Thus, it requires huge computational resources. Bayesian Optimization on the other hand learns good polices in 100-300 iterations, making it +40X faster. Additionally, Bayesian Optimization is better than grid search and random search in terms of accuracy, cost, and computation time in hyperparameter tuning([ref](https://mlconf.com/lets-talk-bayesian-optimization/)) (we can think optimization of augmentation policies as a hyperparameter tuning problem where hyperparameters are concerning with augmentations). This result is not surprising since despite Grid Search or Random Search BO selects new hyperparameter as informed with previous tried hyperparameters and results associated with them.
 
 <img width="500" alt="optimization-comparison" src="https://user-images.githubusercontent.com/14996155/53222123-4ae73d80-3621-11e9-9457-44e76012d11c.png">
 
 ### How does Bayesian Optimization work?
-1. Build a surrogate probability model of the objective function
-2. Find the hyperparameters that perform best on the surrogate
-3. Apply these hyperparameters to the true objective function
-4. Update the surrogate model incorporating the new results
-5. Repeat steps 2–4 until max iterations or time is reached
 
+Aim of Bayesian Optimization (BO) is finding **set of parameters** which maximize the value of an **objective function**. It builds a surrogate model for predicting value of objective function for unexplored parameters. Working cycle of BO can be summarized as:
+1. Build a surrogate model of the objective function 
+2. Find parameters that perform best on the surrogate (or pick random hyperparameters)
+3. Execute objective function with these parameters
+4. Update the surrogate model with these parameters and result (value) of objective function
+5. Repeat steps 2-4 until maximimum number of iterations reached
+
+For more detailed explanation, read [this blogpost](https://towardsdatascience.com/a-conceptual-explanation-of-bayesian-model-based-hyperparameter-optimization-for-machine-learning-b8172278050f) explaining BO in high-level, or take a glance at [this review paper](https://ieeexplore.ieee.org/document/7352306)
 
 ### Augmentation policy
 
@@ -98,10 +101,15 @@ There are currently 20 types of augmentation techniques (above, right) that each
 AUG_TYPES = [ "crop", "gaussian-blur", "rotate", "shear", "translate-x", "translate-y", "sharpen", "emboss", "additive-gaussian-noise", "dropout", "coarse-dropout", "gamma-contrast", "brighten", "invert", "fog", "clouds", "add-to-hue-and-saturation", "coarse-salt-pepper", "horizontal-flip", "vertical-flip"]
 ```
 ### Child model
+[source](https://github.com/barisozmen/deepaugment/blob/master/deepaugment/childcnn.py#L232-L269)
+
+Child model is trained over and over from scratch during the optimization process. Its number of training depends on the number of iterations chosen by the user, which is expected to be around 100-300 for obtaining good results. Child model is therefore the computational bottleneck of the algorithm. With the current design, training time is ~30 seconds for 32x32 images on AWS instance p3.x2large using V100 GPU (112 TensorFLOPS). Below is the diagram of child model:
 <img width="800" alt="child-cnn" src="https://user-images.githubusercontent.com/14996155/52545277-10e98200-2d6b-11e9-9639-48b671711eba.png">
 
 ### Reward function
-Reward function is calculated as mean of K highest validation accuracies of the child model which is not smaller than corresponding training accuracy by 0.05. K can be determined by the user by updating `opt_last_n_epochs` key in config dictionary as argument to `DeepAugment()` class (K is 3 by default).
+[source](https://github.com/barisozmen/deepaugment/blob/master/deepaugment/objective.py#L69-L89)
+
+Reward function is calculated as mean of K highest validation accuracies of the child model which is not smaller than corresponding training accuracy by 0.05. K can be determined by the user by updating `opt_last_n_epochs` key in config as argument to `DeepAugment()` class (K is 3 by default).
 
 ## Data pipeline
 <img width="600" alt="data-pipeline-2" src="https://user-images.githubusercontent.com/14996155/52740938-0d334680-2f89-11e9-8d68-117d139d9ab8.png">
@@ -112,6 +120,32 @@ Reward function is calculated as mean of K highest validation accuracies of the 
 
 ## Package diagram
 <img width="600" alt="package-diagram" src="https://user-images.githubusercontent.com/14996155/52743630-4a023c00-2f8f-11e9-9b12-32b2ded6071b.png">
+
+## References
+[1] Cubuk et al., 2018. AutoAugment: Learning Augmentation Policies from Data
+([arxiv](https://arxiv.org/abs/1805.09501))
+
+[2] Zoph et al., 2016. Neural Architecture Search with Reinforcement Learning
+([arxiv](https://arxiv.org/abs/1611.01578))
+
+[3] Shahriari et al., 2016. A review of Bayesian Optimization
+([ieee](https://ieeexplore.ieee.org/document/7352306))
+
+[4] Dewancker et al. Bayesian Optimization Primer ([white-paper](https://app.sigopt.com/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf))
+
+[5] DeVries, Taylor 2017. Improved Regularization of CNN's with Cutout
+([arxiv](https://arxiv.org/abs/1708.04552))
+
+Blogs: 
+- A conceptual explanation of Bayesian Optimization ([towardsdatascience](https://towardsdatascience.com/a-conceptual-explanation-of-bayesian-model-based-hyperparameter-optimization-for-machine-learning-b8172278050f))
+- Comparison experiment: Bayesian Opt. vs Grid Search vs Random Search ([mlconf](https://mlconf.com/lets-talk-bayesian-optimization/))
+    
+Libraries:
+- [scikit-optimize](scikit-optimize.github.io/)
+- [mgaug](github.com/aleju/imgaug)
+- [AutoAugment-unofficial](github.com/barisozmen/autoaugment-unofficial)
+- [Automold]() (Self-driving car image-augmentation library)
+
 --------
 
 ## Contact
