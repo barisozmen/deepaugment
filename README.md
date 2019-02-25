@@ -61,9 +61,8 @@ best_policies = deepaug.optimize(300)
 ## Results
 ### CIFAR-10 best policies tested on WRN-28-10 
 - Method: Wide-ResNet-28-10 trained with CIFAR-10 augmented images by best found policies, and with unaugmented images (everything else same).
-- Result: **37% reduction in error = 5.2% accuracy increase** by DeepAugment
-
-<img src="https://user-images.githubusercontent.com/14996155/52544784-e0541900-2d67-11e9-93db-0b8b192f5b37.png" width="400"> <img src="https://user-images.githubusercontent.com/14996155/52545044-63c23a00-2d69-11e9-9879-3d7bcb8f88f4.png" width="400">
+- Result: **60% reduction in error** (8.5% accuracy increase) by DeepAugment
+<img src="https://user-images.githubusercontent.com/14996155/53362039-1d82e400-38ee-11e9-8f5e-e6f1602865a8.png" width="400"> <img src="https://user-images.githubusercontent.com/14996155/53362042-21af0180-38ee-11e9-9253-96ce8ddcc17c.png" width="400">
  
 ## Design goals
 DeepAugment is designed as a scalable and modular partner to AutoAugment ([Cubuk et al., 2018](https://arxiv.org/abs/1805.09501)). AutoAugment was one of the most exciting publications in 2018 since hyperparameter optimization for data augmentation is an undiscovered area and it was the first method using Reinforcement Learning for this problem. AutoAugmentation, however, has no complete open-sourced implementation (controller module not available) preventing users to run it for their own datasets, and takes 15,000 iterations to learn (according to paper) augmentation policies, which requires massive computational resources. Thus most people could not benefit from it even if its source code would be fully available.
