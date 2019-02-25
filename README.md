@@ -61,26 +61,45 @@ best_policies = deepaug.optimize(300)
 ## Results
 ### CIFAR-10 best policies tested on WRN-28-10 
 - Method: Wide-ResNet-28-10 trained with CIFAR-10 augmented images by best found policies, and with unaugmented images (everything else same).
-- Result: **5.2% accuracy increase** by DeepAugment
+- Result: **37% reduction in error = 5.2% accuracy increase** by DeepAugment
 
 <img src="https://user-images.githubusercontent.com/14996155/52544784-e0541900-2d67-11e9-93db-0b8b192f5b37.png" width="400"> <img src="https://user-images.githubusercontent.com/14996155/52545044-63c23a00-2d69-11e9-9879-3d7bcb8f88f4.png" width="400">
  
-## How it works
-
-Package consists two main components: controller, augmenter, and child model. Overal workflow is that controller samples new augmentation policies, augmenter transforms images by the new policy, and child model is trained from scratch by augmented images. Then, a reward is calculated from child model's training history ([reward function](### Reward function)). This reward is returned back to controller, and controller updates its surrogates model with this reward and associated augmentation policy. Then, controller samples new policies again and same steps recur. This process done until maximum number of iterations reached which is determined by the user.
-
-Controller might be set to use Bayesian Optimization (default), or Random Search. If set to Bayesian Optimization, it samples new policies by a Random Forest Estimator and Expected Improvement acquistion function.
-
-<img width="600" alt="simplified_workflow" src="https://user-images.githubusercontent.com/14996155/52587711-797a4280-2def-11e9-84f8-2368fd709ab9.png">
-
-## Importance & Design Goals
+## Design Goals
 DeepAugment is designed as a scalable and modular partner to AutoAugment ([Cubuk et al., 2018](https://arxiv.org/abs/1805.09501)). AutoAugment was one of the most exciting publications in 2018 since hyperparameter optimization for data augmentation is an undiscovered area and it was the first method using Reinforcement Learning for this problem. AutoAugmentation, however, has two problems:
 1. **No complete official implementation**
    * Source code of its controller module is not available ([link](https://github.com/tensorflow/models/tree/master/research/autoaugment)). Therefore a user cannot run it for its own dataset.
 2. **Not scalable**
    * It takes 15,000 iterations to learn (according to paper) augmentation policies, which requires massive computational resources. Thus most people could not benefit from it even if its source code would be fully available.
 
+DeepAugment addresses these two problems. The main design goals of DeepAugment are: 
+1. **minimizing the computational complexity of optimization while maintaining quality of results**.
+2. **being modular and user-friendly**
 
+First goal is achieved by following changes compared to AutoAugment:
+1. **Bayesian Optimization instead of Reinforcement Learning** 
+    * which requires much less number of iterations (~100 times)
+2. **Minimized Child Model** 
+    * decreasing computational complexity of each training (~20 times)
+3. **Less stochastic augmentation search space design**
+    * enabling less number of iterations
+    
+For achieving the second goal, user interface is designed as giving the user many flexibilities (e.g. selecting the child model or inputting a self-designed child model, and broad configuration possibilities).
+
+## Importance
+### Practical importance
+DeepAugment makes optimization of data augmentation scalable, and thus available to users without huge computational resources. 
+As an estimate of its computational cost, it takes **4.2 hours** (500 iterations) on CIFAR-10 dataset which costs around **$13** using AWS p3.x2large instance. 
+### Academic importance
+DeepAugment is, to our knowledge, first method utilizing Bayesian Optimization for problem of image augmentation hyperparameter optimization. 
+ 
+## How it works
+
+Three major components of DeepAugment are controller, augmenter, and child model. Overal workflow is that controller samples new augmentation policies, augmenter transforms images by the new policy, and child model is trained from scratch by augmented images. Then, a reward is calculated from child model's training history. This reward is returned back to the controller, and it updates its surrogate model with this reward and associated augmentation policy. Then, controller samples new policies again and same steps repeats. This process cycles until user-determined maximum number of iterations reached.
+
+Controller can be set for using either Bayesian Optimization (default) or Random Search. If set to Bayesian Optimization, samples new policies by a Random Forest Estimator and Expected Improvement acquistion function.
+
+<img width="600" alt="simplified_workflow" src="https://user-images.githubusercontent.com/14996155/52587711-797a4280-2def-11e9-84f8-2368fd709ab9.png">
 
 ### Why Bayesian Optimization?
 
