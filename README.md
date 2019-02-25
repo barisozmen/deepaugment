@@ -26,7 +26,7 @@ deepaug = DeepAugment(my_images, my_labels)
 best_policies = deepaug.optimize(300)
 ```
 
-### Simple usage (with a dataset on keras)
+### Simple usage (with CIFAR-10 on keras)
 ```Python
 deepaug = DeepAugment("cifar10")
 
