@@ -88,10 +88,10 @@ For achieving the second goal, user interface is designed as giving the user man
 
 ## Importance
 ### Practical importance
-DeepAugment makes optimization of data augmentation scalable, and thus available to users without huge computational resources. 
+DeepAugment makes optimization of data augmentation scalable, and thus enables users to optimize augmentation policies without needing massive computational resources. 
 As an estimate of its computational cost, it takes **4.2 hours** (500 iterations) on CIFAR-10 dataset which costs around **$13** using AWS p3.x2large instance. 
 ### Academic importance
-DeepAugment is, to our knowledge, first method utilizing Bayesian Optimization for problem of image augmentation hyperparameter optimization. 
+To our knowlege, DeepAugment is the first method which utilizes Bayesian Optimization for the problem of data augmentation hyperparameter optimization.
  
 ## How it works
 
