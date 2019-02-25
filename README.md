@@ -66,15 +66,11 @@ best_policies = deepaug.optimize(300)
 <img src="https://user-images.githubusercontent.com/14996155/52544784-e0541900-2d67-11e9-93db-0b8b192f5b37.png" width="400"> <img src="https://user-images.githubusercontent.com/14996155/52545044-63c23a00-2d69-11e9-9879-3d7bcb8f88f4.png" width="400">
  
 ## Design Goals
-DeepAugment is designed as a scalable and modular partner to AutoAugment ([Cubuk et al., 2018](https://arxiv.org/abs/1805.09501)). AutoAugment was one of the most exciting publications in 2018 since hyperparameter optimization for data augmentation is an undiscovered area and it was the first method using Reinforcement Learning for this problem. AutoAugmentation, however, has two problems:
-1. **No complete official implementation**
-   * Source code of its controller module is not available ([link](https://github.com/tensorflow/models/tree/master/research/autoaugment)). Therefore a user cannot run it for its own dataset.
-2. **Not scalable**
-   * It takes 15,000 iterations to learn (according to paper) augmentation policies, which requires massive computational resources. Thus most people could not benefit from it even if its source code would be fully available.
+DeepAugment is designed as a scalable and modular partner to AutoAugment ([Cubuk et al., 2018](https://arxiv.org/abs/1805.09501)). AutoAugment was one of the most exciting publications in 2018 since hyperparameter optimization for data augmentation is an undiscovered area and it was the first method using Reinforcement Learning for this problem. AutoAugmentation, however, has no complete open-sourced implementation (controller module not available) preventing users to run it for their own datasets, and takes 15,000 iterations to learn (according to paper) augmentation policies, which requires massive computational resources. Thus most people could not benefit from it even if its source code would be fully available.
 
-DeepAugment addresses these two problems. The main design goals of DeepAugment are: 
-1. **minimizing the computational complexity of optimization while maintaining quality of results**.
-2. **being modular and user-friendly**
+DeepAugment addresses these two problems. Its main design goals are: 
+1. **minimize the computational complexity of optimization while maintaining quality of results**.
+2. **be modular and user-friendly**
 
 First goal is achieved by following changes compared to AutoAugment:
 1. **Bayesian Optimization instead of Reinforcement Learning** 
@@ -82,9 +78,9 @@ First goal is achieved by following changes compared to AutoAugment:
 2. **Minimized Child Model** 
     * decreasing computational complexity of each training (~20 times)
 3. **Less stochastic augmentation search space design**
-    * enabling less number of iterations
+    * decreasing number of iterations needed
     
-For achieving the second goal, user interface is designed as giving the user many flexibilities (e.g. selecting the child model or inputting a self-designed child model, and broad configuration possibilities).
+For achieving the second goal, user interface is designed in a way that it gives user broad configuration possibilities and model selections (e.g. selecting the child model or inputting a self-designed child model).
 
 ## Importance
 ### Practical importance
