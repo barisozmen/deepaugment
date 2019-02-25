@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-DeepAugment discovers optimized augmentation strategies tailored for your images. It uses Bayesian Optimization for optimizing hyperparameters for augmentation. The tool:
+DeepAugment discovers augmentation strategies tailored for your images. It uses Bayesian Optimization for optimizing data augmentation hyperparameters. The tool:
 1. reduces error rate of CNN models (shown 37% decrease in error for CIFAR-10 on WRN-28-10 compared to no augmentation)
 2. saves times by automating the process
 
@@ -67,15 +67,24 @@ best_policies = deepaug.optimize(300)
  
 ## How it works
 
-Package consists three main components: controller, augmenter, and child model. Overal workflow is that controller samples new augmentation policies, augmenter transforms images by the new policy, and child model is trained from scratch by augmented images. Then, a reward is calculated from child model's validation accuracy curve by the formula as explained at (reward function section). This reward is returned back to controller, and it updates its internal and samples a new augmentation policy, returning to the beginning of the cycle.
+Package consists two main components: controller, augmenter, and child model. Overal workflow is that controller samples new augmentation policies, augmenter transforms images by the new policy, and child model is trained from scratch by augmented images. Then, a reward is calculated from child model's training history ([reward function](### Reward function)). This reward is returned back to controller, and controller updates its surrogates model with this reward and associated augmentation policy. Then, controller samples new policies again and same steps recur. This process done until maximum number of iterations reached which is determined by the user.
 
-Controller might be set to use Bayesian Optimization (defaul), or Random Search. If Bayesian Optimization set, it samples new policies by a Random Forest Estimator.
+Controller might be set to use Bayesian Optimization (default), or Random Search. If set to Bayesian Optimization, it samples new policies by a Random Forest Estimator and Expected Improvement acquistion function.
 
 <img width="600" alt="simplified_workflow" src="https://user-images.githubusercontent.com/14996155/52587711-797a4280-2def-11e9-84f8-2368fd709ab9.png">
 
+## Importance & Design Goals
+DeepAugment is designed as a scalable and modular partner to AutoAugment ([Cubuk et al., 2018](https://arxiv.org/abs/1805.09501)). AutoAugment was one of the most exciting publications in 2018 since hyperparameter optimization for data augmentation is an undiscovered area and it was the first method using Reinforcement Learning for this problem. AutoAugmentation, however, has two problems:
+1. **No complete official implementation**
+   * Source code of its controller module is not available ([link](https://github.com/tensorflow/models/tree/master/research/autoaugment)). Therefore a user cannot run it for its own dataset.
+2. **Not scalable**
+   * It takes 15,000 iterations to learn (according to paper) augmentation policies, which requires massive computational resources. Thus most people could not benefit from it even if its source code would be fully available.
+
+
+
 ### Why Bayesian Optimization?
 
-In hyperparameter optimization, main choices are random search, grid search, bayesian optimization, and reinforcement learning (in the order of method complexity). Google's [AutoAugment](https://arxiv.org/abs/1805.09501) uses Reinforcement Learning for the data augmentation hyperparameter tuning, but it takes 15,000 iterations to learn policies (which means training the child CNN model 15,000 times). Thus, it requires huge computational resources. Bayesian Optimization on the other hand learns good polices in 100-300 iterations, making it +40X faster. Additionally, Bayesian Optimization is better than grid search and random search in terms of accuracy, cost, and computation time in hyperparameter tuning([ref](https://mlconf.com/lets-talk-bayesian-optimization/)) (we can think optimization of augmentation policies as a hyperparameter tuning problem where hyperparameters are concerning with augmentations). This result is not surprising since despite Grid Search or Random Search BO selects new hyperparameter as informed with previous tried hyperparameters and results associated with them.
+In hyperparameter optimization, main choices are random search, grid search, bayesian optimization (BO), and reinforcement learning (RL) (in the order of method complexity). Google's [AutoAugment](https://arxiv.org/abs/1805.09501) uses RL for data augmentation hyperparameter tuning, but it takes 15,000 iterations to learn policies (which means training the child CNN model 15,000 times). Thus, it requires massive computational resources. Bayesian Optimization on the other hand learns good polices in 100-300 iterations, making it +40X faster. Additionally, it is better than grid search and random search in terms of accuracy, cost, and computation time in hyperparameter tuning([ref](https://mlconf.com/lets-talk-bayesian-optimization/)) (we can think optimization of augmentation policies as a hyperparameter tuning problem where hyperparameters are concerning with augmentations instead of the deep learning architecture). This result is not surprising since despite Grid Search or Random Search BO selects new hyperparameter as informed with previous results for tried hyperparameters.
 
 <img width="500" alt="optimization-comparison" src="https://user-images.githubusercontent.com/14996155/53222123-4ae73d80-3621-11e9-9457-44e76012d11c.png">
 
