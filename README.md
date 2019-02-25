@@ -129,6 +129,35 @@ my_config = {"model": "MobileNetV2"}
 
 Reward function is calculated as mean of K highest validation accuracies of the child model which is not smaller than corresponding training accuracy by 0.05. K can be determined by the user by updating `opt_last_n_epochs` key in config as argument to `DeepAugment()` class (K is 3 by default).
 
+## Configuration Options
+
+* model: child model type. Options: "basiccnn", "inceptionv3", "mobilenetv2", "wrn_<DEPTH>_<WIDENING-FACTOR>", or keras.models.Model object
+* method: "bayesian_optimization" or "random" (for random search)
+* train_set_size: size of the training set during optimization. It should be small enough that computation will not take too long.
+* opt_samples: number of samples optimizer will run for each augmentation-policy. Training of the child model is stochastic and validation accuracy results might be slightly different from run to run. The tool trains child model three times by default and takes average, in order to have more robust accuracy results.
+* opt_last_n_epochs: number of non-overfitting epochs whose validation accuracy average will be used as reward. For each training, `opt_last_n_epochs` highest validation accuracies (where its difference to training accuracy is not more than 10%) are averaged and taken as reward.
+* opt_initial_points: number of random initial policies will be tried by Bayesian Optimizer. It will be the `n_initial_points` argument for skopt Optimizer (see its [documentation](https://scikit-optimize.github.io/#skopt.Optimizer))
+* child_epochs: number of epochs for the child model
+* child_first_train_epochs: if not 0, child model is pre-trained without any augmentation and its resulting weights are load for each training with augmentation. The purpose is training child model 10-20 epochs once and thereby saving 10-20 epochs for each training of optimizer iterations which is +100 times.
+    
+```Python
+DEFAULT_CONFIG = {
+    "model": "basiccnn", # 
+    "method": "bayesian_optimization",
+    "train_set_size": 2000,
+    "opt_samples": 3,
+    "opt_last_n_epochs": 3,
+    "opt_initial_points": 10,
+    "child_epochs": 50,
+    "child_first_train_epochs": 0,
+    "child_batch_size": 64,
+    "pre_aug_weights_path": "pre_aug_weights.h5",
+    "logging": logging,
+    "notebook_path": f"{EXPERIMENT_FOLDER_PATH}/notebook.csv",
+}
+```
+
+
 ## Data pipeline
 <img width="600" alt="data-pipeline-2" src="https://user-images.githubusercontent.com/14996155/52740938-0d334680-2f89-11e9-8d68-117d139d9ab8.png">
 <img width="600" alt="data-pipeline-1" src="https://user-images.githubusercontent.com/14996155/52740937-0c9ab000-2f89-11e9-9e94-beca71caed41.png">
