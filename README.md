@@ -65,7 +65,7 @@ best_policies = deepaug.optimize(300)
 
 <img src="https://user-images.githubusercontent.com/14996155/52544784-e0541900-2d67-11e9-93db-0b8b192f5b37.png" width="400"> <img src="https://user-images.githubusercontent.com/14996155/52545044-63c23a00-2d69-11e9-9879-3d7bcb8f88f4.png" width="400">
  
-## Design Goals
+## Design goals
 DeepAugment is designed as a scalable and modular partner to AutoAugment ([Cubuk et al., 2018](https://arxiv.org/abs/1805.09501)). AutoAugment was one of the most exciting publications in 2018 since hyperparameter optimization for data augmentation is an undiscovered area and it was the first method using Reinforcement Learning for this problem. AutoAugmentation, however, has no complete open-sourced implementation (controller module not available) preventing users to run it for their own datasets, and takes 15,000 iterations to learn (according to paper) augmentation policies, which requires massive computational resources. Thus most people could not benefit from it even if its source code would be fully available.
 
 DeepAugment addresses these two problems. Its main design goals are: 
@@ -153,7 +153,7 @@ my_config = {"model": "MobileNetV2"}
 
 Reward function is calculated as mean of K highest validation accuracies of the child model which is not smaller than corresponding training accuracy by 0.05. K can be determined by the user by updating `opt_last_n_epochs` key in config as argument to `DeepAugment()` class (K is 3 by default).
 
-## Configuration Options
+## Configuration options
 
 DeepAugment can be given a config dictionary during initialization. It is expected to have following keys:
 
