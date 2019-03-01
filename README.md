@@ -193,6 +193,7 @@ DEFAULT_CONFIG = {
 <img width="600" alt="data-pipeline-1" src="https://user-images.githubusercontent.com/14996155/52740937-0c9ab000-2f89-11e9-9e94-beca71caed41.png">
 
 ## Class diagram
+Created by [pyreverse](https://www.logilab.org/blogentry/6883)
 ![classes_deepaugment](https://user-images.githubusercontent.com/14996155/52743629-4969a580-2f8f-11e9-8eb2-35aa1af161bb.png)
 
 ## Package diagram
