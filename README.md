@@ -197,6 +197,7 @@ Created by [pyreverse](https://www.logilab.org/blogentry/6883)
 ![classes_deepaugment](https://user-images.githubusercontent.com/14996155/52743629-4969a580-2f8f-11e9-8eb2-35aa1af161bb.png)
 
 ## Package diagram
+Created by [pyreverse](https://www.logilab.org/blogentry/6883)
 <img width="600" alt="package-diagram" src="https://user-images.githubusercontent.com/14996155/52743630-4a023c00-2f8f-11e9-9b12-32b2ded6071b.png">
 
 ## References
