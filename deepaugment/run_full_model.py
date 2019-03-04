@@ -96,6 +96,7 @@ def run_full_model(images, labels, test_proportion=0.1, model="wrn_28_10", epoch
             augment_chance=0.8,
         )
         print("fitting the model")
+
         history = full_model.fit_with_generator(
             datagen,
             data["X_val"],
