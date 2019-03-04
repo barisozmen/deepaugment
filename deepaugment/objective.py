@@ -82,7 +82,7 @@ class Objective:
         history_df = pd.DataFrame(history)
         history_df["acc_overfit"] = history_df["acc"] - history_df["val_acc"]
         reward = (
-            history_df[history_df["acc_overfit"] <= 0.05]["val_acc"]
+            history_df[history_df["acc_overfit"] <= 0.10]["val_acc"]
             .nlargest(self.opt_last_n_epochs)
             .mean()
         )
