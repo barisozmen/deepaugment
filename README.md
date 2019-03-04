@@ -186,7 +186,14 @@ DEFAULT_CONFIG = {
     "notebook_path": f"{EXPERIMENT_FOLDER_PATH}/notebook.csv",
 }
 ```
+## Versioning strategy
+A three-number system is used, e.g. 1.23.4
+Each increment of version is one of the following types:
+ - **minor:** if bugs are fixed, or documentation changed significantly. 1.23.4 -> 1.23.5
+ - **major:** if a feature implemented differently, or a new feature added. 1.23.4 -> 1.24.0
+ - **disruptive:** if a feature is removed or renamed. 1.23.4 -> 2.0.0 (Backward compatibility is not guaranteed)
 
+Note: Versions from 0.0.0 to 1.0.0 are considered as **alpha phase** and do not follow this strategy. 
 
 ## Data pipeline
 <img width="600" alt="data-pipeline-2" src="https://user-images.githubusercontent.com/14996155/52740938-0d334680-2f89-11e9-8d68-117d139d9ab8.png">
