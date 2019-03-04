@@ -168,6 +168,8 @@ class DeepAugment:
              "portion"]
         ].to_dict(orient="records")
 
+        labels = keras.utils.to_categorical(labels)
+
         return deepaugment_image_generator(images, labels, top_policies_list, batch_size=batch_size)
 
 
@@ -203,7 +205,11 @@ class DeepAugment:
     def _evaluate_objective_func_without_augmentation(self):
         """Find out what would be the accuracy if augmentation are not applied
         """
-        no_aug_hyperparams = ["crop", 0.0, "crop", 0.0, 0.0]
+        no_aug_hyperparams = ["rotate", 0.0, "rotate", 0.0,
+                              "rotate", 0.0, "rotate", 0.0,
+                              "rotate", 0.0, "rotate", 0.0,
+                              "rotate", 0.0, "rotate", 0.0,
+                              "rotate", 0.0, "rotate", 0.0]
         f_val = self.objective_func.evaluate(0, no_aug_hyperparams)
         self.controller.tell(no_aug_hyperparams, f_val)
 

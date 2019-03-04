@@ -26,11 +26,32 @@ class Notebook:
         """
         new_df = pd.DataFrame(history)
         new_df["trial_no"] = trial_no
-        new_df["aug1_type"] = trial_hyperparams[0]
-        new_df["aug1_magnitude"] = trial_hyperparams[1]
-        new_df["aug2_type"] = trial_hyperparams[2]
-        new_df["aug2_magnitude"] = trial_hyperparams[3]
-        new_df["portion"] = trial_hyperparams[4]
+
+        new_df["A_aug1_type"] = trial_hyperparams[0]
+        new_df["A_aug1_magnitude"] = trial_hyperparams[1]
+        new_df["A_aug2_type"] = trial_hyperparams[2]
+        new_df["A_aug2_magnitude"] = trial_hyperparams[3]
+
+        new_df["B_aug1_type"] = trial_hyperparams[4]
+        new_df["B_aug1_magnitude"] = trial_hyperparams[5]
+        new_df["B_aug2_type"] = trial_hyperparams[6]
+        new_df["B_aug2_magnitude"] = trial_hyperparams[7]
+
+        new_df["C_aug1_type"] = trial_hyperparams[8]
+        new_df["C_aug1_magnitude"] = trial_hyperparams[9]
+        new_df["C_aug2_type"] = trial_hyperparams[10]
+        new_df["C_aug2_magnitude"] = trial_hyperparams[11]
+
+        new_df["D_aug1_type"] = trial_hyperparams[12]
+        new_df["D_aug1_magnitude"] = trial_hyperparams[13]
+        new_df["D_aug2_type"] = trial_hyperparams[14]
+        new_df["D_aug2_magnitude"] = trial_hyperparams[15]
+
+        new_df["E_aug1_type"] = trial_hyperparams[16]
+        new_df["E_aug1_magnitude"] = trial_hyperparams[17]
+        new_df["E_aug2_type"] = trial_hyperparams[18]
+        new_df["E_aug2_magnitude"] = trial_hyperparams[19]
+
         new_df["sample_no"] = sample_no
         new_df["mean_late_val_acc"] = reward
         new_df = new_df.round(3)  # round all float values to 3 decimals after point
@@ -71,9 +92,9 @@ class Notebook:
 
         baseline_val_acc = x_df[x_df["portion"] == 0.0]["mean_late_val_acc"].values[0]
 
-        x_df["expected_accuracy_increase"] = (
+        x_df["expected_accuracy_increase(%)"] = (
             x_df["mean_late_val_acc"] - baseline_val_acc
-        )
+        )*100
 
         self.top_df = x_df.drop_duplicates(["trial_no"]).sort_values(
             "mean_late_val_acc", ascending=False
