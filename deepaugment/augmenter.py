@@ -117,10 +117,12 @@ def transform(aug_type, magnitude, X):
 
 
 def augment_by_policy(
-    X, y, aug1_type, aug1_magnitude, aug2_type, aug2_magnitude, portion
+    X, y, *hyperparams
 ):
     """
     """
+    portion = 1
+
     assert (
         portion >= 0.0 and portion <= 1.0
     ), "portion argument value is out of accepted interval"
@@ -144,25 +146,38 @@ def augment_by_policy(
         X_portion = _X[nix].copy()
         y_portion = y[nix].copy()
 
-    # transform that portion
-    X_portion_aug = transform(aug1_type, aug1_magnitude, X_portion)  # first transform
 
-    assert (
-        X_portion_aug.min() >= -0.1 and X_portion_aug.max() <= 255.1
-    ), "first transform is unvalid"
-    np.clip(X_portion_aug, 0, 255, out=X_portion_aug)
 
-    X_portion_aug = transform(
-        aug2_type, aug2_magnitude, X_portion_aug
-    )  # second transform
-    assert (
-        X_portion_aug.min() >= -0.1 and X_portion_aug.max() <= 255.1
-    ), "second transform is unvalid"
-    np.clip(X_portion_aug, 0, 255, out=X_portion_aug)
+    all_X_portion_aug=None
+    all_y_portion = None
+    for i in range(0,len(hyperparams)-1,4):
+
+        # transform that portion
+        X_portion_aug = transform(hyperparams[i], hyperparams[i+1], X_portion)  # first transform
+
+        assert (
+            X_portion_aug.min() >= -0.1 and X_portion_aug.max() <= 255.1
+        ), "first transform is unvalid"
+        np.clip(X_portion_aug, 0, 255, out=X_portion_aug)
+
+        X_portion_aug = transform(
+            hyperparams[i+2], hyperparams[i+3], X_portion_aug
+        )  # second transform
+        assert (
+            X_portion_aug.min() >= -0.1 and X_portion_aug.max() <= 255.1
+        ), "second transform is unvalid"
+        np.clip(X_portion_aug, 0, 255, out=X_portion_aug)
+
+        if all_X_portion_aug is None:
+            all_X_portion_aug = X_portion_aug
+            all_y_portion = y_portion
+        else:
+            all_X_portion_aug = np.concatenate([all_X_portion_aug, X_portion_aug])
+            all_y_portion = np.concatenate([all_y_portion, y_portion])
 
     augmented_data = {
-        "X_train": X_portion_aug / 255.0,
-        "y_train": y_portion,
+        "X_train": all_X_portion_aug / 255.0,
+        "y_train": all_y_portion,
     }  # back to normalization
 
     return augmented_data  # augmenteed data is mostly smaller than whole data

@@ -163,8 +163,8 @@ class ChildCNN:
         x = base_model.output
         x = GlobalAveragePooling2D()(x)
         # add a fully-connected layer
-        x = Dense(512, activation="relu")(x)
-        x = Dropout(0.5)(x)
+        x = Dense(256, activation="relu")(x)
+        x = Dropout(0.7)(x)
         # and a logistic layer
         predictions = Dense(self.num_classes, activation="softmax")(x)
 
@@ -174,7 +174,7 @@ class ChildCNN:
             layer.trainable = True
 
         adam_opt = optimizers.Adam(
-            lr=0.001,
+            lr=0.00001,
             beta_1=0.9,
             beta_2=0.999,
             epsilon=None,

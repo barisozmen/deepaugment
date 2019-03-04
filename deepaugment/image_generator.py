@@ -113,7 +113,7 @@ def deepaugment_image_generator(X, y, policy, batch_size=64, augment_chance=0.5)
         else:
             policy_df = pd.read_csv(policy)
             policy_df = policy_df[
-                ["aug1_type", "aug1_magnitude", "aug2_type", "aug2_magnitude", "portion"]
+                ["aug1_type", "aug1_magnitude", "aug2_type", "aug2_magnitude"]
             ]
             policy = policy_df.to_dict(orient="records")
 
