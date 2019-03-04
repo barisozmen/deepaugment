@@ -6,7 +6,7 @@
 
 DeepAugment discovers augmentation strategies tailored for your images. It uses Bayesian Optimization for optimizing data augmentation hyperparameters. The tool:
 1. reduces error rate of CNN models (shown 60% decrease in error for CIFAR-10 on WRN-28-10 compared to no augmentation)
-2. saves times by automating the process
+2. saves time by automating the process
 
 Resources: [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCKmPravyqmaGjy-eIU5cTbG1A/edit#slide=id.g4cc092dbc6_0_0)
 
