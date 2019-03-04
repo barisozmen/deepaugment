@@ -186,9 +186,8 @@ DEFAULT_CONFIG = {
     "notebook_path": f"{EXPERIMENT_FOLDER_PATH}/notebook.csv",
 }
 ```
-## Versioning strategy
-A three-number system is used, e.g. *1.2.3*
-Each increment of version is one of the following types:
+## Versioning rules
+A three-number system is used, like *1.2.3*. Each increment of version is one of the following types:
  - minor: if bugs are fixed, or documentation changed significantly. *1.2.3 -> 1.2.4*
  - major: if a feature implemented differently, or a new feature added. *1.2.3 -> 1.3.0*
  - disruptive: if a feature is removed or renamed. *1.2.3 -> 2.0.0* (Backward compatibility is not guaranteed)
