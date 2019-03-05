@@ -6,7 +6,7 @@
 
 DeepAugment discovers augmentation strategies tailored for your images. It uses Bayesian Optimization for optimizing data augmentation hyperparameters. The tool:
 1. reduces error rate of CNN models (shown 60% decrease in error for CIFAR-10 on WRN-28-10 compared to no augmentation)
-2. saves times by automating the process
+2. saves time by automating the process
 
 Resources: [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCKmPravyqmaGjy-eIU5cTbG1A/edit#slide=id.g4cc092dbc6_0_0)
 
@@ -186,7 +186,13 @@ DEFAULT_CONFIG = {
     "notebook_path": f"{EXPERIMENT_FOLDER_PATH}/notebook.csv",
 }
 ```
+## Versioning rules
+A three-number system is used, like *1.2.3*. Each increment of version is one of the following types:
+ - minor: if bugs are fixed, or documentation changed significantly. *1.2.3 -> 1.2.4*
+ - major: if a feature implemented differently, or a new feature added. *1.2.3 -> 1.3.0*
+ - disruptive: if a feature is removed or renamed. *1.2.3 -> 2.0.0* (Backward compatibility is not guaranteed)
 
+Note: Versions from *0.0.0* to *1.0.0* are considered as **alpha phase** and do not follow this strategy. 
 
 ## Data pipeline
 <img width="600" alt="data-pipeline-2" src="https://user-images.githubusercontent.com/14996155/52740938-0d334680-2f89-11e9-8d68-117d139d9ab8.png">
