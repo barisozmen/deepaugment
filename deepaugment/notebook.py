@@ -90,7 +90,7 @@ class Notebook:
 
         x_df = x_df.sort_values("mean_late_val_acc", ascending=False)
 
-        baseline_val_acc = x_df[x_df["portion"] == 0.0]["mean_late_val_acc"].values[0]
+        baseline_val_acc = x_df[x_df["trial_no"] == 0]["mean_late_val_acc"].values[0]
 
         x_df["expected_accuracy_increase(%)"] = (
             x_df["mean_late_val_acc"] - baseline_val_acc
@@ -102,13 +102,12 @@ class Notebook:
 
         SELECT = [
             "trial_no",
-            "aug1_type",
-            "aug1_magnitude",
-            "aug2_type",
-            "aug2_magnitude",
-            "portion",
-            "mean_late_val_acc",
-            "expected_accuracy_increase",
+            'A_aug1_type', 'A_aug1_magnitude', 'A_aug2_type', 'A_aug2_magnitude',
+            'B_aug1_type', 'B_aug1_magnitude', 'B_aug2_type', 'B_aug2_magnitude',
+            'C_aug1_type', 'C_aug1_magnitude', 'C_aug2_type', 'C_aug2_magnitude',
+            'D_aug1_type', 'D_aug1_magnitude', 'D_aug2_type', 'D_aug2_magnitude',
+            'E_aug1_type', 'E_aug1_magnitude', 'E_aug2_type', 'E_aug2_magnitude',
+            "mean_late_val_acc", "expected_accuracy_increase(%)"
         ]
         self.top_df = self.top_df[SELECT]
 
