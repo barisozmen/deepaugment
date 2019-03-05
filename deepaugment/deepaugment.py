@@ -163,9 +163,11 @@ class DeepAugment:
             batch_size = self.config["child_batch_size"]
 
         top_policies_list = self.top_policies[
-            ["aug1_type","aug1_magnitude",
-             "aug2_type","aug2_magnitude",
-             "portion"]
+            ['A_aug1_type', 'A_aug1_magnitude', 'A_aug2_type', 'A_aug2_magnitude',
+             'B_aug1_type', 'B_aug1_magnitude', 'B_aug2_type', 'B_aug2_magnitude',
+             'C_aug1_type', 'C_aug1_magnitude', 'C_aug2_type', 'C_aug2_magnitude',
+             'D_aug1_type', 'D_aug1_magnitude', 'D_aug2_type', 'D_aug2_magnitude',
+             'E_aug1_type', 'E_aug1_magnitude', 'E_aug2_type', 'E_aug2_magnitude']
         ].to_dict(orient="records")
 
         labels = keras.utils.to_categorical(labels)
