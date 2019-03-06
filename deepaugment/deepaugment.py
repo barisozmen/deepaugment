@@ -170,8 +170,6 @@ class DeepAugment:
              'E_aug1_type', 'E_aug1_magnitude', 'E_aug2_type', 'E_aug2_magnitude']
         ].to_dict(orient="records")
 
-        labels = keras.utils.to_categorical(labels)
-
         return deepaugment_image_generator(images, labels, top_policies_list, batch_size=batch_size)
 
 
