@@ -109,7 +109,7 @@ Aim of Bayesian Optimization (BO) is finding **set of parameters** which maximiz
 2. Find parameters that perform best on the surrogate (or pick random hyperparameters)
 3. Execute objective function with these parameters
 4. Update the surrogate model with these parameters and result (value) of objective function
-5. Repeat steps 2-4 until maximimum number of iterations reached
+5. Repeat steps 2-4 until maximum number of iterations reached
 
 For more detailed explanation, read [this blogpost](https://towardsdatascience.com/a-conceptual-explanation-of-bayesian-model-based-hyperparameter-optimization-for-machine-learning-b8172278050f) explaining BO in high-level, or take a glance at [this review paper](https://ieeexplore.ieee.org/document/7352306)
 
