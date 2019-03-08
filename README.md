@@ -86,7 +86,7 @@ For achieving the second goal, user interface is designed in a way that it gives
 DeepAugment makes optimization of data augmentation scalable, and thus enables users to optimize augmentation policies without needing massive computational resources. 
 As an estimate of its computational cost, it takes **4.2 hours** (500 iterations) on CIFAR-10 dataset which costs around **$13** using AWS p3.x2large instance. 
 ### Academic importance
-To our knowlege, DeepAugment is the first method which utilizes Bayesian Optimization for the problem of data augmentation hyperparameter optimization.
+To our knowledge, DeepAugment is the first method which utilizes Bayesian Optimization for the problem of data augmentation hyperparameter optimization.
  
 ## How it works
 
