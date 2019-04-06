@@ -226,10 +226,10 @@ Blogs:
 - Comparison experiment: Bayesian Opt. vs Grid Search vs Random Search ([mlconf](https://mlconf.com/lets-talk-bayesian-optimization/))
     
 Libraries:
-- [scikit-optimize](scikit-optimize.github.io/)
-- [mgaug](github.com/aleju/imgaug)
-- [AutoAugment-unofficial](github.com/barisozmen/autoaugment-unofficial)
-- [Automold]() (Self-driving car image-augmentation library)
+- [scikit-optimize](https://scikit-optimize.github.io/)
+- [imgaug](https://github.com/aleju/imgaug)
+- [AutoAugment-unofficial](https://github.com/barisozmen/autoaugment-unofficial)
+- [Automold](https://github.com/UjjwalSaxena/Automold--Road-Augmentation-Library) (Self-driving car image-augmentation library)
 
 --------
 
