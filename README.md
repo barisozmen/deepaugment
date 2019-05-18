@@ -1,5 +1,6 @@
 # DeepAugment
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2949929.svg)](https://doi.org/10.5281/zenodo.2949929)
 ![pypi](https://img.shields.io/pypi/v/deepaugment.svg?style=flat)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
