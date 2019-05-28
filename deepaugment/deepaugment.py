@@ -153,8 +153,8 @@ class DeepAugment:
         """
 
         Args:
-            images (numpy.array): array with shape (N,dim,dim,channek-size)
-            labels (numpy.array): array with shape (N), where each eleemnt is an integer from 0 to num_classes-1
+            images (numpy.array): array with shape (N,dim,dim,channel-size)
+            labels (numpy.array): array with shape (N), where each element is an integer from 0 to num_classes-1
             batch_size (int): batch size of the generator on demand
         Returns:
             generator: generator for augmented images
