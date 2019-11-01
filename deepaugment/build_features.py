@@ -96,6 +96,10 @@ class DataOp:
             dict: preprocessed data
         """
 
+        if ( val_set_size > (0.5*train_set_size)):
+            val_set_size = int(0.1*train-set_size)
+        print(f"Using {val_set_size} validation images")
+
         data = DataOp.split_train_val_sets(X, y, train_set_size, val_set_size)
 
         # normalize images
