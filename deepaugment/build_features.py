@@ -9,7 +9,7 @@ class DataOp:
     @staticmethod
     def load(dataset_name):
         """Loads dataset from keras and returns a sample out of it
-
+        
         Args:
             dataset_name (str):
             training_set_size (int):
@@ -24,11 +24,11 @@ class DataOp:
             ).load_data()
         else:
             sys.exit(f"Unknown dataset {dataset_name}")
-
+        
         X = np.concatenate([x_train, x_val])
         y = np.concatenate([y_train, y_val])
         input_shape = x_train.shape[1:]
-
+        
         return X, y, input_shape
 
     @staticmethod
@@ -90,7 +90,7 @@ class DataOp:
         return data
 
     @staticmethod
-    def preprocess(X, y, train_set_size, val_set_size=1000, is_regression=False):
+    def preprocess(X, y, train_set_size, val_set_size=1000, model=None):
         """Preprocess images by:
             1. normalize to 0-1 range (divide by 255)
             2. convert labels to categorical)
@@ -109,6 +109,10 @@ class DataOp:
             val_set_size = int(0.1*train-set_size)
         print(f"Using {val_set_size} validation images")
 
+        model_regression = "basicregression"
+        is_regression = (model == model_regression)
+        print("is_regression:"+str(is_regression))
+        
         print("split_train_val_sets y")
         print(y)
         data = DataOp.split_train_val_sets(X, y, train_set_size, val_set_size)

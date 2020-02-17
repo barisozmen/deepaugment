@@ -189,13 +189,8 @@ class DeepAugment:
         else:
             X, y = images, labels
         self.input_shape = X.shape[1:]
-        
-        model_used = self.config["model"]
-        model_regression = "basicregression"
-        is_regression = (model_used == model_regression)
-        print("is_regression:"+str(is_regression))
-        
-        self.data = DataOp.preprocess(X, y, self.config["train_set_size"], is_regression)
+                
+        self.data = DataOp.preprocess(X, y, val_set_size=self.config["train_set_size"], model=self.config["model"])
         self.num_classes = DataOp.find_num_classes(self.data)
 
     def _do_initial_training(self):
