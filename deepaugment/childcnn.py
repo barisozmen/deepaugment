@@ -7,6 +7,9 @@ from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D, GlobalMax
 
 from keras.applications.mobilenetv2 import MobileNetV2
 from keras.applications.inception_v3 import InceptionV3
+#Use efficientNet B0 (mobile) from:
+#pip install -U git+https://github.com/qubvel/efficientnet
+import efficientnet.keras as efn
 
 import numpy as np
 
@@ -280,31 +283,11 @@ class ChildCNN:
 
         :return:
         """
-        model = Sequential()
-        model.add(Conv2D(32, (3, 3), padding="same", input_shape=self.input_shape))
-        model.add(Activation("relu"))
-        model.add(Conv2D(32, (3, 3)))
-        model.add(Activation("relu"))
-        model.add(MaxPooling2D(pool_size=(2, 2)))
-        model.add(Dropout(0.5))
-
-        model.add(Conv2D(64, (3, 3), padding="same"))
-        model.add(Activation("relu"))
-        model.add(Conv2D(64, (3, 3)))
-        model.add(Activation("relu"))
-        model.add(MaxPooling2D(pool_size=(2, 2)))
-        model.add(Dropout(0.5))
-
-        model.add(Conv2D(64, (3, 3), padding="same"))
-        model.add(Activation("relu"))
-        model.add(Conv2D(64, (3, 3)))
-        model.add(Activation("relu"))
-        model.add(MaxPooling2D(pool_size=(2, 2)))
-        model.add(Dropout(0.5))
-
-        model.add(GlobalMaxPooling2D())
-        model.add(Dense(1))
-        model.add(Activation("linear"))
+        rgb_efficientNetB0 = efn.EfficientNetB0(include_top=False, weights='imagenet', input_shape=self.input_shape, classes=1)
+        z = rgb_efficientNetB0.output
+        z = GlobalMaxPooling2D()(z)
+        z = Dense(1, activation='linear')(z)
+        model = Model(inputs=rgb_efficientNetB0.input, outputs=z)
 
         optimizer = optimizers.Adam(lr=0.001, decay=0)
         # optimizer = optimizers.Adadelta(lr=1.0, rho=0.95, epsilon=None, decay=0.0)
