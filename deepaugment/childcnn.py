@@ -283,6 +283,7 @@ class ChildCNN:
 
         :return:
         """
+        print("build_basicCNN input_shape:"+str(self.input_shape))
         rgb_efficientNetB0 = efn.EfficientNetB0(include_top=False, weights='imagenet', input_shape=self.input_shape, classes=1)
         z = rgb_efficientNetB0.output
         z = GlobalMaxPooling2D()(z)

@@ -81,7 +81,7 @@ class DataOp:
         return data
 
     @staticmethod
-    def preprocess(X, y, train_set_size, val_set_size=1000):
+    def preprocess(X, y, train_set_size, val_set_size=1000, is_regression=False):
         """Preprocess images by:
             1. normalize to 0-1 range (divide by 255)
             2. convert labels to categorical)
@@ -107,8 +107,17 @@ class DataOp:
         data["X_val_seed"] = data["X_val_seed"].astype("float32") / 255
 
         # convert labels to categorical
-        data["y_train"] = keras.utils.to_categorical(data["y_train"])
-        data["y_val_seed"] = keras.utils.to_categorical(data["y_val_seed"])
+        # if not a regression model
+        if is_regression==False:
+            data["y_train"] = keras.utils.to_categorical(data["y_train"])
+            data["y_val_seed"] = keras.utils.to_categorical(data["y_val_seed"])
+        else: 
+            data["y_train"] = data["y_train"]
+            data["y_val_seed"] = data["y_val_seed"]
+            
+        print("y_train:"+data["y_train"])
+        print("len y_train"+str(len(data["y_train"])))
+        print("len y_val_seed"+str(len(data["y_val_seed"])))
         return data
 
     @staticmethod
