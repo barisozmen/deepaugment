@@ -190,7 +190,7 @@ class DeepAugment:
             X, y = images, labels
         self.input_shape = X.shape[1:]
                 
-        self.data = DataOp.preprocess(X, y, val_set_size=self.config["train_set_size"], model=self.config["model"])
+        self.data = DataOp.preprocess(X, y, self.config["train_set_size"], model=self.config["model"])
         self.num_classes = DataOp.find_num_classes(self.data)
 
     def _do_initial_training(self):
