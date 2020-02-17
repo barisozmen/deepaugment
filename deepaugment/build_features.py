@@ -106,7 +106,7 @@ class DataOp:
         """
 
         if ( val_set_size > (0.5*train_set_size)):
-            val_set_size = int(0.1*train-set_size)
+            val_set_size = int(0.1*train_set_size)
         print(f"Using {val_set_size} validation images")
 
         model_regression = "basicregression"
