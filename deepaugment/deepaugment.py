@@ -191,7 +191,10 @@ class DeepAugment:
         self.input_shape = X.shape[1:]
                 
         self.data = DataOp.preprocess(X, y, self.config["train_set_size"], model=self.config["model"])
-        self.num_classes = DataOp.find_num_classes(self.data)
+        if ( self.config["model"] == "basicregression"):
+            self.num_classes = 1
+        else:
+            self.num_classes = DataOp.find_num_classes(self.data)
 
     def _do_initial_training(self):
         """Do the first training without augmentations
