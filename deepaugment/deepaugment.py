@@ -191,7 +191,7 @@ class DeepAugment:
         model_used = self.config["model"]
         model_regression = "basicregression"
         is_regression = (model_used == model_regression)
-        print("is_regression:"+is_regression)
+        print("is_regression:"+str(is_regression))
         
         self.data = DataOp.preprocess(X, y, self.config["train_set_size"], is_regression)
         self.num_classes = DataOp.find_num_classes(self.data)
