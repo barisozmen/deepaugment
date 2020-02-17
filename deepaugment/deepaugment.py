@@ -110,6 +110,8 @@ class DeepAugment:
         if config!=None: self.config.update(config)
         self.iterated = 0  # keep tracks how many times optimizer iterated
 
+        print("labels before _load_and_preprocess_data")
+        print(labels)
         self._load_and_preprocess_data(images, labels)
 
         # define main objects

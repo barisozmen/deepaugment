@@ -72,6 +72,15 @@ class DataOp:
         X_val_seed = X[other_ix]
         y_val_seed = y[other_ix]
 
+        print("split_train_val_sets")
+        print("x train")
+        print(X_train)
+        print("y train")
+        print(y_train)
+        print("X_val_seed")
+        print(X_val_seed)
+        print("y_val_seed")
+        print(y_val_seed)        
         data = {
             "X_train": X_train,
             "y_train": y_train,
@@ -100,6 +109,8 @@ class DataOp:
             val_set_size = int(0.1*train-set_size)
         print(f"Using {val_set_size} validation images")
 
+        print("split_train_val_sets y")
+        print(y)
         data = DataOp.split_train_val_sets(X, y, train_set_size, val_set_size)
 
         # normalize images
@@ -111,7 +122,11 @@ class DataOp:
         if is_regression==False:
             data["y_train"] = keras.utils.to_categorical(data["y_train"])
             data["y_val_seed"] = keras.utils.to_categorical(data["y_val_seed"])
+            print("data is categorical")
+            print(data["y_train"])
         else: 
+            print("data is regression")
+            print(data["y_train"])
             data["y_train"] = data["y_train"]
             data["y_val_seed"] = data["y_val_seed"]
             
