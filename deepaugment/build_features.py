@@ -115,7 +115,8 @@ class DataOp:
             data["y_train"] = data["y_train"]
             data["y_val_seed"] = data["y_val_seed"]
             
-        print("y_train:"+data["y_train"])
+        print("y_train:")
+        print(data["y_train"])
         print("len y_train"+str(len(data["y_train"])))
         print("len y_val_seed"+str(len(data["y_val_seed"])))
         return data
