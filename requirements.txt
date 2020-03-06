@@ -1,7 +1,7 @@
 matplotlib==3.0.2
-tensorflow==1.14.0
-tensorflow-gpu==1.14.0
-keras==2.3.1
+tensorflow==1.12.0
+tensorflow-gpu==1.12.0
+keras==2.2.4
 imgaug==0.2.7
 setuptools==40.6.3
 keras_applications==1.0.6
