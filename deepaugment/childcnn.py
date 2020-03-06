@@ -5,7 +5,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D, GlobalMaxPooling2D
 
-from keras.applications.mobilenetv2 import MobileNetV2
+from keras.applications.mobilenet_v2 import MobileNetV2
 from keras.applications.inception_v3 import InceptionV3
 #Use efficientNet B0 (mobile) from:
 #pip install -U git+https://github.com/qubvel/efficientnet
