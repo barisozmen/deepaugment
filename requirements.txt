@@ -5,7 +5,7 @@ tensorflow-estimator==1.14.0
 keras==2.3.1
 imgaug==0.2.7
 setuptools==40.6.3
-Keras-Applications==1.0.8
+keras_applications==1.0.8
 pandas==1.0.1
 scikit_optimize==0.5.2
 click==7.0
