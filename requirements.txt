@@ -1,12 +1,12 @@
-matplotlib==3.0.2
+matplotlib==3.2.0
 tensorflow==1.14.0
 tensorflow-gpu==1.14.0
 keras==2.3.1
 imgaug==0.2.7
-setuptools==40.6.3
+setuptools==41.0.1
 keras_applications==1.0.8
-pandas==0.23.4
+pandas==1.0.1
 scikit_optimize==0.5.2
 click==7.0
-numpy==1.15.4
+numpy==1.16.4
 opencv-contrib-python
