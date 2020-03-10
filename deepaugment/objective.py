@@ -80,6 +80,7 @@ class Objective:
             float: reward
         """
         history_df = pd.DataFrame(history)
+        print(history_df.columns.values)
         history_df["acc_overfit"] = history_df["acc"] - history_df["val_acc"]
         reward = (
             history_df[history_df["acc_overfit"] <= 0.10]["val_acc"]
