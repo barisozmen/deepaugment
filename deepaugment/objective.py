@@ -81,9 +81,17 @@ class Objective:
         """
         history_df = pd.DataFrame(history)
         print(history_df.columns.values)
-        history_df["acc_overfit"] = history_df["acc"] - history_df["val_acc"]
+        val_acc = "val_acc"
+        acc = "acc"
+        columns = set(history_df.columns.values)
+        if not(val_acc in columns):
+            val_acc = "val_accuracy" 
+        if not(acc in columns):
+            acc = "accuracy"
+            
+        history_df["acc_overfit"] = history_df[acc] - history_df[val_acc]
         reward = (
-            history_df[history_df["acc_overfit"] <= 0.10]["val_acc"]
+            history_df[history_df["acc_overfit"] <= 0.10][val_acc]
             .nlargest(self.opt_last_n_epochs)
             .mean()
         )
