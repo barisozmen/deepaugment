@@ -1,0 +1,9 @@
+matplotlib==3.2.0
+imgaug==0.2.7
+setuptools==41.0.1
+keras_applications==1.0.8
+pandas==1.0.1
+scikit_optimize==0.5.2
+click==7.0
+numpy==1.16.4
+opencv-contrib-python

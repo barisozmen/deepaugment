@@ -11,7 +11,7 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 # get the dependencies and installs
-with open(path.join(here, "requirements.txt"), encoding="utf-8") as f:
+with open(path.join(here, "requirements_.txt"), encoding="utf-8") as f:
     all_reqs = f.read().split("\n")
 
 install_requires = [x.strip() for x in all_reqs if "git+" not in x]

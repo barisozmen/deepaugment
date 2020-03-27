@@ -3,10 +3,13 @@
 from keras import optimizers, Model
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
+from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D, GlobalMaxPooling2D
 
-from keras.applications.mobilenetv2 import MobileNetV2
+from keras.applications.mobilenet_v2 import MobileNetV2
 from keras.applications.inception_v3 import InceptionV3
+#Use efficientNet B0 (mobile) from:
+#pip install -U git+https://github.com/qubvel/efficientnet
+import efficientnet.keras as efn
 
 import numpy as np
 
@@ -127,7 +130,8 @@ class ChildCNN:
         """Creates the child CNN
 
         Model choices:
-            basicCNN
+            basicCNN (classification)
+            basicRegression
             WRN (with any N and k)
             MobileNet
         """
@@ -138,6 +142,8 @@ class ChildCNN:
                 return self.build_wrn()
             elif self.config["model"].lower() in ("mobilenetv2","inceptionv3"):
                 return self.build_prepared_model()
+            elif self.config["model"].lower() == "basicregression":
+                return self.build_basicRegressionCNN()
             else:
                 print(f"config['model'] should be any of 'basiccnn', 'wrn_?_?', 'mobilenetv2', 'inceptionv3'")
                 raise ValueError
@@ -267,3 +273,26 @@ class ChildCNN:
         print("BasicCNN model built as child model.\n Model summary:")
         print(model.summary())
         return model
+        
+    def build_basicRegressionCNN(self):
+        """Builds basic convolution-only model  with MSE loss function
+        -you dont need dense connections - thats what inception thought us
+
+        Returns:
+            keras.models.Model
+
+        :return:
+        """
+        print("build_basicCNN input_shape:"+str(self.input_shape))
+        rgb_efficientNetB0 = efn.EfficientNetB0(include_top=False, weights='imagenet', input_shape=self.input_shape, classes=1)
+        z = rgb_efficientNetB0.output
+        z = GlobalMaxPooling2D()(z)
+        z = Dense(1, activation='linear')(z)
+        model = Model(inputs=rgb_efficientNetB0.input, outputs=z)
+
+        optimizer = optimizers.Adam(lr=0.001, decay=0)
+        # optimizer = optimizers.Adadelta(lr=1.0, rho=0.95, epsilon=None, decay=0.0)
+        model.compile(optimizer=optimizer, loss="MSE", metrics=["MSE", "accuracy"])
+        print("BasicCNN model built as child model.\n Model summary:")
+        print(model.summary())
+        return model        

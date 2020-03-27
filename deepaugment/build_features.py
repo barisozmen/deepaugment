@@ -9,7 +9,7 @@ class DataOp:
     @staticmethod
     def load(dataset_name):
         """Loads dataset from keras and returns a sample out of it
-
+        
         Args:
             dataset_name (str):
             training_set_size (int):
@@ -24,11 +24,11 @@ class DataOp:
             ).load_data()
         else:
             sys.exit(f"Unknown dataset {dataset_name}")
-
+        
         X = np.concatenate([x_train, x_val])
         y = np.concatenate([y_train, y_val])
         input_shape = x_train.shape[1:]
-
+        
         return X, y, input_shape
 
     @staticmethod
@@ -72,6 +72,15 @@ class DataOp:
         X_val_seed = X[other_ix]
         y_val_seed = y[other_ix]
 
+        print("split_train_val_sets")
+        print("x train")
+        print(X_train)
+        print("y train")
+        print(y_train)
+        print("X_val_seed")
+        print(X_val_seed)
+        print("y_val_seed")
+        print(y_val_seed)        
         data = {
             "X_train": X_train,
             "y_train": y_train,
@@ -81,7 +90,7 @@ class DataOp:
         return data
 
     @staticmethod
-    def preprocess(X, y, train_set_size, val_set_size=1000):
+    def preprocess(X, y, train_set_size, val_set_size=1000, model=None):
         """Preprocess images by:
             1. normalize to 0-1 range (divide by 255)
             2. convert labels to categorical)
@@ -96,6 +105,16 @@ class DataOp:
             dict: preprocessed data
         """
 
+        if ( val_set_size > (0.5*train_set_size)):
+            val_set_size = int(0.1*train_set_size)
+        print(f"Using {val_set_size} validation images")
+
+        model_regression = "basicregression"
+        is_regression = (model == model_regression)
+        print("is_regression:"+str(is_regression))
+        
+        print("split_train_val_sets y")
+        print(y)
         data = DataOp.split_train_val_sets(X, y, train_set_size, val_set_size)
 
         # normalize images
@@ -103,8 +122,22 @@ class DataOp:
         data["X_val_seed"] = data["X_val_seed"].astype("float32") / 255
 
         # convert labels to categorical
-        data["y_train"] = keras.utils.to_categorical(data["y_train"])
-        data["y_val_seed"] = keras.utils.to_categorical(data["y_val_seed"])
+        # if not a regression model
+        if is_regression==False:
+            data["y_train"] = keras.utils.to_categorical(data["y_train"])
+            data["y_val_seed"] = keras.utils.to_categorical(data["y_val_seed"])
+            print("data is categorical")
+            print(data["y_train"])
+        else: 
+            print("data is regression")
+            print(data["y_train"])
+            data["y_train"] = data["y_train"]
+            data["y_val_seed"] = data["y_val_seed"]
+            
+        print("y_train:")
+        print(data["y_train"])
+        print("len y_train"+str(len(data["y_train"])))
+        print("len y_val_seed"+str(len(data["y_val_seed"])))
         return data
 
     @staticmethod
