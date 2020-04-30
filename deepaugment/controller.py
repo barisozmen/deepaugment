@@ -124,7 +124,7 @@ class Controller:
         if self.method == "bayesian_optimization":
             return self.opt.ask()
         elif self.method == "random_search":
-            return [func() for func in random_search_space]
+            return [func() for func in self.random_search_space]
 
     def tell(self, trial_hyperparams, f_val):
         """Tells the controller result of previous tried hyperparameters
