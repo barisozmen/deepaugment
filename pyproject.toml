@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deepaugment"
+version = "0.1.0"
+description = "DeepAugment discovers augmentation strategies tailored for your images."
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "click>=8.3.0",
+    "imgaug>=0.4.0",
+    "matplotlib>=3.10.7",
+    "opencv-contrib-python==4.8.1.78",
+    "pandas>=2.3.3",
+    "scikit-optimize>=0.10.2",
+    "tensorflow==2.15.0",
+    "numpy<2.0",
+    "pandas",
+]
+
+[project.optional-dependencies]
+dev = [
+    "coverage>=7.11.0",
+    "flake8>=7.3.0",
+    "pypi-publisher>=0.0.4",
+    "pytest>=8.4.2",
+    "python-dotenv>=1.2.1",
+    "sphinx>=8.2.3",
+]
+
+[tool.setuptools]
+packages = ["deepaugment"]
