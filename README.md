@@ -203,39 +203,41 @@ DEFAULT_CONFIG = {
 
 ### Version Management
 
-We use [semantic versioning](https://semver.org/) (MAJOR.MINOR.PATCH):
+**Single Source of Truth**: Version lives ONLY in [pyproject.toml](pyproject.toml:3).
+
+We use [semantic versioning](https://semver.org/) (MAJOR.MINOR.PATCH).
+
+**Automatic patch bumping via CI/CD**: After you push to main, GitHub Actions automatically bumps the patch version.
 
 ```bash
-make bump-patch  # Bug fixes: 2.0.0 → 2.0.1
-make bump-minor  # New features: 2.0.0 → 2.1.0
-make bump-major  # Breaking changes: 2.0.0 → 3.0.0
-make version     # Show current version
+# Normal workflow - clean and simple
+git commit -m "Fix bug"
+git push
+
+# GitHub Actions runs:
+# ✓ Bumps version: 2.0.28 → 2.0.29
+# ✓ Creates tag: v2.0.29
+# ✓ Pushes back to repo
+
+# Next pull gets the new version
+git pull
+
+# Manual major/minor bumps - edit pyproject.toml
+# Change: version = "2.0.29" → version = "2.1.0"
+git commit -m "Release v2.1.0 [skip-bump]"
+git push  # CI skips auto-bump (detects [skip-bump])
 ```
 
-Versioning is automated via `bump2version` - it updates [pyproject.toml](pyproject.toml) and [src/deepaugment/__init__.py](src/deepaugment/__init__.py) in sync, creates a commit, and tags it.
+**Smart syncing**: [bin/bump_patch_version.py](bin/bump_patch_version.py) automatically syncs with remote tags, avoiding conflicts in team workflows.
 
-### Pre-commit Hooks
+### Setup for Developers
 
-Code quality checks run automatically on each commit:
-- Trailing whitespace removal
-- End-of-file fixing
-- YAML/TOML validation
-- Ruff linting and formatting
-
-**Smart Commit** - Auto-retry after pre-commit fixes:
+First time setup:
 ```bash
-# Option 1: Using Makefile (recommended)
-make commit MSG="Add awesome feature"
-
-# Option 2: Using git alias (already configured)
-git c -m "Add awesome feature"
-
-# Traditional way (requires two commits if hooks fix code)
-git commit -m "message"  # may fail
-git add -A && git commit -m "message"  # retry after fixes
+make setup  # Installs native git pre-commit hook for auto-versioning
 ```
 
-The smart commit automatically stages hook fixes and retries, preserving your commit message.
+This creates a git pre-commit hook that automatically bumps patch version on every commit.
 
 ## Class diagram
 Created by [pyreverse](https://www.logilab.org/blogentry/6883)
