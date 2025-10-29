@@ -91,3 +91,4 @@ data/
 
 # Mypy cache
 .mypy_cache/
+.pre-commit-cache/

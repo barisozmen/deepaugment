@@ -5,7 +5,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, TensorDataset
 import numpy as np
-from tqdm import tqdm
 
 
 class SimpleCNN(nn.Module):
@@ -31,7 +30,9 @@ class SimpleCNN(nn.Module):
         return self.fc2(x)
 
 
-def train_model(model, train_data, val_data, epochs=10, batch_size=64, lr=0.001, device=None):
+def train_model(
+    model, train_data, val_data, epochs=10, batch_size=64, lr=0.001, device=None
+):
     """
     Train model and return performance metrics.
 
@@ -48,7 +49,13 @@ def train_model(model, train_data, val_data, epochs=10, batch_size=64, lr=0.001,
         Dictionary with training history
     """
     if device is None:
-        device = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu'
+        device = (
+            "cuda"
+            if torch.cuda.is_available()
+            else "mps"
+            if torch.backends.mps.is_available()
+            else "cpu"
+        )
 
     model = model.to(device)
 
@@ -65,14 +72,12 @@ def train_model(model, train_data, val_data, epochs=10, batch_size=64, lr=0.001,
     train_loader = DataLoader(
         TensorDataset(X_train, y_train), batch_size=batch_size, shuffle=True
     )
-    val_loader = DataLoader(
-        TensorDataset(X_val, y_val), batch_size=batch_size
-    )
+    val_loader = DataLoader(TensorDataset(X_val, y_val), batch_size=batch_size)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     criterion = nn.CrossEntropyLoss()
 
-    history = {'train_loss': [], 'train_acc': [], 'val_loss': [], 'val_acc': []}
+    history = {"train_loss": [], "train_acc": [], "val_loss": [], "val_acc": []}
 
     for epoch in range(epochs):
         # Training
@@ -108,15 +113,26 @@ def train_model(model, train_data, val_data, epochs=10, batch_size=64, lr=0.001,
                 val_total += y_batch.size(0)
                 val_correct += predicted.eq(y_batch).sum().item()
 
-        history['train_loss'].append(train_loss / len(train_loader))
-        history['train_acc'].append(train_correct / train_total)
-        history['val_loss'].append(val_loss / len(val_loader))
-        history['val_acc'].append(val_correct / val_total)
+        history["train_loss"].append(train_loss / len(train_loader))
+        history["train_acc"].append(train_correct / train_total)
+        history["val_loss"].append(val_loss / len(val_loader))
+        history["val_acc"].append(val_correct / val_total)
 
     return history
 
 
-def evaluate_policy(policy, train_data, val_data, num_classes, augmenter, epochs=10, samples=3):
+def evaluate_policy(
+    policy,
+    train_data,
+    val_data,
+    num_classes,
+    augmenter,
+    epochs=10,
+    samples=3,
+    device="cpu",
+    batch_size=64,
+    learning_rate=0.001,
+):
     """
     Evaluate augmentation policy by training model.
 
@@ -142,10 +158,16 @@ def evaluate_policy(policy, train_data, val_data, num_classes, augmenter, epochs
         # Train model
         model = SimpleCNN(num_classes=num_classes)
         history = train_model(
-            model, (X_aug, y_train), val_data, epochs=epochs, batch_size=64
+            model,
+            (X_aug, y_train),
+            val_data,
+            epochs=epochs,
+            batch_size=batch_size,
+            lr=learning_rate,
+            device=device,
         )
 
         # Take best validation accuracy
-        scores.append(max(history['val_acc']))
+        scores.append(max(history["val_acc"]))
 
     return np.mean(scores)

@@ -1,4 +1,4 @@
-.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3
+.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3 bump-patch bump-minor bump-major version
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -75,6 +75,26 @@ endif
 ## Test python environment is setup correctly
 test_environment:
 	$(PYTHON_INTERPRETER) test_environment.py
+
+#################################################################################
+# VERSION MANAGEMENT                                                            #
+#################################################################################
+
+## Show current version
+version:
+	@grep "current_version = " .bumpversion.cfg | cut -d' ' -f3
+
+## Bump patch version (2.0.0 → 2.0.1)
+bump-patch:
+	uv run bump2version patch
+
+## Bump minor version (2.0.0 → 2.1.0)
+bump-minor:
+	uv run bump2version minor
+
+## Bump major version (2.0.0 → 3.0.0)
+bump-major:
+	uv run bump2version major
 
 #################################################################################
 # PROJECT RULES                                                                 #

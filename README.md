@@ -56,35 +56,35 @@ best = aug.optimize(iterations=50, epochs=10)
 aug.show_best(n=5)
 ```
 ## Results
-### CIFAR-10 best policies tested on WRN-28-10 
+### CIFAR-10 best policies tested on WRN-28-10
 - Method: Wide-ResNet-28-10 trained with CIFAR-10 augmented images by best found policies, and with unaugmented images (everything else same).
 - Result: **60% reduction in error** (8.5% accuracy increase) by DeepAugment
 <img src="https://user-images.githubusercontent.com/14996155/53362039-1d82e400-38ee-11e9-8f5e-e6f1602865a8.png" width="400"> <img src="https://user-images.githubusercontent.com/14996155/53362042-21af0180-38ee-11e9-9253-96ce8ddcc17c.png" width="400">
- 
+
 ## Design goals
 DeepAugment is designed as a scalable and modular partner to AutoAugment ([Cubuk et al., 2018](https://arxiv.org/abs/1805.09501)). AutoAugment was one of the most exciting publications in 2018. It was the first method using Reinforcement Learning for this problem. AutoAugmentation, however, has no complete open-sourced implementation (controller module not available) preventing users to run it for their own datasets, and takes 15,000 iterations to learn (according to paper) augmentation policies, which requires massive computational resources. Thus most people could not benefit from it even if its source code would be fully available.
 
-DeepAugment addresses these two problems. Its main design goals are: 
+DeepAugment addresses these two problems. Its main design goals are:
 1. **minimize the computational complexity of optimization while maintaining quality of results**
 2. **be modular and user-friendly**
 
 First goal is achieved by following changes compared to AutoAugment:
-1. Bayesian Optimization instead of Reinforcement Learning 
+1. Bayesian Optimization instead of Reinforcement Learning
     * which requires much less number of iterations (~100 times)
 2. Minimized Child Model
     * decreasing computational complexity of each training (~20 times)
 3. Less stochastic augmentation search space design
     * decreasing number of iterations needed
-    
+
 For achieving the second goal, user interface is designed in a way that it gives user broad configuration possibilities and model selections (e.g. selecting the child model or inputting a self-designed child model).
 
 ## Importance
 ### Practical importance
-DeepAugment makes optimization of data augmentation scalable, and thus enables users to optimize augmentation policies without needing massive computational resources. 
-As an estimate of its computational cost, it takes **4.2 hours** (500 iterations) on CIFAR-10 dataset which costs around **$13** using AWS p3.x2large instance. 
+DeepAugment makes optimization of data augmentation scalable, and thus enables users to optimize augmentation policies without needing massive computational resources.
+As an estimate of its computational cost, it takes **4.2 hours** (500 iterations) on CIFAR-10 dataset which costs around **$13** using AWS p3.x2large instance.
 ### Academic importance
 To our knowledge, DeepAugment is the first method which utilizes Bayesian Optimization for the problem of data augmentation hyperparameter optimization.
- 
+
 ## How it works
 
 Three major components of DeepAugment are controller, augmenter, and child model. Overall workflow is that controller samples new augmentation policies, augmenter transforms images by the new policy, and child model is trained from scratch by augmented images. Then, a reward is calculated from child model's training history. This reward is returned back to the controller, and it updates its surrogate model with this reward and associated augmentation policy. Then, controller samples new policies again and same steps repeats. This process cycles until user-determined maximum number of iterations reached.
@@ -102,7 +102,7 @@ In hyperparameter optimization, main choices are random search, grid search, bay
 ### How does Bayesian Optimization work?
 
 Aim of Bayesian Optimization (BO) is finding **set of parameters** which maximize the value of an **objective function**. It builds a surrogate model for predicting value of objective function for unexplored parameters. Working cycle of BO can be summarized as:
-1. Build a surrogate model of the objective function 
+1. Build a surrogate model of the objective function
 2. Find parameters that perform best on the surrogate (or pick random hyperparameters)
 3. Execute objective function with these parameters
 4. Update the surrogate model with these parameters and result (value) of objective function
@@ -112,7 +112,7 @@ For more detailed explanation, read [this blogpost](https://towardsdatascience.c
 
 ### Augmentation policy
 
-A policy describes the augmentation will be applied on a dataset. Each policy consists variables for two augmentation types, their magnitude and the portion of the data to be augmented. An example policy is as following: 
+A policy describes the augmentation will be applied on a dataset. Each policy consists variables for two augmentation types, their magnitude and the portion of the data to be augmented. An example policy is as following:
 
 <img width="400" alt="example policy" src="https://user-images.githubusercontent.com/14996155/52595719-59ed1500-2e03-11e9-9a40-a79462006924.png">
 
@@ -175,11 +175,11 @@ DeepAugment can be given a config dictionary during initialization. It is expect
 * **per_aug_weights_path:** path for pre-augmented training weights. Unneccessary if `child_first_train_epochs=0`
 * **logging:** logging object for getting news about the optimization.
 * **notebook_path:** path for recording all trainings in all iterations. For each iteration, training history, trial-no, sample-no, calculated reward and mean recent validation accuracy is recorded. Records is updated at each trial for ensuring records are not lost in case optimization interrupted unintentionally. Records can be found at "/reports/experiments/<EXPERIMENT-NAME-AS-YEAR-MONTH-DAY-HOUR-MINUTE>/notebook.csv"
-    
+
 Default configurations are as following:
 ```Python
 DEFAULT_CONFIG = {
-    "model": "basiccnn", # 
+    "model": "basiccnn", #
     "method": "bayesian_optimization",
     "train_set_size": 2000,
     "opt_samples": 3,
@@ -193,17 +193,36 @@ DEFAULT_CONFIG = {
     "notebook_path": f"{EXPERIMENT_FOLDER_PATH}/notebook.csv",
 }
 ```
-## Versioning rules
-A three-number system is used, like *1.2.3*. Each increment of version is one of the following types:
- - minor: if bugs are fixed, or documentation changed significantly. *1.2.3 -> 1.2.4*
- - major: if a feature implemented differently, or a new feature added. *1.2.3 -> 1.3.0*
- - disruptive: if a feature is removed or renamed. *1.2.3 -> 2.0.0* (Backward compatibility is not guaranteed)
-
-Note: Versions from *0.0.0* to *1.0.0* are considered as **alpha phase** and do not follow this strategy. 
 
 ## Data pipeline
 <img width="600" alt="data-pipeline-2" src="https://user-images.githubusercontent.com/14996155/52740938-0d334680-2f89-11e9-8d68-117d139d9ab8.png">
 <img width="600" alt="data-pipeline-1" src="https://user-images.githubusercontent.com/14996155/52740937-0c9ab000-2f89-11e9-9e94-beca71caed41.png">
+
+
+## Development
+
+### Version Management
+
+We use [semantic versioning](https://semver.org/) (MAJOR.MINOR.PATCH):
+
+```bash
+make bump-patch  # Bug fixes: 2.0.0 → 2.0.1
+make bump-minor  # New features: 2.0.0 → 2.1.0
+make bump-major  # Breaking changes: 2.0.0 → 3.0.0
+make version     # Show current version
+```
+
+Versioning is automated via `bump2version` - it updates [pyproject.toml](pyproject.toml) and [src/deepaugment/__init__.py](src/deepaugment/__init__.py) in sync, creates a commit, and tags it.
+
+### Pre-commit Hooks
+
+Code quality checks run automatically on each commit:
+- Trailing whitespace removal
+- End-of-file fixing
+- YAML/TOML validation
+- Ruff linting and formatting
+
+Install hooks: `uv run pre-commit install`
 
 ## Class diagram
 Created by [pyreverse](https://www.logilab.org/blogentry/6883)
@@ -212,6 +231,7 @@ Created by [pyreverse](https://www.logilab.org/blogentry/6883)
 ## Package diagram
 Created by [pyreverse](https://www.logilab.org/blogentry/6883)
 <img width="600" alt="package-diagram" src="https://user-images.githubusercontent.com/14996155/52743630-4a023c00-2f8f-11e9-9b12-32b2ded6071b.png">
+
 
 ## References
 [1] Cubuk et al., 2018. AutoAugment: Learning Augmentation Policies from Data
@@ -228,10 +248,10 @@ Created by [pyreverse](https://www.logilab.org/blogentry/6883)
 [5] DeVries, Taylor 2017. Improved Regularization of CNN's with Cutout
 ([arxiv](https://arxiv.org/abs/1708.04552))
 
-Blogs: 
+Blogs:
 - A conceptual explanation of Bayesian Optimization ([towardsdatascience](https://towardsdatascience.com/a-conceptual-explanation-of-bayesian-model-based-hyperparameter-optimization-for-machine-learning-b8172278050f))
 - Comparison experiment: Bayesian Opt. vs Grid Search vs Random Search ([mlconf](https://mlconf.com/lets-talk-bayesian-optimization/))
-    
+
 
 Main dependencies:
 - [scikit-optimize](scikit-optimize.github.io/) used for Bayesian optimization
@@ -251,5 +271,3 @@ Original DeepAugment paper:
   url = {https://github.com/barisozmen/deepaugment}
 }
 ```
-
-
