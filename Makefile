@@ -20,16 +20,23 @@ test: ## Run tests
 setup: ## Setup development environment (git hooks)
 	@echo "Setting up git hooks..."
 	@mkdir -p .git/hooks
-	@echo '#!/bin/bash' > .git/hooks/pre-commit
-	@echo 'uv run bin/bump_patch_version.py' >> .git/hooks/pre-commit
-	@chmod +x .git/hooks/pre-commit
-	@echo "✓ Git pre-commit hook installed"
+	@# Post-commit hook setup
+	@if [ ! -f .git/hooks/post-commit ]; then touch .git/hooks/post-commit; fi
+	@if ! head -1 .git/hooks/post-commit | grep -q "^#!/"; then \
+		echo '#!/bin/bash' | cat - .git/hooks/post-commit > /tmp/post-commit.tmp && mv /tmp/post-commit.tmp .git/hooks/post-commit; \
+	fi
+	@if ! grep -q "uv run bin/push_tag_on_pyproject_version_change.py" .git/hooks/post-commit; then \
+		echo 'uv run bin/push_tag_on_pyproject_version_change.py' >> .git/hooks/post-commit; \
+		echo "✓ Post-commit hook configured"; \
+	fi
+	@chmod +x .git/hooks/post-commit
+	@echo "✓ Git hooks ready"
 
 version: ## Show current version
 	@grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/'
 
 bump: ## Manually bump patch version
-	uv run python bin/bump_patch_version.py
+	uv run python bin/push_tag_on_pyproject_version_change.py
 
 ##@ Cleanup
 
