@@ -222,7 +222,20 @@ Code quality checks run automatically on each commit:
 - YAML/TOML validation
 - Ruff linting and formatting
 
-Install hooks: `uv run pre-commit install`
+**Smart Commit** - Auto-retry after pre-commit fixes:
+```bash
+# Option 1: Using Makefile (recommended)
+make commit MSG="Add awesome feature"
+
+# Option 2: Using git alias (already configured)
+git c -m "Add awesome feature"
+
+# Traditional way (requires two commits if hooks fix code)
+git commit -m "message"  # may fail
+git add -A && git commit -m "message"  # retry after fixes
+```
+
+The smart commit automatically stages hook fixes and retries, preserving your commit message.
 
 ## Class diagram
 Created by [pyreverse](https://www.logilab.org/blogentry/6883)
