@@ -29,6 +29,20 @@ packages = ["src/deepaugment"]
 
 [dependency-groups]
 dev = [
+    # testing
     "pytest>=8.0.0",
+
+    # development
     "ipython>=8.0.0",
+
+    # linting and code visualization (pyreverse comes with pylint)
+    "pylint>=4.0.2",
+
+    # documentation
+    "sphinx>=8.2.3",
+    "furo>=2025.9.25",
+    "sphinx-autobuild>=2025.8.25",
+    "sphinx-design>=0.6.1",
+    "myst-parser>=4.0.1",
+    "tomli>=2.3.0",
 ]
