@@ -8,7 +8,7 @@
 
 Find optimal image augmentation policies for your dataset automatically. DeepAugment uses Bayesian optimization to discover augmentation strategies that maximize model performance.
 
-Resources: [blog post](https://blog.insightdatascience.com/automl-for-data-augmentation-e87cf692c366), [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCKmPravyqmaGjy-eIU5cTbG1A/edit#slide=id.g4cc092dbc6_0_0)
+Resources: [blog post](https://medium.com/insight-data/automl-for-data-augmentation-e87cf692c366), [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCKmPravyqmaGjy-eIU5cTbG1A/edit#slide=id.g4cc092dbc6_0_0)
 
 ## Quick Start
 
