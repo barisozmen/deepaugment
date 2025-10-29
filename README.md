@@ -159,40 +159,64 @@ my_config = {"model": "MobileNetV2"}
 
 Reward function is calculated as mean of K highest validation accuracies of the child model which is not smaller than corresponding training accuracy by 0.05. K can be determined by the user by updating `opt_last_n_epochs` key in config as argument to `DeepAugment()` class (K is 3 by default).
 
-## Configuration options
+## Configuration
 
-DeepAugment can be given a config dictionary during initialization. It is expected to have following keys:
+### DeepAugment Initialization
 
-* **model**: child model type. Options: "basiccnn", "inceptionv3", "mobilenetv2", "wrn_<DEPTH>_<WIDENING-FACTOR>", or keras.models.Model object
-* **method:** "bayesian_optimization" or "random" (for random search)
-* **train_set_size:** size of the training set during optimization. It should be small enough that computation will not take too long.
-* **opt_samples:** number of samples optimizer will run for each augmentation-policy. Training of the child model is stochastic and validation accuracy results might be slightly different from run to run. The tool trains child model three times by default and takes average, in order to have more robust accuracy results.
-* **opt_last_n_epochs:** number of non-overfitting epochs whose validation accuracy average will be used as reward. For each training, `opt_last_n_epochs` highest validation accuracies (where its difference to training accuracy is not more than 10%) are averaged and taken as reward.
-* **opt_initial_points:** number of random initial policies will be tried by Bayesian Optimizer. It will be the `n_initial_points` argument for skopt Optimizer (see its [documentation](https://scikit-optimize.github.io/#skopt.Optimizer))
-* **child_epochs:** number of epochs for the child model
-* **child_first_train_epochs:** if not 0, child model is pre-trained without any augmentation and its resulting weights are load for each training with augmentation. The purpose is training child model 10-20 epochs once and thereby saving 10-20 epochs for each training of optimizer iterations which is +100 times.
-* **child_batch_size:** batch size for the child model
-* **per_aug_weights_path:** path for pre-augmented training weights. Unneccessary if `child_first_train_epochs=0`
-* **logging:** logging object for getting news about the optimization.
-* **notebook_path:** path for recording all trainings in all iterations. For each iteration, training history, trial-no, sample-no, calculated reward and mean recent validation accuracy is recorded. Records is updated at each trial for ensuring records are not lost in case optimization interrupted unintentionally. Records can be found at "/reports/experiments/<EXPERIMENT-NAME-AS-YEAR-MONTH-DAY-HOUR-MINUTE>/notebook.csv"
-
-Default configurations are as following:
-```Python
-DEFAULT_CONFIG = {
-    "model": "basiccnn", #
-    "method": "bayesian_optimization",
-    "train_set_size": 2000,
-    "opt_samples": 3,
-    "opt_last_n_epochs": 3,
-    "opt_initial_points": 10,
-    "child_epochs": 50,
-    "child_first_train_epochs": 0,
-    "child_batch_size": 64,
-    "pre_aug_weights_path": "pre_aug_weights.h5",
-    "logging": logging,
-    "notebook_path": f"{EXPERIMENT_FOLDER_PATH}/notebook.csv",
-}
+```python
+DeepAugment(
+    X_train, y_train, X_val, y_val,
+    # Essential
+    model="simple",              # Model architecture
+    device="auto",               # "auto", "cuda", "mps", "cpu"
+    random_state=42,             # Reproducibility seed
+    # Useful
+    method="bayesian",           # "bayesian" or "random"
+    save_history=True,           # Save optimization history
+    # Advanced
+    transform_categories=None,   # Filter transforms by category
+    custom_reward_fn=None,       # Custom reward function
+    # Core
+    n_operations=4,              # Transforms per policy
+    train_size=2000,             # Training subset size
+    val_size=500,                # Validation subset size
+)
 ```
+
+### Optimization Parameters
+
+```python
+aug.optimize(
+    iterations=50,         # Policies to try
+    epochs=10,            # Training epochs per policy
+    samples=1,            # Runs per policy (for averaging)
+    batch_size=64,        # Training batch size
+    learning_rate=0.001,  # Learning rate
+    early_stopping=False, # Enable early stopping
+    patience=10,          # Early stopping patience
+    verbose=True,         # Show progress
+)
+```
+
+### Available Models
+
+- **`"simple"`** - SimpleCNN (default, fast, 1.2M parameters)
+
+### Transform Categories
+
+You can restrict augmentations by category via `transform_categories`. If it is not given, then all transformations will be used.
+
+```python
+# Use only geometric transforms
+aug = DeepAugment(..., transform_categories=["geometric"])
+
+# Multiple categories
+aug = DeepAugment(..., transform_categories=["geometric", "color"])
+```
+
+Categories: `geometric`, `color`, `advanced_color`, `blur_noise`, `occlusion`, `advanced`
+
+See [augment.py](src/deepaugment/augment.py) for all available transforms.
 
 ## Data pipeline
 <img width="600" alt="data-pipeline-2" src="https://user-images.githubusercontent.com/14996155/52740938-0d334680-2f89-11e9-8d68-117d139d9ab8.png">
@@ -201,34 +225,14 @@ DEFAULT_CONFIG = {
 
 ## Development
 
+**Contributing?** See [CONTRIBUTING.md](CONTRIBUTING.md) for setup and workflow.
+
 ### Version Management
 
 **Single Source of Truth**: Version lives ONLY in [pyproject.toml](pyproject.toml:3).
 
 We use [semantic versioning](https://semver.org/) (MAJOR.MINOR.PATCH).
 
-**Automatic patch bumping via CI/CD**: After you push to main, GitHub Actions automatically bumps the patch version.
-
-```bash
-# Normal workflow - clean and simple
-git commit -m "Fix bug"
-git push
-
-# GitHub Actions runs:
-# ✓ Bumps version: 2.0.28 → 2.0.29
-# ✓ Creates tag: v2.0.29
-# ✓ Pushes back to repo
-
-# Next pull gets the new version
-git pull
-
-# Manual major/minor bumps - edit pyproject.toml
-# Change: version = "2.0.29" → version = "2.1.0"
-git commit -m "Release v2.1.0 [skip-bump]"
-git push  # CI skips auto-bump (detects [skip-bump])
-```
-
-**Smart syncing**: [bin/bump_patch_version.py](bin/bump_patch_version.py) automatically syncs with remote tags, avoiding conflicts in team workflows.
 
 ### Setup for Developers
 
