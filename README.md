@@ -6,60 +6,55 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-DeepAugment discovers augmentation strategies tailored for your images. It uses Bayesian Optimization for optimizing data augmentation hyperparameters. The tool:
-1. reduces error rate of CNN models (shown 60% decrease in error for CIFAR-10 on WRN-28-10 compared to no augmentation)
-2. saves time by automating the process
+Find optimal image augmentation policies for your dataset automatically. DeepAugment uses Bayesian optimization to discover augmentation strategies that maximize model performance.
 
 Resources: [blog post](https://blog.insightdatascience.com/automl-for-data-augmentation-e87cf692c366), [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCKmPravyqmaGjy-eIU5cTbG1A/edit#slide=id.g4cc092dbc6_0_0)
 
-## Installation/Usage
-Tutorial: [google-colab](https://drive.google.com/open?id=1KCAv2i_F3E3m_PKh56nbbZY8WnaASvgl)
+## Quick Start
 
-```console
-$ pip install deepaugment
+```bash
+$ pip install deepaugment # or (uv add deepaugment)
 ```
 
-### Simple usage (with any dataset)
-```Python
-from deepaugment.deepaugment import DeepAugment
+### Simple API
 
-deepaug = DeepAugment(my_images, my_labels)
+```python
+from deepaugment import optimize
 
-best_policies = deepaug.optimize(300)
+best_policy = optimize(my_images, my_labels, iterations=50)
 ```
 
-### Simple usage (with CIFAR-10 on keras)
-```Python
-deepaug = DeepAugment("cifar10")
+### Simple usage (CIFAR-10 example)
 
-best_policies = deepaug.optimize(300)
+```python
+from torchvision.datasets import CIFAR10
+from deepaugment import optimize
+
+train_data = CIFAR10(root='./data', train=True, download=True)
+X = np.array(train_data.data)[:5000]  # Use subset for speed
+y = np.array(train_data.targets)[:5000]
+
+best_policy = optimize(X, y, iterations=50)
 ```
 
 ### Advanced usage
-```Python
-from keras.datasets import fashion_mnist
 
-# my configuration
-my_config = {
-    "model": "basiccnn",
-    "method": "bayesian_optimization",
-    "train_set_size": 2000,
-    "opt_samples": 3,
-    "opt_last_n_epochs": 3,
-    "opt_initial_points": 10,
-    "child_epochs": 50,
-    "child_first_train_epochs": 0,
-    "child_batch_size": 64
-}
+```python
+from torchvision.datasets import CIFAR10
+from deepaugment import DeepAugment
 
-(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
-# X_train.shape -> (N, M, M, 3)
-# y_train.shape -> (N)
-deepaug = DeepAugment(iamges=x_train, labels=y_train, config=my_config)
+# Separate train/validation sets
+aug = DeepAugment(X_train, y_train, X_val, y_val,
+                  n_operations=4,      # transforms per policy
+                  train_size=2000,     # subset for speed
+                  val_size=500)
 
-best_policies = deepaug.optimize(300)
+# Optimize
+best = aug.optimize(iterations=50, epochs=10)
+
+# Show results
+aug.show_best(n=5)
 ```
-
 ## Results
 ### CIFAR-10 best policies tested on WRN-28-10 
 - Method: Wide-ResNet-28-10 trained with CIFAR-10 augmented images by best found policies, and with unaugmented images (everything else same).
@@ -121,10 +116,20 @@ A policy describes the augmentation will be applied on a dataset. Each policy co
 
 <img width="400" alt="example policy" src="https://user-images.githubusercontent.com/14996155/52595719-59ed1500-2e03-11e9-9a40-a79462006924.png">
 
-There are currently 20 types of augmentation techniques (above, right) that each aug. type variable can take. All techniques are (this list might grow in later versions):
-```Python
-AUG_TYPES = [ "crop", "gaussian-blur", "rotate", "shear", "translate-x", "translate-y", "sharpen", "emboss", "additive-gaussian-noise", "dropout", "coarse-dropout", "gamma-contrast", "brighten", "invert", "fog", "clouds", "add-to-hue-and-saturation", "coarse-salt-pepper", "horizontal-flip", "vertical-flip"]
-```
+We use 26 types of transforms (from torchvison v2). They are organized by category as below:
+
+**Geometric** (8): `rotate`, `flip_h`, `flip_v`, `affine`, `shear`, `perspective`, `elastic`, `random_crop`
+
+**Color** (5): `brightness`, `contrast`, `saturation`, `hue`, `color_jitter`
+
+**Advanced Color** (7): `sharpen`, `autocontrast`, `equalize`, `invert`, `solarize`, `posterize`, `grayscale`
+
+**Blur & Noise** (2): `blur`, `gaussian_noise`
+
+**Occlusion** (2): `erasing`, `cutout`
+
+**Advanced** (2): `channel_permute`, `photometric_distort`
+
 ### Child model
 [source](https://github.com/barisozmen/deepaugment/blob/master/deepaugment/childcnn.py#L232-L269)
 
@@ -233,7 +238,18 @@ Libraries:
 - [AutoAugment-unofficial](github.com/barisozmen/autoaugment-unofficial)
 - [Automold]() (Self-driving car image-augmentation library)
 
---------
 
-## Contact
-Baris Ozmen, hbaristr@gmail.com
+## Citation
+
+Original DeepAugment paper:
+
+```bibtex
+@software{ozmen2019deepaugment,
+  author = {Özmen, Barış},
+  title = {DeepAugment: Automated Data Augmentation},
+  year = {2019},
+  url = {https://github.com/barisozmen/deepaugment}
+}
+```
+
+
