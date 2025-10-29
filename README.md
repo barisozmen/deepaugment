@@ -13,7 +13,7 @@ Resources: [blog post](https://medium.com/insight-data/automl-for-data-augmentat
 ## Quick Start
 
 ```bash
-$ pip install deepaugment # or (uv add deepaugment)
+$ pip install deepaugment # (or `$ uv add deepaugment`)
 ```
 
 ### Simple API
@@ -31,7 +31,7 @@ from torchvision.datasets import CIFAR10
 from deepaugment import optimize
 
 train_data = CIFAR10(root='./data', train=True, download=True)
-X = np.array(train_data.data)[:5000]  # Use subset for speed
+X = np.array(train_data.data)[:5000]
 y = np.array(train_data.targets)[:5000]
 
 best_policy = optimize(X, y, iterations=50)
@@ -43,11 +43,16 @@ best_policy = optimize(X, y, iterations=50)
 from torchvision.datasets import CIFAR10
 from deepaugment import DeepAugment
 
-# Separate train/validation sets
-aug = DeepAugment(X_train, y_train, X_val, y_val,
-                  n_operations=4,      # transforms per policy
-                  train_size=2000,     # subset for speed
-                  val_size=500)
+aug = DeepAugment(
+    # Data
+    X_train, y_train,
+    X_val, y_val,
+    
+    # Parameters
+    n_operations=4,      # transforms per policy
+    train_size=2000,     
+    val_size=500
+)
 
 # Optimize
 best = aug.optimize(iterations=50, epochs=10)
@@ -165,17 +170,23 @@ Reward function is calculated as mean of K highest validation accuracies of the 
 
 ```python
 DeepAugment(
-    X_train, y_train, X_val, y_val,
+    # Data
+    X_train, y_train, 
+    X_val, y_val,
+    
     # Essential
     model="simple",              # Model architecture
     device="auto",               # "auto", "cuda", "mps", "cpu"
     random_state=42,             # Reproducibility seed
+    
     # Useful
     method="bayesian",           # "bayesian" or "random"
     save_history=True,           # Save optimization history
+    
     # Advanced
     transform_categories=None,   # Filter transforms by category
     custom_reward_fn=None,       # Custom reward function
+    
     # Core
     n_operations=4,              # Transforms per policy
     train_size=2000,             # Training subset size
