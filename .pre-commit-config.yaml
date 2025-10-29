@@ -1,9 +1,0 @@
-repos:
-  - repo: local
-    hooks:
-      - id: bump-patch-version
-        name: Auto-bump patch version
-        entry: uv run bin/bump_patch_version.py
-        language: system
-        pass_filenames: false
-        always_run: true
