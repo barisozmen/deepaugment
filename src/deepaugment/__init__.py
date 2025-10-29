@@ -2,9 +2,11 @@
 DeepAugment: automated data augmentation using Bayesian optimization.
 
 Find optimal augmentation policies for your image dataset automatically.
-
-Modular, elegant, powerful - inspired by Peter Norvig and Rails doctrine.
 """
+
+from importlib.metadata import version
+__version__ = version("deepaugment")
+
 
 # Core API
 from .core import DeepAugment, optimize

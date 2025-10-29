@@ -38,6 +38,11 @@ version: ## Show current version
 bump: ## Manually bump patch version
 	uv run python bin/push_tag_on_pyproject_version_change.py
 
+##@ Publishing
+
+publish: ## Build and publish to PyPI
+	uv run python bin/publish.py
+
 ##@ Cleanup
 
 clean: ## Remove generated files
@@ -53,4 +58,4 @@ clean-data: ## Remove experiment data
 help: ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-.PHONY: install dev test setup version bump clean clean-data help
+.PHONY: install dev test setup version bump publish clean clean-data help
