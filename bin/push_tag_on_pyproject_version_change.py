@@ -19,7 +19,9 @@ from pathlib import Path
 
 def run(cmd):
     """Run command, return output. Return None on error."""
+    print('-'*20+'\n[Running command]\n' + cmd)
     result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    print('[command run successful]\n'+'-'*20+'\n')
     return result.stdout.strip() if result.returncode == 0 else None
 
 
@@ -53,23 +55,13 @@ def create_and_push_tag(version):
     tag = f"v{version}"
 
     # Create annotated tag
-    result = run(f'git tag -a "{tag}" 2>&1')
-    if result is None or "already exists" in result:
-        print(f"→ Tag {tag} already exists, skipping")
-        return False
-
-    # Push tag to remote
-    push_result = run("git push --tags 2>&1")
-    if push_result is None or "error" in push_result.lower():
-        print(f"→ Could not push tags (no remote or network issue)")
-        return False
-
-    print(f"✓ Tagged and pushed {tag}")
+    run(f'git tag {tag}')
     return True
 
 
 def main():
     """Main flow: Check if version changed, create and push tag."""
+    print('Running push_tag_on_pyproject_version_change.py')
 
     # Check if pyproject.toml changed
     if not pyproject_changed_in_last_commit():
