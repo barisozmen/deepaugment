@@ -130,7 +130,7 @@ wheels = [
 
 [[package]]
 name = "deepaugment"
-version = "2.0.29"
+version = "2.0.30"
 source = { editable = "." }
 dependencies = [
     { name = "fire" },
