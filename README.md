@@ -4,6 +4,8 @@
 
 ![pypi](https://img.shields.io/pypi/v/deepaugment.svg?style=flat)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Documentation Status](https://readthedocs.org/projects/deepaugment/badge/?version=latest)](https://deepaugment.readthedocs.io/en/latest/?badge=latest)
+
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 Find optimal image augmentation policies for your dataset automatically. DeepAugment uses Bayesian optimization to discover augmentation strategies that maximize model performance.
