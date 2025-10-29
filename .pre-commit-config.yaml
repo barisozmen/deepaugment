@@ -1,27 +1,9 @@
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
-    hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-yaml
-      - id: check-toml
-      - id: check-added-large-files
-      - id: mixed-line-ending
-
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.8.4
-    hooks:
-      - id: ruff
-        args: [--fix]
-      - id: ruff-format
-
   - repo: local
     hooks:
-      - id: auto-bump-version
+      - id: bump-patch-version
         name: Auto-bump patch version
-        entry: bash -c 'if [[ ! "$PRE_COMMIT_COMMIT_MSG_SOURCE" =~ (merge|message) ]] && [[ "$SKIP_AUTO_BUMP" != "1" ]]; then echo "→ Auto-bumping patch version..."; uv run bump2version patch --allow-dirty && echo "✓ Version bumped to $(grep current_version .bumpversion.cfg | cut -d\" \" -f3)"; fi'
+        entry: uv run bin/bump_patch_version.py
         language: system
-        stages: [post-commit]
-        always_run: true
         pass_filenames: false
+        always_run: true
