@@ -1,0 +1,20 @@
+# Sphinx build outputs
+_build/
+
+# Generated API docs (if using autosummary)
+_autosummary/
+
+# Python cache
+*.pyc
+__pycache__/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
