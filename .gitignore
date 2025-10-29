@@ -5,6 +5,8 @@ __pycache__/
 # C extensions
 *.so
 
+experiments/
+
 # Distribution / packaging
 .Python
 env/
@@ -63,6 +65,10 @@ target/
 *.db
 *.rdb
 
+# data files
+.data/
+data/
+
 # Pycharm
 .idea
 
@@ -87,3 +93,4 @@ target/
 
 # Mypy cache
 .mypy_cache/
+.pre-commit-cache/
