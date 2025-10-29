@@ -1,6 +1,6 @@
 # DeepAugment
 
-[![GitHub last commit](https://img.shields.io/github/last-commit/barisozmen/deepaugment.svg)](https://github.com/barisozmen/deepaugment/commits/master)[![Downloads](https://static.pepy.tech/badge/deepaugment)](https://pepy.tech/project/deepaugment) ![pypi](https://img.shields.io/pypi/v/deepaugment.svg?style=flat)
+[![GitHub last commit](https://img.shields.io/github/last-commit/barisozmen/deepaugment.svg)](https://github.com/barisozmen/deepaugment/commits/master) [![Downloads](https://static.pepy.tech/badge/deepaugment)](https://pepy.tech/project/deepaugment) ![pypi](https://img.shields.io/pypi/v/deepaugment.svg?style=flat)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Documentation Status](https://readthedocs.org/projects/deepaugment/badge/?version=latest)](https://deepaugment.readthedocs.io/en/latest/?badge=latest)
 
