@@ -7,5 +7,5 @@ Find optimal augmentation policies for your image dataset automatically.
 from .core import DeepAugment, optimize
 from .augment import TRANSFORMS, apply_policy, create_augmenter
 
-__version__ = "2.0.2"
+__version__ = "2.0.3"
 __all__ = ["DeepAugment", "optimize", "TRANSFORMS", "apply_policy", "create_augmenter"]
