@@ -1,7 +1,7 @@
 [project]
 name = "deepaugment"
-version = "0.1.0"
-description = "Elegant automated data augmentation using Bayesian optimization"
+version = "2.0.0"
+description = "Automated data augmentation using Bayesian optimization"
 authors = [{ name = "Barış Özmen", email = "hbaristr@gmail.com" }]
 requires-python = ">=3.11"
 dependencies = [
