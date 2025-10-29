@@ -1,16 +1,19 @@
 # DeepAugment
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2949929.svg)](https://doi.org/10.5281/zenodo.2949929)
-
-![pypi](https://img.shields.io/pypi/v/deepaugment.svg?style=flat)
+[![GitHub last commit](https://img.shields.io/github/last-commit/barisozmen/deepaugment.svg)](https://github.com/barisozmen/deepaugment/commits/master)[![Downloads](https://static.pepy.tech/badge/deepaugment)](https://pepy.tech/project/deepaugment) ![pypi](https://img.shields.io/pypi/v/deepaugment.svg?style=flat)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Documentation Status](https://readthedocs.org/projects/deepaugment/badge/?version=latest)](https://deepaugment.readthedocs.io/en/latest/?badge=latest)
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2949929.svg)](https://doi.org/10.5281/zenodo.2949929)
+
+
 
 Find optimal image augmentation policies for your dataset automatically. DeepAugment uses Bayesian optimization to discover augmentation strategies that maximize model performance.
 
-Resources: [blog post](https://medium.com/insight-data/automl-for-data-augmentation-e87cf692c366), [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCKmPravyqmaGjy-eIU5cTbG1A/edit#slide=id.g4cc092dbc6_0_0), [readthedocs](https://deepaugment.readthedocs.io)
+Resources: [blog post](https://medium.com/insight-data/automl-for-data-augmentation-e87cf692c366), [slides](https://docs.google.com/presentation/d/1toRUTT9X26ACngr6DXCKmPravyqmaGjy-eIU5cTbG1A/edit#slide=id.g4cc092dbc6_0_0)
 
 ## Quick Start
 
