@@ -243,13 +243,14 @@ make setup  # Installs native git pre-commit hook for auto-versioning
 
 This creates a git pre-commit hook that automatically bumps patch version on every commit.
 
-## Class diagram
-Created by [pyreverse](https://www.logilab.org/blogentry/6883)
-![classes_deepaugment](https://user-images.githubusercontent.com/14996155/52743629-4969a580-2f8f-11e9-8eb2-35aa1af161bb.png)
+## Code Visualization
+Created by [pyreverse](https://pylint.readthedocs.io/en/latest/additional_tools/pyreverse/index.html)
 
-## Package diagram
-Created by [pyreverse](https://www.logilab.org/blogentry/6883)
-<img width="600" alt="package-diagram" src="https://user-images.githubusercontent.com/14996155/52743630-4a023c00-2f8f-11e9-9b12-32b2ded6071b.png">
+### Classes Diagram
+<img width="1461" height="1175" alt="classes_Deepaugment" src="https://github.com/user-attachments/assets/990c809b-eb55-40d5-a896-6312f656a56c" />
+
+### Packages Diagram
+<img width="1457" height="539" alt="packages_Deepaugment-1" src="https://github.com/user-attachments/assets/8b6d0f5a-d363-4fc9-88c9-6d9e5ae3012e" />
 
 
 ## References
