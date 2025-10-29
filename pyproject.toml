@@ -15,6 +15,7 @@ dependencies = [
     "toolz>=1.1.0",
     "attrs>=25.4.0",
     "cattrs>=25.3.0",
+    "python-decouple>=3.8",
 ]
 
 [project.scripts]

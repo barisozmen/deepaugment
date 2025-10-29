@@ -13,6 +13,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from decouple import config, UndefinedValueError
 
 
 def run(cmd, check=True):
@@ -30,6 +31,20 @@ def version():
     content = Path("pyproject.toml").read_text()
     match = re.search(r'^version\s*=\s*["\']([^"\']+)["\']', content, re.MULTILINE)
     return match.group(1) if match else None
+
+
+def check_token():
+    """Ensure PyPI token is configured."""
+    try:
+        token = config('UV_PUBLISH_TOKEN')
+        if not token or not token.startswith('pypi-'):
+            raise ValueError("Invalid token format")
+    except (UndefinedValueError, ValueError):
+        print("✗ PyPI token not configured", file=sys.stderr)
+        print("\nSet token:", file=sys.stderr)
+        print("  export UV_PUBLISH_TOKEN='pypi-...'", file=sys.stderr)
+        print("\nGet token at: https://pypi.org/manage/account/", file=sys.stderr)
+        sys.exit(1)
 
 
 def check_git_clean():
@@ -79,6 +94,7 @@ def main():
 
     print(f"Version: {ver}\n")
 
+    check_token()
     check_git_clean()
     clean()
     build()
