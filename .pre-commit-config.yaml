@@ -15,3 +15,13 @@ repos:
       - id: ruff
         args: [--fix]
       - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: auto-bump-version
+        name: Auto-bump patch version
+        entry: bash -c 'if [[ ! "$PRE_COMMIT_COMMIT_MSG_SOURCE" =~ (merge|message) ]] && [[ "$SKIP_AUTO_BUMP" != "1" ]]; then echo "→ Auto-bumping patch version..."; uv run bump2version patch --allow-dirty && echo "✓ Version bumped to $(grep current_version .bumpversion.cfg | cut -d\" \" -f3)"; fi'
+        language: system
+        stages: [post-commit]
+        always_run: true
+        pass_filenames: false
