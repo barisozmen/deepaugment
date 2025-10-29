@@ -13,7 +13,7 @@ dev: ## Install with dev dependencies
 	uv sync --all-extras
 
 test: ## Run tests
-	uv run pytest tests/ -v
+	uv run pytest
 
 ##@ Development
 
