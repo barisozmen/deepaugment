@@ -1,6 +1,6 @@
 [project]
 name = "deepaugment"
-version = "2.1.2"
+version = "2.2.0"
 description = "Automated data augmentation using Bayesian optimization"
 authors = [{ name = "Barış Özmen", email = "hbaristr@gmail.com" }]
 requires-python = ">=3.11"
@@ -12,6 +12,9 @@ dependencies = [
     "fire>=0.6.0",
     "matplotlib>=3.10.7",
     "scikit-optimize>=0.10.2",
+    "toolz>=1.1.0",
+    "attrs>=25.4.0",
+    "cattrs>=25.3.0",
 ]
 
 [project.scripts]
