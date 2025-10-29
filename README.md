@@ -232,11 +232,11 @@ Blogs:
 - A conceptual explanation of Bayesian Optimization ([towardsdatascience](https://towardsdatascience.com/a-conceptual-explanation-of-bayesian-model-based-hyperparameter-optimization-for-machine-learning-b8172278050f))
 - Comparison experiment: Bayesian Opt. vs Grid Search vs Random Search ([mlconf](https://mlconf.com/lets-talk-bayesian-optimization/))
     
-Libraries:
-- [scikit-optimize](scikit-optimize.github.io/)
-- [mgaug](github.com/aleju/imgaug)
-- [AutoAugment-unofficial](github.com/barisozmen/autoaugment-unofficial)
-- [Automold]() (Self-driving car image-augmentation library)
+
+Main dependencies:
+- [scikit-optimize](scikit-optimize.github.io/) used for Bayesian optimization
+- [torch](https://pytorch.org/) used to create neural networks
+- [torchvision](https://pytorch.org/vision/stable/index.html) for image transformations
 
 
 ## Citation
